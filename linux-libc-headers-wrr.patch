@@ -1,6 +1,5 @@
-diff -urN linux-libc-headers-2.6.8.0.org/include/linux/pkt_sched.h linux-libc-headers-2.6.8.0/include/linux/pkt_sched.h
---- linux-libc-headers-2.6.8.0.org/include/linux/pkt_sched.h	2004-08-19 21:26:04.663364128 +0200
-+++ linux-libc-headers-2.6.8.0/include/linux/pkt_sched.h	2004-08-19 21:28:02.623431472 +0200
+--- linux-libc-headers-2.6.9.1/include/linux/pkt_sched.h.orig	2004-11-07 21:03:14.924678496 +0100
++++ linux-libc-headers-2.6.9.1/include/linux/pkt_sched.h	2004-11-07 21:04:53.666667432 +0100
 @@ -2,7 +2,8 @@
  #define __LINUX_PKT_SCHED_H
  
@@ -11,11 +10,10 @@ diff -urN linux-libc-headers-2.6.8.0.org/include/linux/pkt_sched.h linux-libc-he
  
  /* Logical priority bands not depending on specific packet scheduler.
     Every scheduler will map them to real traffic classes, if it has
-@@ -424,4 +425,114 @@
- 	__u32   duplicate;	/* random packet dup  (0=none ~0=100%) */
- 	__u32	jitter;		/* random jitter in latency (us) */
- };
-+
+@@ -444,4 +445,113 @@
+ 
+ #define NETEM_DIST_SCALE	8192
+ 
 +/* WRR section */
 +
 +// A sub weight and of a class
