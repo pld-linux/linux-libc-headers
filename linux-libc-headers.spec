@@ -11,6 +11,7 @@ Source0:	http://ep09.pld-linux.org/~mmazur/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-newtcp.patch
+BuildRequires:	rpmbuild(macros) >= 1.153
 Requires(pre):	fileutils
 AutoReqProv:	no
 Provides:	alsa-driver-devel
@@ -105,21 +106,12 @@ done
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_includedir}
 
-%ifarch %{ix86}
-arch=i386
-%else
-arch=%{_arch}
-%endif
-
 %ifarch sparc sparcv9 sparc64
 cp -a include/asm-sparc $RPM_BUILD_ROOT%{_includedir}
 cp -a include/asm-sparc64 $RPM_BUILD_ROOT%{_includedir}
-%endif
-
-%ifnarch sparc sparcv9 sparc64
-cp -a include/asm-$arch $RPM_BUILD_ROOT%{_includedir}/asm
-%else
 cp -a include/asm $RPM_BUILD_ROOT%{_includedir}/asm
+%else
+cp -a include/asm-%{_target_base_arch} $RPM_BUILD_ROOT%{_includedir}/asm
 %endif
 cp -a include/linux $RPM_BUILD_ROOT%{_includedir}
 cp -a include/sound $RPM_BUILD_ROOT%{_includedir}
@@ -131,7 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 [ ! -L /usr/include/linux ] || rm -f /usr/include/linux
 [ ! -L /usr/include/asm ] || rm -f /usr/include/asm
 [ ! -L /usr/include/sound ] || rm -f /usr/include/sound
-%ifarch sparc
+%ifarch sparc sparcv9 sparc64
 [ ! -L /usr/include/asm-sparc ] || rm -f /usr/include/asm-sparc
 [ ! -L /usr/include/asm-sparc64 ] || rm -f /usr/include/asm-sparc64
 %endif
