@@ -496,6 +496,36 @@ diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv4/ip_queue.
  
  /* Messages sent from kernel */
  typedef struct ipq_packet_msg {
+@@ -39,10 +47,20 @@
+ 	unsigned char payload[0];	/* Optional replacement packet */
+ } ipq_verdict_msg_t;
+ 
++typedef struct ipq_vwmark_msg {
++	unsigned int value;		/* Verdict to hand to netfilter */
++	unsigned long id;		/* Packet ID for this verdict */
++	size_t data_len;		/* Length of replacement data */
++	unsigned char payload[0];	/* Optional replacement packet */
++	unsigned long nfmark;		/* Mark for the Packet */
++} ipq_vwmark_msg_t;
++
++
+ typedef struct ipq_peer_msg {
+ 	union {
+ 		ipq_verdict_msg_t verdict;
+ 		ipq_mode_msg_t mode;
++                ipq_vwmark_msg_t vwmark;
+ 	} msg;
+ } ipq_peer_msg_t;
+ 
+@@ -59,6 +77,7 @@
+ #define IPQM_MODE	(IPQM_BASE + 1)		/* Mode request from peer */
+ #define IPQM_VERDICT	(IPQM_BASE + 2)		/* Verdict from peer */ 
+ #define IPQM_PACKET	(IPQM_BASE + 3)		/* Packet from kernel */
+-#define IPQM_MAX	(IPQM_BASE + 4)
++#define IPQM_VWMARK	(IPQM_BASE + 4)		/* Verdict and mark from peer */
++#define IPQM_MAX	(IPQM_BASE + 5)
+ 
+ #endif /*_IP_QUEUE_H*/
 diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv4/ip_tables.h linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv4/ip_tables.h
 --- linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv4/ip_tables.h	2004-01-05 19:42:34.000000000 +0100
 +++ linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv4/ip_tables.h	2004-06-20 12:25:57.484862600 +0200
