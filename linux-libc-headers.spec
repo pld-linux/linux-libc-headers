@@ -116,7 +116,11 @@ cp -a include/asm-sparc $RPM_BUILD_ROOT%{_includedir}
 cp -a include/asm-sparc64 $RPM_BUILD_ROOT%{_includedir}
 %endif
 
+%ifnarch sparc sparcv9 sparc64
 cp -a include/asm-$arch $RPM_BUILD_ROOT%{_includedir}/asm
+%else
+cp -a include/asm $RPM_BUILD_ROOT%{_includedir}/asm
+%endif
 cp -a include/linux $RPM_BUILD_ROOT%{_includedir}
 cp -a include/sound $RPM_BUILD_ROOT%{_includedir}
 
