@@ -47,7 +47,7 @@ potrzebne do przebudowania pakietu glibc.
 %patch2 -p1
 
 %build
-%ifarch sparc sparcv6 sparc64
+%ifarch sparc sparcv9 sparc64
 cd include
 rm -f asm
 mkdir asm
