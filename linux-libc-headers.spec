@@ -2,7 +2,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	2.6.10.0
-Release:	2
+Release:	2.1
 Epoch:		7
 License:	GPL
 Group:		Development
@@ -28,6 +28,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		no_install_post_strip		1
 
+%ifarch amd64 ppc64 s390x sparc sparc64 sparcv9
+%define		dodual	1
+%else
+%define		dodual	0
+%endif
+
 %description
 This package includes the C header files that specify the interface
 between the Linux kernel and userspace libraries and programs. The
@@ -51,77 +57,91 @@ potrzebne do przebudowania pakietu glibc.
 %patch4 -p1
 
 %build
+%ifarch amd64
+a1=i386
+a2=x86_64
+c1='defined(__i386__)'
+c2='defined(__x86_64__)'
+cond1=
+%endif
+%ifarch ppc64
+a1=ppc
+a2=ppc64
+c1='defined(__powerpc__) && !defined(__powerpc64__)'
+c2='defined(__powerpc64__)'
+%endif
+%ifarch s390 s390x
+a1=sparc
+a2=sparc64
+c1='defined(__s390__) && !defined(__s390x__)'
+c2='defined(__s390x__)'
+%endif
 %ifarch sparc sparcv9 sparc64
+a1=sparc
+a2=sparc64
+c1='defined(__sparc__) && !defined(__arch64__)'
+c2='defined(__sparc__) && defined(__arch64__)'
+%endif
+
+%if %{dodual}
 cd include
 rm -f asm
 mkdir asm
 
-for h in `( ls asm-sparc; ls asm-sparc64 ) | grep '\.h$' | sort -u`; do
+for h in `( ls asm-${a1}; ls asm-${a2} ) | grep '\.h$' | sort -u`; do
 	name=`echo $h | tr a-z. A-Z_`
 	# common header
 	cat > asm/$h << EOF
 /* All asm/ files are generated and point to the corresponding
- * file in asm-sparc or asm-sparc64. To regenerate, run "generate-asm"
+ * file in asm-${a1} or asm-${a2}. To regenerate, run "generate-asm"
  */
 
-#ifndef __SPARCSTUB__${name}__
-#define __SPARCSTUB__${name}__
+#ifndef __ASM_STUB_${name}__
+#define __ASM_STUB_${name}__
 
+#  if ${c1}
 EOF
 
-	# common for sparc and sparc64
-	if [ -f asm-sparc/$h -a -f asm-sparc64/$h ]; then
-		cat >> asm/$h <<EOF
-#ifdef __arch64__
-#include <asm-sparc64/$h>
-#else
-#include <asm-sparc/$h>
-#endif
-EOF
-
-	# sparc only
-	elif [ -f asm-sparc/$h ]; then
-		cat >> asm/$h <<EOF
-#ifndef __arch64__
-#include <asm-sparc/$h>
-#endif
-EOF
-
-	# sparc64 only
+	if [ -f asm-${a1}/$h ]; then
+		echo "#    include <asm-${a1}/$h>" >> asm/$h
 	else
-		cat >> asm/$h <<EOF
-#ifdef __arch64__
-#include <asm-sparc64/$h>
-#endif
+		echo "#    error <asm-${a1}/$h> does not exist" >> asm/$h
+	fi
+
+	cat >> asm/$h <<EOF
+#  endif
+#  if ${c2}
 EOF
 
+	if [ -f asm-${a2}/$h ]; then
+		echo "#    include <asm-${a2}/$h>" >> asm/$h
+	else
+		echo "#    error <asm-${a2}/$h> does not exist" >> asm/$h
 	fi
 
 	# common footer
 	cat >> asm/$h <<EOF
+#  endif
 
-#endif /* !__SPARCSTUB__${name}__ */
+#endif /* !__ASM_STUB_${name}__ */
 EOF
 
 done
+echo "asm-${a1} asm-${a2}" > asmdirs
 %endif
-
-#echo -e ',s/UTS_RELEASE ".*"/UTS_RELEASE "%{__kernel_ver}"/g\n,w' \
-#	| ed include/linux/version.h
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_includedir}
 
-%ifarch sparc sparcv9 sparc64
-cp -a include/asm-sparc $RPM_BUILD_ROOT%{_includedir}
-cp -a include/asm-sparc64 $RPM_BUILD_ROOT%{_includedir}
-cp -a include/asm $RPM_BUILD_ROOT%{_includedir}/asm
+cd include
+%if %{dodual}
+cp -a `cat asmdirs` $RPM_BUILD_ROOT%{_includedir}
 %else
-cp -a include/asm-%{_target_base_arch} $RPM_BUILD_ROOT%{_includedir}/asm
+cp -a asm-%{_target_base_arch} $RPM_BUILD_ROOT%{_includedir}/asm
 %endif
-cp -a include/linux $RPM_BUILD_ROOT%{_includedir}
-cp -a include/sound $RPM_BUILD_ROOT%{_includedir}
+cp -a linux $RPM_BUILD_ROOT%{_includedir}
+cp -a sound $RPM_BUILD_ROOT%{_includedir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
