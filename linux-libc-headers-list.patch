@@ -1,0 +1,17 @@
+--- linux-libc-headers-2.6.9.1/include/linux/netfilter_ipv4/ipt_osf.h.orig	2004-12-11 13:57:45.000000000 +0100
++++ linux-libc-headers-2.6.9.1/include/linux/netfilter_ipv4/ipt_osf.h	2004-12-11 13:59:59.369167424 +0100
+@@ -60,9 +60,13 @@
+        struct osf_wc           wc;
+ };
+ 
++struct __list_head {
++       struct __list_head      *next, *prev;
++};
++
+ struct osf_finger
+ {
+-       struct list_head        flist;
++       struct __list_head      flist;
+        struct osf_wc           wss;
+        unsigned char           ttl;
+        unsigned char           df;
