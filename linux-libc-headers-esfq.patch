@@ -1,29 +1,7 @@
 diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/pkt_sched.h linux-libc-headers-2.6.5.1/include/linux/pkt_sched.h
 --- linux-libc-headers-2.6.5.1.orig/include/linux/pkt_sched.h	2004-05-02 23:08:48.000000000 +0200
 +++ linux-libc-headers-2.6.5.1/include/linux/pkt_sched.h	2004-05-07 23:42:56.411761880 +0200
-@@ -157,6 +157,13 @@
- 
- /* SFQ section */
- 
-+enum
-+{
-+	TCA_SFQ_HASH_CLASSIC,
-+	TCA_SFQ_HASH_DST,
-+	TCA_SFQ_HASH_SRC,
-+};
-+
- struct tc_sfq_qopt
- {
- 	unsigned	quantum;	/* Bytes per round allocated to flow */
-@@ -164,6 +171,7 @@
- 	__u32		limit;		/* Maximal packets in queue */
- 	unsigned	divisor;	/* Hash divisor  */
- 	unsigned	flows;		/* Maximal number of flows  */
-+	unsigned	hash_kind;	/* Hash function to use for flow identification */
- };
- 
- /*
-@@ -173,6 +181,8 @@
+@@ -145,8 +145,29 @@
   *
   *	The only reason for this is efficiency, it is possible
   *	to change these parameters in compile time.
@@ -31,4 +9,25 @@ diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/pkt_sched.h linux-libc-h
 + *	If you need to play with this values use esfq.
   */
  
++/* ESFQ section */
++
++enum
++{
++	TCA_SFQ_HASH_CLASSIC,
++	TCA_SFQ_HASH_DST,
++	TCA_SFQ_HASH_SRC,
++};
++
++struct tc_esfq_qopt
++{
++	unsigned	quantum;	/* Bytes per round allocated to flow */
++	int		perturb_period;	/* Period of hash perturbation */
++	__u32		limit;		/* Maximal packets in queue */
++	unsigned	divisor;	/* Hash divisor  */
++	unsigned	flows;		/* Maximal number of flows  */
++	unsigned	hash_kind;	/* Hash function to use for flow identification */
++};
++
  /* RED section */
+ 
+ enum
