@@ -1,0 +1,25 @@
+--- pkt_sched.h.orig	2004-04-20 13:10:20.000000000 +0200
++++ pkt_sched.h	2004-04-25 19:15:12.694743784 +0200
+@@ -27,6 +27,8 @@
+    Particular schedulers may have also their private records.
+  */
+ 
++#include <linux/types.h>
++
+ struct tc_stats
+ {
+ 	__u64	bytes;			/* NUmber of enqueues bytes */
+@@ -164,6 +166,13 @@
+ 	TCA_SFQ_HASH_SRC,
+ };
+ 
++enum
++{
++	TCA_SFQ_HASH_CLASSIC,
++	TCA_SFQ_HASH_DST,
++	TCA_SFQ_HASH_SRC,
++};
++
+ struct tc_sfq_qopt
+ {
+ 	unsigned	quantum;	/* Bytes per round allocated to flow */
