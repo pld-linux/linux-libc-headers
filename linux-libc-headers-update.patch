@@ -113,3 +113,13 @@
  #endif /* __NO_STUBS */
  
  /*
+--- linux-libc-headers/include/asm-ppc/stat.h.orig	2004-04-25 19:40:39.909271872 +0200
++++ linux-libc-headers/include/asm-ppc/stat.h	2004-04-25 19:40:30.213745816 +0200
+@@ -1,6 +1,7 @@
+ #ifndef _PPC_STAT_H
+ #define _PPC_STAT_H
+ 
++#include <linux/types.h>
+ 
+ struct __old_kernel_stat {
+ 	unsigned short st_dev;
