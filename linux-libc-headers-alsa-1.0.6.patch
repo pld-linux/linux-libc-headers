@@ -1,0 +1,733 @@
+diff -uNr sound.orig/ac97_codec.h sound/ac97_codec.h
+--- sound.orig/ac97_codec.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/ac97_codec.h	2004-08-18 19:30:38.852959672 +0200
+@@ -364,11 +364,21 @@
+ #define AC97_RATES_MIC_ADC	4
+ #define AC97_RATES_SPDIF	5
+ 
++/* shared controllers */
++enum {
++	AC97_SHARED_TYPE_NONE,
++	AC97_SHARED_TYPE_ICH,
++	AC97_SHARED_TYPE_ATIIXP,
++	AC97_SHARED_TYPES
++};
++
+ /*
+  *
+  */
+ 
+ typedef struct _snd_ac97_bus ac97_bus_t;
++typedef struct _snd_ac97_bus_ops ac97_bus_ops_t;
++typedef struct _snd_ac97_template ac97_template_t;
+ typedef struct _snd_ac97 ac97_t;
+ 
+ enum ac97_pcm_cfg {
+@@ -405,29 +415,45 @@
+ 	int (*build_post_spdif) (ac97_t *ac97);
+ };
+ 
+-struct _snd_ac97_bus {
+-	/* -- lowlevel (hardware) driver specific -- */
++struct _snd_ac97_bus_ops {
+ 	void (*reset) (ac97_t *ac97);
+ 	void (*write) (ac97_t *ac97, unsigned short reg, unsigned short val);
+ 	unsigned short (*read) (ac97_t *ac97, unsigned short reg);
+ 	void (*wait) (ac97_t *ac97);
+ 	void (*init) (ac97_t *ac97);
++};
++
++struct _snd_ac97_bus {
++	/* -- lowlevel (hardware) driver specific -- */
++	ac97_bus_ops_t *ops;
+ 	void *private_data;
+ 	void (*private_free) (ac97_bus_t *bus);
+ 	/* --- */
+ 	snd_card_t *card;
+ 	unsigned short num;	/* bus number */
+-	unsigned short vra: 1,	/* bridge supports VRA */
++	unsigned short no_vra: 1, /* bridge doesn't support VRA */
+ 		       isdin: 1;/* independent SDIN */
+ 	unsigned int clock;	/* AC'97 base clock (usually 48000Hz) */
+ 	spinlock_t bus_lock;	/* used mainly for slot allocation */
+ 	unsigned short used_slots[2][4]; /* actually used PCM slots */
+ 	unsigned short pcms_count; /* count of PCMs */
+ 	struct ac97_pcm *pcms;
++	unsigned int shared_type;	/* type of shared controller betwen audio and modem */
+ 	ac97_t *codec[4];
+ 	snd_info_entry_t *proc;
+ };
+ 
++struct _snd_ac97_template {
++	void *private_data;
++	void (*private_free) (ac97_t *ac97);
++	struct pci_dev *pci;	/* assigned PCI device - used for quirks */
++	unsigned short num;	/* number of codec: 0 = primary, 1 = secondary */
++	unsigned short addr;	/* physical address of codec [0-3] */
++	unsigned int scaps;	/* driver capabilities */
++	unsigned int limited_regs; /* allow limited registers only */
++	DECLARE_BITMAP(reg_accessed, 0x80); /* bit flags */
++};
++
+ struct _snd_ac97 {
+ 	/* -- lowlevel (hardware) driver specific -- */
+ 	struct snd_ac97_build_ops * build_ops;
+@@ -441,6 +467,7 @@
+ 	unsigned short subsystem_vendor;
+ 	unsigned short subsystem_device;
+ 	spinlock_t reg_lock;
++	struct semaphore mutex;	/* mutex for AD18xx multi-codecs and paging (2.3) */
+ 	unsigned short num;	/* number of codec: 0 = primary, 1 = secondary */
+ 	unsigned short addr;	/* physical address of codec [0-3] */
+ 	unsigned int id;	/* identification of codec */
+@@ -461,7 +488,6 @@
+ 			unsigned short id[3];		// codec IDs (lower 16-bit word)
+ 			unsigned short pcmreg[3];	// PCM registers
+ 			unsigned short codec_cfg[3];	// CODEC_CFG bits
+-			struct semaphore mutex;
+ 		} ad18xx;
+ 		unsigned int dev_flags;		/* device specific */
+ 	} spec;
+@@ -484,10 +510,14 @@
+ {
+ 	return (ac97->ext_id & AC97_EI_AMAP) != 0;
+ }
++static inline int ac97_can_spdif(ac97_t * ac97)
++{
++	return (ac97->ext_id & AC97_EI_SPDIF) != 0;
++}
+ 
+ /* functions */
+-int snd_ac97_bus(snd_card_t * card, ac97_bus_t * _bus, ac97_bus_t ** rbus); /* create new AC97 bus */
+-int snd_ac97_mixer(ac97_bus_t * bus, ac97_t * _ac97, ac97_t ** rac97);	/* create mixer controls */
++int snd_ac97_bus(snd_card_t *card, int num, ac97_bus_ops_t *ops, void *private_data, ac97_bus_t **rbus); /* create new AC97 bus */
++int snd_ac97_mixer(ac97_bus_t *bus, ac97_template_t *template, ac97_t **rac97);	/* create mixer controls */
+ 
+ void snd_ac97_write(ac97_t *ac97, unsigned short reg, unsigned short value);
+ unsigned short snd_ac97_read(ac97_t *ac97, unsigned short reg);
+diff -uNr sound.orig/asound.h sound/asound.h
+--- sound.orig/asound.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/asound.h	2004-08-18 19:30:38.855959216 +0200
+@@ -254,7 +254,7 @@
+ #define SNDRV_PCM_INFO_HALF_DUPLEX	0x00100000	/* only half duplex */
+ #define SNDRV_PCM_INFO_JOINT_DUPLEX	0x00200000	/* playback and capture stream are somewhat correlated */
+ #define SNDRV_PCM_INFO_SYNC_START	0x00400000	/* pcm support some kind of sync go */
+-#define SNDRV_PCM_INFO_NONATOMIC_OPS	0x00800000	/* non-atomic prepare callback */
++#define SNDRV_PCM_INFO_MMAP_IOMEM	0x01000000	/* mmap on IO memory */
+ 
+ enum sndrv_pcm_state {
+ 	SNDRV_PCM_STATE_OPEN = 0,	/* stream is open */
+diff -uNr sound.orig/control.h sound/control.h
+--- sound.orig/control.h	2004-06-08 22:19:01.000000000 +0200
++++ sound/control.h	2004-08-18 19:30:38.857958912 +0200
+@@ -35,8 +35,7 @@
+ typedef enum sndrv_ctl_event_type snd_ctl_event_type_t;
+ typedef struct sndrv_ctl_event snd_ctl_event_t;
+ 
+-#define _snd_kcontrol_chip(kcontrol) ((kcontrol)->private_data)
+-#define snd_kcontrol_chip(kcontrol) snd_magic_cast1(chip_t, _snd_kcontrol_chip(kcontrol), return -ENXIO)
++#define snd_kcontrol_chip(kcontrol) ((kcontrol)->private_data)
+ 
+ typedef int (snd_kcontrol_info_t) (snd_kcontrol_t * kcontrol, snd_ctl_elem_info_t * uinfo);
+ typedef int (snd_kcontrol_get_t) (snd_kcontrol_t * kcontrol, snd_ctl_elem_value_t * ucontrol);
+diff -uNr sound.orig/cs46xx.h sound/cs46xx.h
+--- sound.orig/cs46xx.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/cs46xx.h	2004-08-18 19:30:38.862958152 +0200
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "pcm.h"
++#include "pcm-indirect.h"
+ #include "rawmidi.h"
+ #include "ac97_codec.h"
+ #include "cs46xx_dsp_spos.h"
+@@ -1650,14 +1651,7 @@
+   
+ 	unsigned int ctl;
+ 	unsigned int shift;	/* Shift count to trasform frames in bytes */
+-	unsigned int sw_bufsize;
+-	unsigned int sw_data;	/* Offset to next dst (or src) in sw ring buffer */
+-	unsigned int sw_io;
+-	int sw_ready;		/* Bytes ready to be transferred to/from hw */
+-	unsigned int hw_data;	/* Offset to next dst (or src) in hw ring buffer */
+-	unsigned int hw_io;	/* Ring buffer hw pointer */
+-	int hw_ready;		/* Bytes ready for play (or captured) in hw ring buffer */
+-	size_t appl_ptr;	/* Last seen appl_ptr */
++	snd_pcm_indirect_t pcm_rec;
+ 	snd_pcm_substream_t *substream;
+ 
+ 	pcm_channel_descriptor_t * pcm_channel;
+@@ -1695,14 +1689,7 @@
+ 
+ 		unsigned int ctl;
+ 		unsigned int shift;	/* Shift count to trasform frames in bytes */
+-		unsigned int sw_bufsize;
+-		unsigned int sw_data;	/* Offset to next dst (or src) in sw ring buffer */
+-		unsigned int sw_io;
+-		int sw_ready;		/* Bytes ready to be transferred to/from hw */
+-		unsigned int hw_data;	/* Offset to next dst (or src) in hw ring buffer */
+-		unsigned int hw_io;	/* Ring buffer hw pointer */
+-		int hw_ready;		/* Bytes ready for play (or captured) in hw ring buffer */
+-		size_t appl_ptr;	/* Last seen appl_ptr */
++		snd_pcm_indirect_t pcm_rec;
+ 		snd_pcm_substream_t *substream;
+ 	} capt;
+ 
+@@ -1723,8 +1710,6 @@
+ 	unsigned int midcr;
+ 	unsigned int uartm;
+ 
+-	struct snd_dma_device dma_dev;
+-
+ 	int amplifier;
+ 	void (*amplifier_ctrl)(cs46xx_t *, int);
+ 	void (*active_ctrl)(cs46xx_t *, int);
+diff -uNr sound.orig/emu10k1.h sound/emu10k1.h
+--- sound.orig/emu10k1.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/emu10k1.h	2004-08-18 19:30:38.863958000 +0200
+@@ -23,7 +23,6 @@
+  *
+  */
+ 
+-
+ /*
+  * ---- FX8010 ----
+  */
+@@ -115,6 +114,8 @@
+ #define FXBUS_PCM_RIGHT_FRONT	0x09
+ #define FXBUS_MIDI_REVERB	0x0c
+ #define FXBUS_MIDI_CHORUS	0x0d
++#define FXBUS_PCM_LEFT_SIDE	0x0e
++#define FXBUS_PCM_RIGHT_SIDE	0x0f
+ #define FXBUS_PT_LEFT		0x14
+ #define FXBUS_PT_RIGHT		0x15
+ 
+@@ -180,8 +181,8 @@
+ #define A_EXTOUT_AFRONT_R	0x09	/*              right */
+ #define A_EXTOUT_ACENTER	0x0a	/* analog center */
+ #define A_EXTOUT_ALFE		0x0b	/* analog LFE */
+-/* 0x0c ?? */
+-/* 0x0d ?? */
++#define A_EXTOUT_ASIDE_L	0x0c	/* analog side left  - Audigy 2 ZS */
++#define A_EXTOUT_ASIDE_R	0x0d	/*             right - Audigy 2 ZS */
+ #define A_EXTOUT_AREAR_L	0x0e	/* analog rear left */
+ #define A_EXTOUT_AREAR_R	0x0f	/*             right */
+ #define A_EXTOUT_AC97_L		0x10	/* AC97 left (front) */
+diff -uNr sound.orig/es1688.h sound/es1688.h
+--- sound.orig/es1688.h	2004-06-08 22:19:01.000000000 +0200
++++ sound/es1688.h	2004-08-18 19:30:38.865957696 +0200
+@@ -55,8 +55,6 @@
+ 
+ typedef struct _snd_es1688 es1688_t;
+ 
+-#define chip_t es1688_t
+-
+ /* I/O ports */
+ 
+ #define ES1688P(codec, x) ((codec)->port + e_s_s_ESS1688##x)
+diff -uNr sound.orig/info.h sound/info.h
+--- sound.orig/info.h	2004-06-08 22:19:01.000000000 +0200
++++ sound/info.h	2004-08-18 19:30:38.867957392 +0200
+@@ -89,9 +89,12 @@
+ 
+ extern int snd_info_check_reserved_words(const char *str);
+ 
+-#ifdef CONFIG_SND_OSSEMUL
++#if defined(CONFIG_SND_OSSEMUL) && defined(CONFIG_PROC_FS)
+ extern int snd_info_minor_register(void);
+ extern int snd_info_minor_unregister(void);
++#else
++#define snd_info_minor_register() /* NOP */
++#define snd_info_minor_unregister() /* NOP */
+ #endif
+ 
+ 
+diff -uNr sound.orig/initval.h sound/initval.h
+--- sound.orig/initval.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/initval.h	2004-08-18 19:30:38.868957240 +0200
+@@ -21,20 +21,6 @@
+  *
+  */
+ 
+-#ifndef MODULE_GENERIC_STRING
+-#ifdef MODULE
+-#define MODULE_GENERIC_STRING(name, string) \
+-static const char __module_generic_string_##name [] \
+-  __attribute__ ((unused, __section__(".modstring"))) = #name "=" string;
+-#else
+-#define MODULE_GENERIC_STRING(name, string)
+-#endif
+-#endif
+-
+-#define MODULE_CLASSES(val) MODULE_GENERIC_STRING(info_classes, val)
+-#define MODULE_DEVICES(val) MODULE_GENERIC_STRING(info_devices, val)
+-#define MODULE_PARM_SYNTAX(id, val) MODULE_GENERIC_STRING(info_parm_##id, val)
+-
+ #define SNDRV_AUTO_PORT		1
+ #define SNDRV_AUTO_IRQ		0xffff
+ #define SNDRV_AUTO_DMA		0xffff
+@@ -64,25 +50,6 @@
+ #define SNDRV_DEFAULT_DMA_SIZE	{ [0 ... (SNDRV_CARDS-1)] = SNDRV_AUTO_DMA_SIZE }
+ #define SNDRV_DEFAULT_PTR	SNDRV_DEFAULT_STR
+ 
+-#define SNDRV_BOOLEAN_TRUE_DESC	"allows:{{0,Disabled},{1,Enabled}},default:1,dialog:check"
+-#define SNDRV_BOOLEAN_FALSE_DESC "allows:{{0,Disabled},{1,Enabled}},default:0,dialog:check"
+-
+-#define SNDRV_ENABLED		"enable:(enable)"
+-
+-#define SNDRV_INDEX_DESC	SNDRV_ENABLED ",allows:{{0,7}},unique,skill:required,dialog:list"
+-#define SNDRV_ID_DESC		SNDRV_ENABLED ",unique"
+-#define SNDRV_ENABLE_DESC	SNDRV_BOOLEAN_FALSE_DESC
+-#define SNDRV_ISAPNP_DESC	SNDRV_ENABLED "," SNDRV_BOOLEAN_TRUE_DESC
+-#define SNDRV_DMA8_DESC		SNDRV_ENABLED ",allows:{{0,1},{3}},dialog:list"
+-#define SNDRV_DMA16_DESC	SNDRV_ENABLED ",allows:{{5,7}},dialog:list"
+-#define SNDRV_DMA_DESC		SNDRV_ENABLED ",allows:{{0,1},{3},{5,7}},dialog:list"
+-#define SNDRV_IRQ_DESC		SNDRV_ENABLED ",allows:{{5},{7},{9},{10,12},{14,15}},dialog:list"
+-#define SNDRV_DMA_SIZE_DESC	SNDRV_ENABLED ",allows:{{4,128}},default:64,skill:advanced"
+-#define SNDRV_DMA8_SIZE_DESC	SNDRV_ENABLED ",allows:{{4, 64}},default:64,skill:advanced"
+-#define SNDRV_DMA16_SIZE_DESC	SNDRV_ENABLED ",allows:{{4,128}},default:64,skill:advanced"
+-#define SNDRV_PORT12_DESC	SNDRV_ENABLED ",allows:{{0,0x3fff}},base:16"
+-#define SNDRV_PORT_DESC		SNDRV_ENABLED ",allows:{{0,0xffff}},base:16"
+-
+ #ifdef SNDRV_LEGACY_AUTO_PROBE
+ static int snd_legacy_auto_probe(unsigned long *ports, int (*probe)(unsigned long port))
+ {
+diff -uNr sound.orig/memalloc.h sound/memalloc.h
+--- sound.orig/memalloc.h	2004-06-08 22:19:01.000000000 +0200
++++ sound/memalloc.h	2004-08-18 19:30:38.870956936 +0200
+@@ -30,9 +30,8 @@
+  * buffer device info
+  */
+ struct snd_dma_device {
+-	int type;			/* SNDRV_MEM_TYPE_XXX */
++	int type;			/* SNDRV_DMA_TYPE_XXX */
+ 	struct device *dev;		/* generic device */
+-	unsigned int id;		/* a unique ID */
+ };
+ 
+ #ifndef snd_dma_pci_data
+@@ -56,6 +55,7 @@
+  * info for buffer allocation
+  */
+ struct snd_dma_buffer {
++	struct snd_dma_device dev;	/* device type */
+ 	unsigned char *area;	/* virtual pointer */
+ 	dma_addr_t addr;	/* physical address */
+ 	size_t bytes;		/* buffer size in bytes */
+@@ -76,7 +76,7 @@
+ 	int tblsize;	/* allocated table size */
+ 	struct snd_sg_page *table;	/* address table */
+ 	struct page **page_table;	/* page table (for vmap/vunmap) */
+-	struct snd_dma_device dev;
++	struct device *dev;
+ };
+ 
+ /*
+@@ -97,20 +97,21 @@
+ 
+ 
+ /* allocate/release a buffer */
+-int snd_dma_alloc_pages(const struct snd_dma_device *dev, size_t size,
++int snd_dma_alloc_pages(int type, struct device *dev, size_t size,
+ 			struct snd_dma_buffer *dmab);
+-int snd_dma_alloc_pages_fallback(const struct snd_dma_device *dev, size_t size,
++int snd_dma_alloc_pages_fallback(int type, struct device *dev, size_t size,
+                                  struct snd_dma_buffer *dmab);
+-void snd_dma_free_pages(const struct snd_dma_device *dev, struct snd_dma_buffer *dmab);
++void snd_dma_free_pages(struct snd_dma_buffer *dmab);
+ 
+ /* buffer-preservation managements */
+-size_t snd_dma_get_reserved(const struct snd_dma_device *dev, struct snd_dma_buffer *dmab);
+-int snd_dma_free_reserved(const struct snd_dma_device *dev);
+-int snd_dma_set_reserved(const struct snd_dma_device *dev, struct snd_dma_buffer *dmab);
++
++#define snd_dma_pci_buf_id(pci)	(((unsigned int)(pci)->vendor << 16) | (pci)->device)
++
++size_t snd_dma_get_reserved_buf(struct snd_dma_buffer *dmab, unsigned int id);
++int snd_dma_reserve_buf(struct snd_dma_buffer *dmab, unsigned int id);
+ 
+ /* basic memory allocation functions */
+ void *snd_malloc_pages(size_t size, unsigned int gfp_flags);
+-void *snd_malloc_pages_fallback(size_t size, unsigned int gfp_flags, size_t *res_size);
+ void snd_free_pages(void *ptr, size_t size);
+ 
+ #endif /* __SOUND_MEMALLOC_H */
+diff -uNr sound.orig/pcm.h sound/pcm.h
+--- sound.orig/pcm.h	2004-06-08 22:19:02.000000000 +0200
++++ sound/pcm.h	2004-08-18 19:30:38.873956480 +0200
+@@ -52,10 +52,8 @@
+ typedef struct sndrv_mask snd_mask_t;
+ typedef struct snd_sg_buf snd_pcm_sgbuf_t;
+ 
+-#define _snd_pcm_substream_chip(substream) ((substream)->private_data)
+-#define snd_pcm_substream_chip(substream) snd_magic_cast1(chip_t, _snd_pcm_substream_chip(substream), return -ENXIO)
+-#define _snd_pcm_chip(pcm) ((pcm)->private_data)
+-#define snd_pcm_chip(pcm) snd_magic_cast1(chip_t, _snd_pcm_chip(pcm), return -ENXIO)
++#define snd_pcm_substream_chip(substream) ((substream)->private_data)
++#define snd_pcm_chip(pcm) ((pcm)->private_data)
+ 
+ typedef struct _snd_pcm_file snd_pcm_file_t;
+ typedef struct _snd_pcm_runtime snd_pcm_runtime_t;
+@@ -123,6 +121,8 @@
+ #define SNDRV_PCM_TRIGGER_SUSPEND	5
+ #define SNDRV_PCM_TRIGGER_RESUME	6
+ 
++#define SNDRV_PCM_POS_XRUN		((snd_pcm_uframes_t)-1)
++
+ /* If you change this don't forget to change rates[] table in pcm_native.c */
+ #define SNDRV_PCM_RATE_5512		(1<<0)		/* 5512Hz */
+ #define SNDRV_PCM_RATE_8000		(1<<1)		/* 8000Hz */
+@@ -351,7 +351,8 @@
+ 	unsigned char *dma_area;	/* DMA area */
+ 	dma_addr_t dma_addr;		/* physical bus address (not accessible from main CPU) */
+ 	size_t dma_bytes;		/* size of DMA area */
+-	void *dma_private;		/* private DMA data for the memory allocator */
++
++	struct snd_dma_buffer *dma_buffer_p;	/* allocated buffer */
+ 
+ #if defined(CONFIG_SND_PCM_OSS) || defined(CONFIG_SND_PCM_OSS_MODULE)
+ 	/* -- OSS things -- */
+@@ -372,8 +373,8 @@
+ 	char name[32];			/* substream name */
+ 	int stream;			/* stream (direction) */
+ 	size_t buffer_bytes_max;	/* limit ring buffer size */
+-	struct snd_dma_device dma_device;
+ 	struct snd_dma_buffer dma_buffer;
++	unsigned int dma_buf_id;
+ 	size_t dma_max;
+ 	/* -- hardware operations -- */
+ 	unsigned int open_flag: 1;	/* lowlevel device has been opened */
+@@ -851,7 +852,7 @@
+ int snd_pcm_format_big_endian(snd_pcm_format_t format);
+ int snd_pcm_format_width(snd_pcm_format_t format);			/* in bits */
+ int snd_pcm_format_physical_width(snd_pcm_format_t format);		/* in bits */
+-u_int64_t snd_pcm_format_silence_64(snd_pcm_format_t format);
++const unsigned char *snd_pcm_format_silence_64(snd_pcm_format_t format);
+ int snd_pcm_format_set_silence(snd_pcm_format_t format, void *buf, unsigned int frames);
+ snd_pcm_format_t snd_pcm_build_linear_format(int width, int unsignd, int big_endian);
+ ssize_t snd_pcm_format_size(snd_pcm_format_t format, size_t samples);
+@@ -881,7 +882,8 @@
+ void snd_pcm_tick_elapsed(snd_pcm_substream_t *substream);
+ void snd_pcm_period_elapsed(snd_pcm_substream_t *substream);
+ snd_pcm_sframes_t snd_pcm_lib_write(snd_pcm_substream_t *substream,
+-				    const void *buf, snd_pcm_uframes_t frames);
++				    const void *buf,
++				    snd_pcm_uframes_t frames);
+ snd_pcm_sframes_t snd_pcm_lib_read(snd_pcm_substream_t *substream,
+ 				   void *buf, snd_pcm_uframes_t frames);
+ snd_pcm_sframes_t snd_pcm_lib_writev(snd_pcm_substream_t *substream,
+@@ -891,6 +893,22 @@
+ 
+ int snd_pcm_limit_hw_rates(snd_pcm_runtime_t *runtime);
+ 
++static inline void snd_pcm_set_runtime_buffer(snd_pcm_substream_t *substream,
++					      struct snd_dma_buffer *bufp)
++{
++	snd_pcm_runtime_t *runtime = substream->runtime;
++	if (bufp) {
++		runtime->dma_buffer_p = bufp;
++		runtime->dma_area = bufp->area;
++		runtime->dma_addr = bufp->addr;
++		runtime->dma_bytes = bufp->bytes;
++	} else {
++		runtime->dma_buffer_p = NULL;
++		runtime->dma_area = NULL;
++		runtime->dma_addr = 0;
++		runtime->dma_bytes = 0;
++	}
++}
+ 
+ /*
+  *  Timer interface
+@@ -915,7 +933,7 @@
+ int snd_pcm_lib_malloc_pages(snd_pcm_substream_t *substream, size_t size);
+ int snd_pcm_lib_free_pages(snd_pcm_substream_t *substream);
+ 
+-#define snd_pcm_substream_sgbuf(substream) ((substream)->runtime->dma_private)
++#define snd_pcm_substream_sgbuf(substream) ((substream)->runtime->dma_buffer_p->private_data)
+ #define snd_pcm_sgbuf_pages(size) snd_sgbuf_aligned_pages(size)
+ #define snd_pcm_sgbuf_get_addr(sgbuf,ofs) snd_sgbuf_get_addr(sgbuf,ofs)
+ struct page *snd_pcm_sgbuf_ops_page(snd_pcm_substream_t *substream, unsigned long offset);
+diff -uNr sound.orig/pcm-indirect.h sound/pcm-indirect.h
+--- sound.orig/pcm-indirect.h	1970-01-01 01:00:00.000000000 +0100
++++ sound/pcm-indirect.h	2004-08-18 19:30:38.875956176 +0200
+@@ -0,0 +1,177 @@
++/*
++ * Helper functions for indirect PCM data transfer
++ *
++ *  Copyright (c) by Takashi Iwai <tiwai@suse.de>
++ *                   Jaroslav Kysela <perex@suse.cz>
++ *
++ *   This program is free software; you can redistribute it and/or modify
++ *   it under the terms of the GNU General Public License as published by
++ *   the Free Software Foundation; either version 2 of the License, or
++ *   (at your option) any later version.
++ *
++ *   This program is distributed in the hope that it will be useful,
++ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *   GNU General Public License for more details.
++ *
++ *   You should have received a copy of the GNU General Public License
++ *   along with this program; if not, write to the Free Software
++ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ */
++
++#ifndef __SOUND_PCM_INDIRECT_H
++#define __SOUND_PCM_INDIRECT_H
++
++#include <sound/pcm.h>
++
++typedef struct sndrv_pcm_indirect {
++	unsigned int hw_buffer_size;	/* Byte size of hardware buffer */
++	unsigned int hw_queue_size;	/* Max queue size of hw buffer (0 = buffer size) */
++	unsigned int hw_data;	/* Offset to next dst (or src) in hw ring buffer */
++	unsigned int hw_io;	/* Ring buffer hw pointer */
++	int hw_ready;		/* Bytes ready for play (or captured) in hw ring buffer */
++	unsigned int sw_buffer_size;	/* Byte size of software buffer */
++	unsigned int sw_data;	/* Offset to next dst (or src) in sw ring buffer */
++	unsigned int sw_io;	/* Current software pointer in bytes */
++	int sw_ready;		/* Bytes ready to be transferred to/from hw */
++	snd_pcm_uframes_t appl_ptr;	/* Last seen appl_ptr */
++} snd_pcm_indirect_t;
++
++typedef void (*snd_pcm_indirect_copy_t)(snd_pcm_substream_t *substream,
++					snd_pcm_indirect_t *rec, size_t bytes);
++
++/*
++ * helper function for playback ack callback
++ */
++static inline void
++snd_pcm_indirect_playback_transfer(snd_pcm_substream_t *substream,
++				   snd_pcm_indirect_t *rec,
++				   snd_pcm_indirect_copy_t copy)
++{
++	snd_pcm_runtime_t *runtime = substream->runtime;
++	snd_pcm_uframes_t appl_ptr = runtime->control->appl_ptr;
++	snd_pcm_sframes_t diff = appl_ptr - rec->appl_ptr;
++	int qsize;
++
++	if (diff) {
++		if (diff < -(snd_pcm_sframes_t) (runtime->boundary / 2))
++			diff += runtime->boundary;
++		rec->sw_ready += (int)frames_to_bytes(runtime, diff);
++		rec->appl_ptr = appl_ptr;
++	}
++	qsize = rec->hw_queue_size ? rec->hw_queue_size : rec->hw_buffer_size;
++	while (rec->hw_ready < qsize && rec->sw_ready > 0) {
++		unsigned int hw_to_end = rec->hw_buffer_size - rec->hw_data;
++		unsigned int sw_to_end = rec->sw_buffer_size - rec->sw_data;
++		unsigned int bytes = qsize - rec->hw_ready;
++		if (rec->sw_ready < (int)bytes)
++			bytes = rec->sw_ready;
++		if (hw_to_end < bytes)
++			bytes = hw_to_end;
++		if (sw_to_end < bytes)
++			bytes = sw_to_end;
++		if (! bytes)
++			break;
++		copy(substream, rec, bytes);
++		rec->hw_data += bytes;
++		if (rec->hw_data == rec->hw_buffer_size)
++			rec->hw_data = 0;
++		rec->sw_data += bytes;
++		if (rec->sw_data == rec->sw_buffer_size)
++			rec->sw_data = 0;
++		rec->hw_ready += bytes;
++		rec->sw_ready -= bytes;
++	}
++}
++
++/*
++ * helper function for playback pointer callback
++ * ptr = current byte pointer
++ */
++static inline snd_pcm_uframes_t
++snd_pcm_indirect_playback_pointer(snd_pcm_substream_t *substream,
++				  snd_pcm_indirect_t *rec, unsigned int ptr)
++{
++	int bytes = ptr - rec->hw_io;
++	if (bytes < 0)
++		bytes += rec->hw_buffer_size;
++	rec->hw_io = ptr;
++	rec->hw_ready -= bytes;
++	rec->sw_io += bytes;
++	if (rec->sw_io >= rec->sw_buffer_size)
++		rec->sw_io -= rec->sw_buffer_size;
++	if (substream->ops->ack)
++		substream->ops->ack(substream);
++	return bytes_to_frames(substream->runtime, rec->sw_io);
++}
++
++
++/*
++ * helper function for capture ack callback
++ */
++static inline void
++snd_pcm_indirect_capture_transfer(snd_pcm_substream_t *substream,
++				  snd_pcm_indirect_t *rec,
++				  snd_pcm_indirect_copy_t copy)
++{
++	snd_pcm_runtime_t *runtime = substream->runtime;
++	snd_pcm_uframes_t appl_ptr = runtime->control->appl_ptr;
++	snd_pcm_sframes_t diff = appl_ptr - rec->appl_ptr;
++
++	if (diff) {
++		if (diff < -(snd_pcm_sframes_t) (runtime->boundary / 2))
++			diff += runtime->boundary;
++		rec->sw_ready -= frames_to_bytes(runtime, diff);
++		rec->appl_ptr = appl_ptr;
++	}
++	while (rec->hw_ready > 0 && 
++	       rec->sw_ready < (int)rec->sw_buffer_size) {
++		size_t hw_to_end = rec->hw_buffer_size - rec->hw_data;
++		size_t sw_to_end = rec->sw_buffer_size - rec->sw_data;
++		size_t bytes = rec->sw_buffer_size - rec->sw_ready;
++		if (rec->hw_ready < (int)bytes)
++			bytes = rec->hw_ready;
++		if (hw_to_end < bytes)
++			bytes = hw_to_end;
++		if (sw_to_end < bytes)
++			bytes = sw_to_end;
++		if (! bytes)
++			break;
++		copy(substream, rec, bytes);
++		rec->hw_data += bytes;
++		if ((int)rec->hw_data == rec->hw_buffer_size)
++			rec->hw_data = 0;
++		rec->sw_data += bytes;
++		if (rec->sw_data == rec->sw_buffer_size)
++			rec->sw_data = 0;
++		rec->hw_ready -= bytes;
++		rec->sw_ready += bytes;
++	}
++}
++
++/*
++ * helper function for capture pointer callback,
++ * ptr = current byte pointer
++ */
++static inline snd_pcm_uframes_t
++snd_pcm_indirect_capture_pointer(snd_pcm_substream_t *substream,
++				 snd_pcm_indirect_t *rec, unsigned int ptr)
++{
++	int qsize;
++	int bytes = ptr - rec->hw_io;
++	if (bytes < 0)
++		bytes += rec->hw_buffer_size;
++	rec->hw_io = ptr;
++	rec->hw_ready += bytes;
++	qsize = rec->hw_queue_size ? rec->hw_queue_size : rec->hw_buffer_size;
++	if (rec->hw_ready > qsize)
++		return SNDRV_PCM_POS_XRUN;
++	rec->sw_io += bytes;
++	if (rec->sw_io >= rec->sw_buffer_size)
++		rec->sw_io -= rec->sw_buffer_size;
++	if (substream->ops->ack)
++		substream->ops->ack(substream);
++	return bytes_to_frames(substream->runtime, rec->sw_io);
++}
++
++#endif /* __SOUND_PCM_INDIRECT_H */
+diff -uNr sound.orig/sb16_csp.h sound/sb16_csp.h
+--- sound.orig/sb16_csp.h	2004-06-08 22:19:02.000000000 +0200
++++ sound/sb16_csp.h	2004-08-18 19:30:38.876956024 +0200
+@@ -111,5 +111,4 @@
+ /* restart CSP and DMA transfer */
+ #define SNDRV_SB_CSP_IOCTL_RESTART	_IO('H', 0x16)
+ 
+-
+ #endif /* __SOUND_SB16_CSP */
+diff -uNr sound.orig/seq_kernel.h sound/seq_kernel.h
+--- sound.orig/seq_kernel.h	2004-06-09 12:08:38.000000000 +0200
++++ sound/seq_kernel.h	2004-08-18 19:30:38.878955720 +0200
+@@ -168,6 +168,9 @@
+ int snd_seq_expand_var_event(const snd_seq_event_t *event, int count, char *buf, int in_kernel, int size_aligned);
+ int snd_seq_dump_var_event(const snd_seq_event_t *event, snd_seq_dump_func_t func, void *private_data);
+ 
++/* interface for OSS emulation */
++int snd_seq_set_queue_tempo(int client, snd_seq_queue_tempo_t *tempo);
++
+ /* port callback routines */
+ void snd_port_init_callback(snd_seq_port_callback_t *p);
+ snd_seq_port_callback_t *snd_port_alloc_callback(void);
+diff -uNr sound.orig/soundfont.h sound/soundfont.h
+--- sound.orig/soundfont.h	2004-06-09 12:08:38.000000000 +0200
++++ sound/soundfont.h	2004-08-18 19:30:38.882955112 +0200
+@@ -95,6 +95,7 @@
+ 	int zone_locked;	/* locked time for zone */
+ 	int sample_locked;	/* locked time for sample */
+ 	snd_sf_callback_t callback;	/* callback functions */
++	int presets_locked;
+ 	struct semaphore presets_mutex;
+ 	spinlock_t lock;
+ 	snd_util_memhdr_t *memhdr;
+diff -uNr sound.orig/timer.h sound/timer.h
+--- sound.orig/timer.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/timer.h	2004-08-18 19:30:38.883954960 +0200
+@@ -40,8 +40,7 @@
+ typedef struct sndrv_timer_read snd_timer_read_t;
+ typedef struct sndrv_timer_tread snd_timer_tread_t;
+ 
+-#define _snd_timer_chip(timer) ((timer)->private_data)
+-#define snd_timer_chip(timer) snd_magic_cast1(chip_t, _snd_timer_chip(timer), return -ENXIO)
++#define snd_timer_chip(timer) ((timer)->private_data)
+ 
+ #define SNDRV_TIMER_DEVICES	16
+ 
+diff -uNr sound.orig/trident.h sound/trident.h
+--- sound.orig/trident.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/trident.h	2004-08-18 19:30:38.885954656 +0200
+@@ -398,7 +398,6 @@
+         unsigned char  bDMAStart;
+ 
+ 	unsigned long port;
+-	struct resource *res_port;
+ 	unsigned long midi_port;
+ 
+ 	unsigned int spurious_irq_count;
+diff -uNr sound.orig/version.h sound/version.h
+--- sound.orig/version.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/version.h	2004-08-18 19:30:38.887954352 +0200
+@@ -1,3 +1,3 @@
+ /* include/version.h.  Generated by configure.  */
+-#define CONFIG_SND_VERSION "1.0.4"
+-#define CONFIG_SND_DATE " (Mon May 17 14:31:44 2004 UTC)"
++#define CONFIG_SND_VERSION "1.0.6"
++#define CONFIG_SND_DATE " (Sun Aug 15 07:17:53 2004 UTC)"
+diff -uNr sound.orig/vx_core.h sound/vx_core.h
+--- sound.orig/vx_core.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/vx_core.h	2004-08-18 19:30:38.889954048 +0200
+@@ -182,6 +182,7 @@
+ 	/* clock and audio sources */
+ 	unsigned int audio_source;	/* current audio input source */
+ 	unsigned int audio_source_target;
++	unsigned int clock_mode;	/* clock mode (VX_CLOCK_MODE_XXX) */
+ 	unsigned int clock_source;	/* current clock source (INTERNAL_QUARTZ or UER_SYNC) */
+ 	unsigned int freq;		/* current frequency */
+ 	unsigned int freq_detected;	/* detected frequency from digital in */
+@@ -364,6 +365,13 @@
+ 	UER_SYNC
+ };
+ 
++/* clock mode */
++enum {
++	VX_CLOCK_MODE_AUTO,	/* depending on the current audio source */
++	VX_CLOCK_MODE_INTERNAL,	/* fixed to internal quartz */
++	VX_CLOCK_MODE_EXTERNAL	/* fixed to UER sync */
++};
++
+ /* SPDIF/UER type */
+ enum {
+ 	VX_UER_MODE_CONSUMER,
+diff -uNr sound.orig/ymfpci.h sound/ymfpci.h
+--- sound.orig/ymfpci.h	2004-06-23 21:57:36.000000000 +0200
++++ sound/ymfpci.h	2004-08-18 19:30:38.894953288 +0200
+@@ -316,7 +316,6 @@
+ 	struct gameport gameport;
+ #endif
+ 
+-	struct snd_dma_device dma_dev;
+ 	struct snd_dma_buffer work_ptr;
+ 
+ 	unsigned int bank_size_playback;
