@@ -1,13 +1,13 @@
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
 Name:		linux-libc-headers
-Version:	2.6.8.0
-Release:	4
+Version:	2.6.8.1
+Release:	1
 Epoch:		7
 License:	GPL
 Group:		Development
 Source0:	http://ep09.pld-linux.org/~mmazur/linux-libc-headers/%{name}-%{version}.tar.bz2
-# Source0-md5:	b876a1819ca0179cd2b690ef0b034c66
+# Source0-md5:	a75c264f90b07b4f3ba05febc7386f4b
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-netfilter.patch
