@@ -1,0 +1,48 @@
+Index: linux-libc-headers/include/linux/sonet.h
+===================================================================
+RCS file: /cvsroot/linux-libc-headers/include/linux/sonet.h,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -u -r1.3 -r1.4
+--- linux-libc-headers/include/linux/sonet.h	28 Feb 2004 23:31:52 -0000	1.3
++++ linux-libc-headers/include/linux/sonet.h	30 Mar 2004 21:21:47 -0000	1.4
+@@ -55,20 +55,4 @@
+ 
+ #define SONET_FRSENSE_SIZE 6		/* C1[3],H1[3] (0xff for unknown) */
+ 
+-
+-
+-#include <asm/atomic.h>
+-
+-struct k_sonet_stats {
+-#define __HANDLE_ITEM(i) atomic_t i
+-	__SONET_ITEMS
+-#undef __HANDLE_ITEM
+-};
+-
+-extern void sonet_copy_stats(struct k_sonet_stats *from,struct sonet_stats *to);
+-extern void sonet_subtract_stats(struct k_sonet_stats *from,
+-    struct sonet_stats *to);
+-
+-#endif
+-
+ #endif
+Index: linux-libc-headers/include/asm-x86_64/unistd.h
+===================================================================
+RCS file: /cvsroot/linux-libc-headers/include/asm-x86_64/unistd.h,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -u -r1.4 -r1.5
+--- linux-libc-headers/include/asm-x86_64/unistd.h	27 Mar 2004 16:03:38 -0000	1.4
++++ linux-libc-headers/include/asm-x86_64/unistd.h	30 Mar 2004 18:11:16 -0000	1.5
+@@ -725,8 +725,8 @@
+ asmlinkage long sys_ioperm(unsigned long from, unsigned long num, int turn_on);
+ struct sigaction;
+ asmlinkage long sys_rt_sigaction(int sig,
+-				const struct sigaction __user *act,
+-				struct sigaction __user *oact,
++				const struct sigaction *act,
++				struct sigaction *oact,
+ 				size_t sigsetsize);
+ 
+ #endif	/* __ASSEMBLY__ */
