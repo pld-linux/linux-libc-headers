@@ -854,7 +854,7 @@ diff -uNr linux-libc-headers-2.6.10.0.orig/include/linux/netfilter_ipv4/ipt_osf.
 +#define IPT_OSF_LOGLEVEL_ALL   0
 +#define IPT_OSF_LOGLEVEL_FIRST 1
 +
-+#include <net/tcp.h>
++#include <netinet/tcp.h>
 +
 +struct ipt_osf_info
 +{
