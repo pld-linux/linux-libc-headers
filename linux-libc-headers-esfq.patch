@@ -1,5 +1,5 @@
---- pkt_sched.h.orig	2004-04-20 13:10:20.000000000 +0200
-+++ pkt_sched.h	2004-04-25 19:15:12.694743784 +0200
+--- linux-libc-headers-2.6.5.0/include/linux/pkt_sched.h.orig	2004-04-19 23:13:51.000000000 +0200
++++ linux-libc-headers-2.6.5.0/include/linux/pkt_sched.h	2004-04-25 19:26:50.921597168 +0200
 @@ -27,6 +27,8 @@
     Particular schedulers may have also their private records.
   */
@@ -9,9 +9,9 @@
  struct tc_stats
  {
  	__u64	bytes;			/* NUmber of enqueues bytes */
-@@ -164,6 +166,13 @@
- 	TCA_SFQ_HASH_SRC,
- };
+@@ -154,6 +156,13 @@
+ 
+ /* SFQ section */
  
 +enum
 +{
