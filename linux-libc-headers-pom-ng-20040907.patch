@@ -1,0 +1,125 @@
+diff -Nur linux-libc-headers-2.6.8.1.org/include/linux/netfilter_ipv4/ipt_osf.h linux-libc-headers-2.6.8.1/include/linux/netfilter_ipv4/ipt_osf.h
+--- linux-libc-headers-2.6.8.1.org/include/linux/netfilter_ipv4/ipt_osf.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.8.1/include/linux/netfilter_ipv4/ipt_osf.h	2004-09-13 11:41:05.000000000 +0200
+@@ -0,0 +1,77 @@
++
++#ifndef _IPT_OSF_H
++#define _IPT_OSF_H
++
++#define MAXGENRELEN            32
++#define MAXDETLEN              64
++
++#define IPT_OSF_GENRE          1
++#define        IPT_OSF_SMART           2
++#define IPT_OSF_LOG            4
++#define IPT_OSF_NETLINK                8
++
++#define IPT_OSF_LOGLEVEL_ALL   0
++#define IPT_OSF_LOGLEVEL_FIRST 1
++
++//#include <linux/list.h>
++//#include <net/tcp.h>
++
++//#include <netinet/ip.h>
++//#include <netinet/tcp.h>
++
++struct list_head
++{
++       struct list_head *prev, *next;
++};
++
++struct ipt_osf_info
++{
++       char                    genre[MAXGENRELEN];
++       int                     len;
++       unsigned long           flags;
++       int                     loglevel;
++       int                     invert; /* UNSUPPORTED */
++};
++
++struct osf_wc
++{
++       char                    wc;
++       unsigned long           val;
++};
++
++/* This struct represents IANA options
++ * http://www.iana.org/assignments/tcp-parameters
++ */
++struct osf_opt
++{
++       unsigned char           kind;
++       unsigned char           length;
++       struct osf_wc           wc;
++};
++
++struct osf_finger
++{
++       struct list_head        flist;
++       struct osf_wc           wss;
++       unsigned char           ttl;
++       unsigned char           df;
++       unsigned long           ss;
++       unsigned char           genre[MAXGENRELEN];
++       unsigned char           version[MAXGENRELEN], subtype[MAXGENRELEN];
++
++       /* Not needed, but for consistency with original table from Michal Zalewski */
++       unsigned char           details[MAXDETLEN]; 
++
++       int                     opt_num;
++       struct osf_opt          opt[MAX_IPOPTLEN]; /* In case it is all NOP or EOL */
++
++};
++
++struct ipt_osf_nlmsg
++{
++       struct osf_finger       f;
++       struct iphdr            ip;
++       struct tcphdr           tcp;
++};
++
++#endif /* _IPT_OSF_H */
+diff -Nur linux-libc-headers-2.6.8.1.org/include/linux/netfilter_ipv4/ipt_u32.h linux-libc-headers-2.6.8.1/include/linux/netfilter_ipv4/ipt_u32.h
+--- linux-libc-headers-2.6.8.1.org/include/linux/netfilter_ipv4/ipt_u32.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.8.1/include/linux/netfilter_ipv4/ipt_u32.h	2004-09-13 12:02:51.000000000 +0200
+@@ -0,0 +1,40 @@
++#ifndef _IPT_U32_H
++#define _IPT_U32_H
++#include <linux/netfilter_ipv4/ip_tables.h>
++
++enum ipt_u32_ops
++{
++	IPT_U32_AND,
++	IPT_U32_LEFTSH,
++	IPT_U32_RIGHTSH,
++	IPT_U32_AT
++};
++
++struct ipt_u32_location_element
++{
++	u_int32_t number;
++	u_int8_t nextop;
++};
++struct ipt_u32_value_element
++{
++	u_int32_t min;
++	u_int32_t max;
++};
++/* *** any way to allow for an arbitrary number of elements?
++   for now I settle for a limit of 10 of each */
++#define U32MAXSIZE 10
++struct ipt_u32_test
++{
++	u_int8_t nnums;
++	struct ipt_u32_location_element location[U32MAXSIZE+1];
++	u_int8_t nvalues;
++	struct ipt_u32_value_element value[U32MAXSIZE+1];
++};
++
++struct ipt_u32
++{
++	u_int8_t ntests;
++	struct ipt_u32_test tests[U32MAXSIZE+1];
++};
++
++#endif /*_IPT_U32_H*/
