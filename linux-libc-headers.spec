@@ -48,7 +48,7 @@ potrzebne do przebudowania pakietu glibc.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
+#%%patch4 -p1
 
 %build
 %ifarch sparc sparcv6 sparc64
