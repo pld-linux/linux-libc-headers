@@ -1,6 +1,6 @@
-diff -uNr sound.orig/ac97_codec.h sound/ac97_codec.h
---- sound.orig/ac97_codec.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/ac97_codec.h	2004-08-18 19:30:38.852959672 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/ac97_codec.h linux-libc-headers-2.6.8.0/include/sound/ac97_codec.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/ac97_codec.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/ac97_codec.h	2004-08-20 08:04:48.260207680 +0200
 @@ -364,11 +364,21 @@
  #define AC97_RATES_MIC_ADC	4
  #define AC97_RATES_SPDIF	5
@@ -105,9 +105,9 @@ diff -uNr sound.orig/ac97_codec.h sound/ac97_codec.h
  
  void snd_ac97_write(ac97_t *ac97, unsigned short reg, unsigned short value);
  unsigned short snd_ac97_read(ac97_t *ac97, unsigned short reg);
-diff -uNr sound.orig/asound.h sound/asound.h
---- sound.orig/asound.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/asound.h	2004-08-18 19:30:38.855959216 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/asound.h linux-libc-headers-2.6.8.0/include/sound/asound.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/asound.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/asound.h	2004-08-20 08:04:48.263207224 +0200
 @@ -254,7 +254,7 @@
  #define SNDRV_PCM_INFO_HALF_DUPLEX	0x00100000	/* only half duplex */
  #define SNDRV_PCM_INFO_JOINT_DUPLEX	0x00200000	/* playback and capture stream are somewhat correlated */
@@ -117,9 +117,9 @@ diff -uNr sound.orig/asound.h sound/asound.h
  
  enum sndrv_pcm_state {
  	SNDRV_PCM_STATE_OPEN = 0,	/* stream is open */
-diff -uNr sound.orig/control.h sound/control.h
---- sound.orig/control.h	2004-06-08 22:19:01.000000000 +0200
-+++ sound/control.h	2004-08-18 19:30:38.857958912 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/control.h linux-libc-headers-2.6.8.0/include/sound/control.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/control.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/control.h	2004-08-20 08:04:48.265206920 +0200
 @@ -35,8 +35,7 @@
  typedef enum sndrv_ctl_event_type snd_ctl_event_type_t;
  typedef struct sndrv_ctl_event snd_ctl_event_t;
@@ -130,9 +130,9 @@ diff -uNr sound.orig/control.h sound/control.h
  
  typedef int (snd_kcontrol_info_t) (snd_kcontrol_t * kcontrol, snd_ctl_elem_info_t * uinfo);
  typedef int (snd_kcontrol_get_t) (snd_kcontrol_t * kcontrol, snd_ctl_elem_value_t * ucontrol);
-diff -uNr sound.orig/cs46xx.h sound/cs46xx.h
---- sound.orig/cs46xx.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/cs46xx.h	2004-08-18 19:30:38.862958152 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/cs46xx.h linux-libc-headers-2.6.8.0/include/sound/cs46xx.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/cs46xx.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/cs46xx.h	2004-08-20 08:04:48.269206312 +0200
 @@ -24,6 +24,7 @@
   */
  
@@ -182,9 +182,9 @@ diff -uNr sound.orig/cs46xx.h sound/cs46xx.h
  	int amplifier;
  	void (*amplifier_ctrl)(cs46xx_t *, int);
  	void (*active_ctrl)(cs46xx_t *, int);
-diff -uNr sound.orig/emu10k1.h sound/emu10k1.h
---- sound.orig/emu10k1.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/emu10k1.h	2004-08-18 19:30:38.863958000 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/emu10k1.h linux-libc-headers-2.6.8.0/include/sound/emu10k1.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/emu10k1.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/emu10k1.h	2004-08-20 08:04:48.272205856 +0200
 @@ -23,7 +23,6 @@
   *
   */
@@ -213,9 +213,9 @@ diff -uNr sound.orig/emu10k1.h sound/emu10k1.h
  #define A_EXTOUT_AREAR_L	0x0e	/* analog rear left */
  #define A_EXTOUT_AREAR_R	0x0f	/*             right */
  #define A_EXTOUT_AC97_L		0x10	/* AC97 left (front) */
-diff -uNr sound.orig/es1688.h sound/es1688.h
---- sound.orig/es1688.h	2004-06-08 22:19:01.000000000 +0200
-+++ sound/es1688.h	2004-08-18 19:30:38.865957696 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/es1688.h linux-libc-headers-2.6.8.0/include/sound/es1688.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/es1688.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/es1688.h	2004-08-20 08:04:48.274205552 +0200
 @@ -55,8 +55,6 @@
  
  typedef struct _snd_es1688 es1688_t;
@@ -225,10 +225,10 @@ diff -uNr sound.orig/es1688.h sound/es1688.h
  /* I/O ports */
  
  #define ES1688P(codec, x) ((codec)->port + e_s_s_ESS1688##x)
-diff -uNr sound.orig/info.h sound/info.h
---- sound.orig/info.h	2004-06-08 22:19:01.000000000 +0200
-+++ sound/info.h	2004-08-18 19:30:38.867957392 +0200
-@@ -89,9 +89,12 @@
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/info.h linux-libc-headers-2.6.8.0/include/sound/info.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/info.h	2004-08-18 20:16:07.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/info.h	2004-08-20 08:04:48.277205096 +0200
+@@ -91,9 +91,12 @@
  
  extern int snd_info_check_reserved_words(const char *str);
  
@@ -242,9 +242,9 @@ diff -uNr sound.orig/info.h sound/info.h
  #endif
  
  
-diff -uNr sound.orig/initval.h sound/initval.h
---- sound.orig/initval.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/initval.h	2004-08-18 19:30:38.868957240 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/initval.h linux-libc-headers-2.6.8.0/include/sound/initval.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/initval.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/initval.h	2004-08-20 08:04:48.279204792 +0200
 @@ -21,20 +21,6 @@
   *
   */
@@ -292,9 +292,9 @@ diff -uNr sound.orig/initval.h sound/initval.h
  #ifdef SNDRV_LEGACY_AUTO_PROBE
  static int snd_legacy_auto_probe(unsigned long *ports, int (*probe)(unsigned long port))
  {
-diff -uNr sound.orig/memalloc.h sound/memalloc.h
---- sound.orig/memalloc.h	2004-06-08 22:19:01.000000000 +0200
-+++ sound/memalloc.h	2004-08-18 19:30:38.870956936 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/memalloc.h linux-libc-headers-2.6.8.0/include/sound/memalloc.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/memalloc.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/memalloc.h	2004-08-20 08:04:48.281204488 +0200
 @@ -30,9 +30,8 @@
   * buffer device info
   */
@@ -352,9 +352,9 @@ diff -uNr sound.orig/memalloc.h sound/memalloc.h
  void snd_free_pages(void *ptr, size_t size);
  
  #endif /* __SOUND_MEMALLOC_H */
-diff -uNr sound.orig/pcm.h sound/pcm.h
---- sound.orig/pcm.h	2004-06-08 22:19:02.000000000 +0200
-+++ sound/pcm.h	2004-08-18 19:30:38.873956480 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/pcm.h linux-libc-headers-2.6.8.0/include/sound/pcm.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/pcm.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/pcm.h	2004-08-20 08:04:48.286203728 +0200
 @@ -52,10 +52,8 @@
  typedef struct sndrv_mask snd_mask_t;
  typedef struct snd_sg_buf snd_pcm_sgbuf_t;
@@ -448,9 +448,9 @@ diff -uNr sound.orig/pcm.h sound/pcm.h
  #define snd_pcm_sgbuf_pages(size) snd_sgbuf_aligned_pages(size)
  #define snd_pcm_sgbuf_get_addr(sgbuf,ofs) snd_sgbuf_get_addr(sgbuf,ofs)
  struct page *snd_pcm_sgbuf_ops_page(snd_pcm_substream_t *substream, unsigned long offset);
-diff -uNr sound.orig/pcm-indirect.h sound/pcm-indirect.h
---- sound.orig/pcm-indirect.h	1970-01-01 01:00:00.000000000 +0100
-+++ sound/pcm-indirect.h	2004-08-18 19:30:38.875956176 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/pcm-indirect.h linux-libc-headers-2.6.8.0/include/sound/pcm-indirect.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/pcm-indirect.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.8.0/include/sound/pcm-indirect.h	2004-08-20 08:04:48.288203424 +0200
 @@ -0,0 +1,177 @@
 +/*
 + * Helper functions for indirect PCM data transfer
@@ -629,18 +629,18 @@ diff -uNr sound.orig/pcm-indirect.h sound/pcm-indirect.h
 +}
 +
 +#endif /* __SOUND_PCM_INDIRECT_H */
-diff -uNr sound.orig/sb16_csp.h sound/sb16_csp.h
---- sound.orig/sb16_csp.h	2004-06-08 22:19:02.000000000 +0200
-+++ sound/sb16_csp.h	2004-08-18 19:30:38.876956024 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/sb16_csp.h linux-libc-headers-2.6.8.0/include/sound/sb16_csp.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/sb16_csp.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/sb16_csp.h	2004-08-20 08:04:48.290203120 +0200
 @@ -111,5 +111,4 @@
  /* restart CSP and DMA transfer */
  #define SNDRV_SB_CSP_IOCTL_RESTART	_IO('H', 0x16)
  
 -
  #endif /* __SOUND_SB16_CSP */
-diff -uNr sound.orig/seq_kernel.h sound/seq_kernel.h
---- sound.orig/seq_kernel.h	2004-06-09 12:08:38.000000000 +0200
-+++ sound/seq_kernel.h	2004-08-18 19:30:38.878955720 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/seq_kernel.h linux-libc-headers-2.6.8.0/include/sound/seq_kernel.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/seq_kernel.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/seq_kernel.h	2004-08-20 08:04:48.292202816 +0200
 @@ -168,6 +168,9 @@
  int snd_seq_expand_var_event(const snd_seq_event_t *event, int count, char *buf, int in_kernel, int size_aligned);
  int snd_seq_dump_var_event(const snd_seq_event_t *event, snd_seq_dump_func_t func, void *private_data);
@@ -651,9 +651,9 @@ diff -uNr sound.orig/seq_kernel.h sound/seq_kernel.h
  /* port callback routines */
  void snd_port_init_callback(snd_seq_port_callback_t *p);
  snd_seq_port_callback_t *snd_port_alloc_callback(void);
-diff -uNr sound.orig/soundfont.h sound/soundfont.h
---- sound.orig/soundfont.h	2004-06-09 12:08:38.000000000 +0200
-+++ sound/soundfont.h	2004-08-18 19:30:38.882955112 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/soundfont.h linux-libc-headers-2.6.8.0/include/sound/soundfont.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/soundfont.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/soundfont.h	2004-08-20 08:04:48.293202664 +0200
 @@ -95,6 +95,7 @@
  	int zone_locked;	/* locked time for zone */
  	int sample_locked;	/* locked time for sample */
@@ -662,9 +662,9 @@ diff -uNr sound.orig/soundfont.h sound/soundfont.h
  	struct semaphore presets_mutex;
  	spinlock_t lock;
  	snd_util_memhdr_t *memhdr;
-diff -uNr sound.orig/timer.h sound/timer.h
---- sound.orig/timer.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/timer.h	2004-08-18 19:30:38.883954960 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/timer.h linux-libc-headers-2.6.8.0/include/sound/timer.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/timer.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/timer.h	2004-08-20 08:04:48.295202360 +0200
 @@ -40,8 +40,7 @@
  typedef struct sndrv_timer_read snd_timer_read_t;
  typedef struct sndrv_timer_tread snd_timer_tread_t;
@@ -675,9 +675,9 @@ diff -uNr sound.orig/timer.h sound/timer.h
  
  #define SNDRV_TIMER_DEVICES	16
  
-diff -uNr sound.orig/trident.h sound/trident.h
---- sound.orig/trident.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/trident.h	2004-08-18 19:30:38.885954656 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/trident.h linux-libc-headers-2.6.8.0/include/sound/trident.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/trident.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/trident.h	2004-08-20 08:04:48.305200840 +0200
 @@ -398,7 +398,6 @@
          unsigned char  bDMAStart;
  
@@ -686,18 +686,18 @@ diff -uNr sound.orig/trident.h sound/trident.h
  	unsigned long midi_port;
  
  	unsigned int spurious_irq_count;
-diff -uNr sound.orig/version.h sound/version.h
---- sound.orig/version.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/version.h	2004-08-18 19:30:38.887954352 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/version.h linux-libc-headers-2.6.8.0/include/sound/version.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/version.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/version.h	2004-08-20 08:04:48.307200536 +0200
 @@ -1,3 +1,3 @@
  /* include/version.h.  Generated by configure.  */
 -#define CONFIG_SND_VERSION "1.0.4"
 -#define CONFIG_SND_DATE " (Mon May 17 14:31:44 2004 UTC)"
 +#define CONFIG_SND_VERSION "1.0.6"
 +#define CONFIG_SND_DATE " (Sun Aug 15 07:17:53 2004 UTC)"
-diff -uNr sound.orig/vx_core.h sound/vx_core.h
---- sound.orig/vx_core.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/vx_core.h	2004-08-18 19:30:38.889954048 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/vx_core.h linux-libc-headers-2.6.8.0/include/sound/vx_core.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/vx_core.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/vx_core.h	2004-08-20 08:04:48.309200232 +0200
 @@ -182,6 +182,7 @@
  	/* clock and audio sources */
  	unsigned int audio_source;	/* current audio input source */
@@ -720,9 +720,9 @@ diff -uNr sound.orig/vx_core.h sound/vx_core.h
  /* SPDIF/UER type */
  enum {
  	VX_UER_MODE_CONSUMER,
-diff -uNr sound.orig/ymfpci.h sound/ymfpci.h
---- sound.orig/ymfpci.h	2004-06-23 21:57:36.000000000 +0200
-+++ sound/ymfpci.h	2004-08-18 19:30:38.894953288 +0200
+diff -uNr linux-libc-headers-2.6.8.0.orig/include/sound/ymfpci.h linux-libc-headers-2.6.8.0/include/sound/ymfpci.h
+--- linux-libc-headers-2.6.8.0.orig/include/sound/ymfpci.h	2004-08-18 20:07:05.000000000 +0200
++++ linux-libc-headers-2.6.8.0/include/sound/ymfpci.h	2004-08-20 08:04:48.311199928 +0200
 @@ -316,7 +316,6 @@
  	struct gameport gameport;
  #endif
