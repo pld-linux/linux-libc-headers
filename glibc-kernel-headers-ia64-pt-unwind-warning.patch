@@ -1,0 +1,14 @@
+# Stop warnings about redefined symbols in glibc on ia64.
+# From Ian Wienand <ianw@gelato.unsw.edu.au>.
+
+--- linux-2.6.0-test7-bk-orig/include/asm-ia64/elf.h	2003-10-24 02:26:14.622024559 +0000
++++ linux-2.6.0-test7-bk/include/asm-ia64/elf.h	2003-10-24 02:27:33.785109526 +0000
+@@ -42,8 +42,6 @@
+  */
+ #define ELF_ET_DYN_BASE		(TASK_UNMAPPED_BASE + 0x800000000)
+ 
+-#define PT_IA_64_UNWIND		0x70000001
+-
+ /* IA-64 relocations: */
+ #define R_IA64_NONE		0x00	/* none */
+ #define R_IA64_IMM14		0x21	/* symbol + addend, add imm14 */

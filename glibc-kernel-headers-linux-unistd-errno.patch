@@ -1,0 +1,17 @@
+"extern int errno" is spawn of devil.  In userspace, get the real errno
+function from glibc.
+
+--- include/linux/unistd.h.orig	2003-10-15 11:11:17.000000000 -0400
++++ include/linux/unistd.h	2003-11-05 09:20:45.000000000 -0500
+@@ -1,7 +1,11 @@
+ #ifndef _LINUX_UNISTD_H_
+ #define _LINUX_UNISTD_H_
+ 
++#ifdef __KERNEL__
+ extern int errno;
++#else
++# include <errno.h>
++#endif
+ 
+ /*
+  * Include machine specific syscallX macros

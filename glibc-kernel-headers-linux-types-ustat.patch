@@ -1,0 +1,20 @@
+Fixes glibc NPTL build on S/390.  I seem to recall SH being affected by this
+too.
+
+--- linux-kernel-headers/include/linux/types.h.bak	2003-10-15 11:14:22.000000000 -0400
++++ linux-kernel-headers/include/linux/types.h	2003-10-26 14:34:05.000000000 -0500
+@@ -148,11 +148,14 @@ typedef unsigned long sector_t;
+  * any application/library that wants linux/types.h.
+  */
+ 
++#if 0
++/* Debian: This is available from <sys/ustat.h>.  */
+ struct ustat {
+ 	__kernel_daddr_t	f_tfree;
+ 	__kernel_ino_t		f_tinode;
+ 	char			f_fname[6];
+ 	char			f_fpack[6];
+ };
++#endif
+ 
+ #endif /* _LINUX_TYPES_H */
