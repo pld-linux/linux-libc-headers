@@ -1,13 +1,13 @@
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
 Name:		linux-libc-headers
-Version:	2.6.2.0
+Version:	2.6.3.0
 Release:	1
 Epoch:		7
 License:	GPL
 Group:		Development
 Source0:	http://ep09.pld-linux.org/~mmazur/%{name}/%{name}-%{version}.tar.bz2
-# Source0-md5:	28e12a8862f5694c540a198859c9bcbe
+# Source0-md5:	9fc8b73da76ce34a10c5b56b173966ee
 Requires(pre):	fileutils
 AutoReqProv:	no
 Provides:	alsa-driver-devel
