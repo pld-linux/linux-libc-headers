@@ -512,15 +512,6 @@ diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv4/ip_tables
  	/* Packet and byte counters. */
  	struct ipt_counters counters;
  
-@@ -245,7 +251,7 @@
- 	/* Number of counters (must be equal to current number of entries). */
- 	unsigned int num_counters;
- 	/* The old entries' counters. */
--	struct ipt_counters *counters;
-+	struct ipt_counters __user *counters;
- 
- 	/* The entries (hang off end: not really an array). */
- 	struct ipt_entry entries[0];
 @@ -276,6 +282,8 @@
  	struct ipt_entry entrytable[0];
  };
@@ -1399,15 +1390,6 @@ diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv6/ip6_table
  	/* Packet and byte counters. */
  	struct ip6t_counters counters;
  
-@@ -251,7 +257,7 @@
- 	/* Number of counters (must be equal to current number of entries). */
- 	unsigned int num_counters;
- 	/* The old entries' counters. */
--	struct ip6t_counters *counters;
-+	struct ip6t_counters __user *counters;
- 
- 	/* The entries (hang off end: not really an array). */
- 	struct ip6t_entry entries[0];
 diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv6/ip6t_fuzzy.h
 --- linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
 +++ linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv6/ip6t_fuzzy.h	2004-06-20 12:02:52.000000000 +0200
