@@ -1,17 +1,16 @@
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
 Name:		linux-libc-headers
-Version:	2.6.7.0
-Release:	9
+Version:	2.6.8.0
+Release:	1
 Epoch:		7
 License:	GPL
 Group:		Development
 Source0:	http://ep09.pld-linux.org/~mmazur/linux-libc-headers/%{name}-%{version}.tar.bz2
-# Source0-md5:	ac14861e5fa7e52d98a6174add34084d
+# Source0-md5:	b876a1819ca0179cd2b690ef0b034c66
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-netfilter.patch
-Patch3:		%{name}-ia64.patch
 BuildRequires:	rpmbuild(macros) >= 1.153
 AutoReqProv:	no
 Requires(pre):	fileutils
@@ -46,7 +45,6 @@ potrzebne do przebudowania pakietu glibc.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %ifarch sparc sparcv6 sparc64
