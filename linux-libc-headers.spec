@@ -18,6 +18,7 @@ Patch6:		%{name}-linux-types-ustat.patch
 Patch7:		%{name}-linux-unistd-errno.patch
 Patch8:		%{name}-no-linux-compiler-h.patch
 Patch9:		%{name}-other.patch
+Patch10:	%{name}-a.out.patch
 Requires(pre):	fileutils
 AutoReqProv:	no
 ExclusiveOS:	Linux
@@ -52,6 +53,7 @@ potrzebne do przebudowania pakietu glibc.
 %patch7
 %patch8
 %patch9 -p1
+%patch10 -p1
 
 
 %build
