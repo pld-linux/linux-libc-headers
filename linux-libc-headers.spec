@@ -10,6 +10,7 @@ Source0:	http://ep09.pld-linux.org/~mmazur/%{name}/%{name}-%{version}.tar.bz2
 # Source0-md5:	95cc1a8aef4d4aa143dc611894982423
 Patch0:		%{name}-netfilter.patch
 Patch1:		%{name}-esfq_wrr.patch
+Patch2:		%{name}-update.patch
 Requires(pre):	fileutils
 AutoReqProv:	no
 Provides:	alsa-driver-devel
@@ -42,6 +43,7 @@ potrzebne do przebudowania pakietu glibc.
 %setup -q
 #%%patch0 -p1
 #%%patch1 -p1
+%patch2 -p1
 
 %build
 %ifarch sparc sparcv6 sparc64
