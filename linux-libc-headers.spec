@@ -1,13 +1,13 @@
 Summary:	Header files for the Linux kernel for use by glibc
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku w glibc
 Name:		glibc-kernel-headers
-Version:	2.6.0.1
+Version:	2.6.0.2
 Release:	1
 Epoch:		7
 License:	GPL
 Group:		Development
 Source0:	http://www.kernel.pl/~mmazur/%{name}/%{name}-%{version}.tar.bz2
-# Source0-md5:	423e294118b6df14372ec301674d2a4c
+# Source0-md5:	1fa4bc6dbba2dddf6fdc94502879b65f
 Requires(pre):	fileutils
 AutoReqProv:	no
 Provides:	alsa-driver-devel
@@ -110,7 +110,6 @@ cp -a include/asm-sparc $RPM_BUILD_ROOT%{_includedir}
 cp -a include/asm-sparc64 $RPM_BUILD_ROOT%{_includedir}
 %endif
 
-cp -a include/asm-generic $RPM_BUILD_ROOT%{_includedir}
 cp -a include/asm-$arch $RPM_BUILD_ROOT%{_includedir}/asm
 cp -a include/linux $RPM_BUILD_ROOT%{_includedir}
 cp -a include/sound $RPM_BUILD_ROOT%{_includedir}
