@@ -44,7 +44,8 @@ potrzebne do przebudowania pakietu glibc.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+# wrr is broken. try to compile/preprocess this one: #include <linux/pkt_sched.h>
+#%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
