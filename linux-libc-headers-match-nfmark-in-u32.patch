@@ -1,0 +1,23 @@
+diff -urN linux-2.6.10/include/linux/pkt_cls.h linux-2.6.10-mod/include/linux/pkt_cls.h
+--- linux-2.6.10/include/linux/pkt_cls.h	2005-01-20 09:23:39.000000000 +0100
++++ linux-2.6.10-mod/include/linux/pkt_cls.h	2005-01-20 09:26:48.000000000 +0100
+@@ -192,11 +192,19 @@
+ 	TCA_U32_ACT,   
+ 	TCA_U32_INDEV,
+ 	TCA_U32_PCNT,
++	TCA_U32_MARK,
+ 	__TCA_U32_MAX
+ };
+ 
+ #define TCA_U32_MAX (__TCA_U32_MAX - 1)
+ 
++struct tc_u32_mark
++{
++	__u32		val;
++	__u32		mask;
++	__u32		success;
++};
++
+ struct tc_u32_key
+ {
+ 	__u32		mask;
