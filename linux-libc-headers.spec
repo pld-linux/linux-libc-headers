@@ -1,27 +1,19 @@
 Summary:	Header files for the Linux kernel for use by glibc
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku w glibc
 Name:		glibc-kernel-headers
-Version:	1
-Release:	2
+Version:	2.0
+Release:	1
 Epoch:		1
 License:	GPL
 Group:		Development
-Source0:	ftp://ftp.debian.org/debian/pool/main/l/linux-kernel-headers/linux-kernel-headers_2.5.999-test7-bk.orig.tar.gz
-# Source0-md5: 181b3ea32207f82720300a68449cc2f2
-Patch0:		%{name}-alpha-asm-param.patch
-Patch1:		%{name}-asm-i386-byteorder-u64.patch
-Patch2:		%{name}-ia64-modutils.patch
-Patch3:		%{name}-ia64-pt-unwind-warning.patch
-Patch4:		%{name}-linux-fb-compilefix.patch
-Patch5:		%{name}-linux-radix-tree.patch
-Patch6:		%{name}-linux-types-ustat.patch
-Patch7:		%{name}-linux-unistd-errno.patch
-Patch8:		%{name}-no-linux-compiler-h.patch
-Patch9:		%{name}-other.patch
-Patch10:	%{name}-a.out.patch
+Source0:	http://www.kernel.pl/~mmazur/%{name}/%{name}-%{version}.tar.bz2
+# Source0-md5: 79e6fb391726686f7981f5499e5e545b
 Requires(pre):	fileutils
 AutoReqProv:	no
 ExclusiveOS:	Linux
+Provides:	i2c-devel
+Provides:	alsa-driver-devel
+Obsoletes:	alsa-driver-devel
 Obsoletes:	glibc-kernheaders
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -42,19 +34,7 @@ potrzebne do zbudowania wiêkszo¶ci standardowych programów, s± tak¿e
 potrzebne do przebudowania pakietu glibc.
 
 %prep
-%setup -q -n linux-2.6.0-test7-bk
-%patch0 
-%patch1
-%patch2
-%patch3 -p1
-%patch4 -p1
-%patch5
-%patch6 -p1
-%patch7
-%patch8
-%patch9 -p1
-%patch10 -p1
-
+%setup -q -n %{name}
 
 %build
 
@@ -132,6 +112,7 @@ cp -a include/asm-sparc64 $RPM_BUILD_ROOT%{_includedir}
 cp -a include/asm-generic $RPM_BUILD_ROOT%{_includedir}
 cp -a include/asm-$arch $RPM_BUILD_ROOT%{_includedir}/asm
 cp -a include/linux $RPM_BUILD_ROOT%{_includedir}
+cp -a include/sound $RPM_BUILD_ROOT%{_includedir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -148,3 +129,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_includedir}/linux
 %{_includedir}/asm*
+%{_includedir}/sound
