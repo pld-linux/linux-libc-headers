@@ -1,19 +1,20 @@
-Summary:	Header files for the Linux kernel for use by glibc
-Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku w glibc
-Name:		glibc-kernel-headers
+Summary:	Linux kernel headers for use with C libraries
+Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
+Name:		
 Version:	2.6.1.2
 Release:	1
 Epoch:		7
 License:	GPL
 Group:		Development
 Source0:	http://ep09.pld-linux.org/~mmazur/%{name}/%{name}-%{version}.tar.bz2
-# Source0-md5:	f0a8e9a516e0709c4989747c778239b9
 Requires(pre):	fileutils
 AutoReqProv:	no
 Provides:	alsa-driver-devel
 Provides:	i2c-devel = 2.8.2
+Provides:	glibc-kernel-headers = %{epoch}:%{version}-%{release}
 Obsoletes:	alsa-driver-devel
 Obsoletes:	glibc-kernheaders
+Obsoletes:	glibc-kernel-headers
 Conflicts:	lm_sensors-devel < 2.8.2-2
 ExclusiveOS:	Linux
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
