@@ -1,6 +1,15 @@
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack.h	2004-01-18 00:04:34.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack.h	2004-04-29 20:01:55.504406240 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipchains_core.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipchains_core.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipchains_core.h	2004-01-05 19:42:34.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipchains_core.h	2004-05-19 10:25:58.000000000 +0200
+@@ -162,5 +162,4 @@
+ 
+ extern int ip_fw_masq_timeouts(void *, int);
+ 
+-
+ #endif /* _IP_FWCHAINS_H */
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack.h	2004-01-18 00:04:34.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack.h	2004-05-19 10:14:11.000000000 +0200
 @@ -49,10 +49,12 @@
  
  #include <linux/netfilter_ipv4/ip_conntrack_tcp.h>
@@ -50,9 +59,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntr
  	struct ip_ct_ftp_master ct_ftp_info;
  	struct ip_ct_irc_master ct_irc_info;
  };
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_h323.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_h323.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_h323.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_h323.h	2004-04-29 20:02:04.409052528 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_h323.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_h323.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_h323.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_h323.h	2004-05-19 10:14:42.000000000 +0200
 @@ -0,0 +1,25 @@
 +#ifndef _IP_CONNTRACK_H323_H
 +#define _IP_CONNTRACK_H323_H
@@ -79,9 +88,28 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntr
 +};
 +
 +#endif /* _IP_CONNTRACK_H323_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_mms.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_mms.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_mms.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_mms.h	2004-04-29 20:02:25.021918896 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_helper.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_helper.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_helper.h	2003-12-15 19:46:58.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_helper.h	2004-05-19 09:06:43.000000000 +0200
+@@ -35,9 +35,13 @@
+ 
+ extern struct ip_conntrack_helper *ip_ct_find_helper(const struct ip_conntrack_tuple *tuple);
+ 
++
++/* Allocate space for an expectation: this is mandatory before calling 
++   ip_conntrack_expect_related. */
++extern struct ip_conntrack_expect *ip_conntrack_expect_alloc(void);
+ /* Add an expected connection: can have more than one per connection */
+-extern int ip_conntrack_expect_related(struct ip_conntrack *related_to,
+-				       struct ip_conntrack_expect *exp);
++extern int ip_conntrack_expect_related(struct ip_conntrack_expect *exp,
++				       struct ip_conntrack *related_to);
+ extern int ip_conntrack_change_expect(struct ip_conntrack_expect *expect,
+ 				      struct ip_conntrack_tuple *newtuple);
+ extern void ip_conntrack_unexpect_related(struct ip_conntrack_expect *exp);
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_mms.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_mms.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_mms.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_mms.h	2004-05-19 10:21:16.000000000 +0200
 @@ -0,0 +1,16 @@
 +#ifndef _IP_CONNTRACK_MMS_H
 +#define _IP_CONNTRACK_MMS_H
@@ -99,9 +127,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntr
 +};
 +
 +#endif /* _IP_CONNTRACK_MMS_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_quake3.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_quake3.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_quake3.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_quake3.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_quake3.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_quake3.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_quake3.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_quake3.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,21 @@
 +#ifndef _IP_CT_QUAKE3
 +#define _IP_CT_QUAKE3
@@ -124,9 +152,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntr
 +};
 +
 +#endif /* _IP_CT_QUAKE3 */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_rsh.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_rsh.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_rsh.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_rsh.h	2004-04-29 20:02:32.340806256 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_rsh.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_rsh.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_rsh.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_rsh.h	2004-05-19 10:21:27.000000000 +0200
 @@ -0,0 +1,28 @@
 +/* RSH extension for IP connection tracking, Version 1.0
 + * (C) 2002 by Ian (Larry) Latter <Ian.Latter@mq.edu.au>
@@ -156,9 +184,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntr
 +
 +#endif /* _IP_CONNTRACK_RSH_H */
 +
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_rtsp.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_rtsp.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_rtsp.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_rtsp.h	2004-04-29 20:02:40.895505744 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_rtsp.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_rtsp.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_rtsp.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_rtsp.h	2004-05-19 10:22:23.000000000 +0200
 @@ -0,0 +1,56 @@
 +/*
 + * RTSP extension for IP connection tracking.
@@ -216,9 +244,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntr
 +};
 +
 +#endif /* _IP_CONNTRACK_RTSP_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_sctp.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_sctp.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_sctp.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_sctp.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_sctp.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_sctp.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_sctp.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_sctp.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,25 @@
 +#ifndef _IP_CONNTRACK_SCTP_H
 +#define _IP_CONNTRACK_SCTP_H
@@ -245,9 +273,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntr
 +};
 +
 +#endif /* _IP_CONNTRACK_SCTP_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_talk.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_talk.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_talk.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_talk.h	2004-04-29 20:02:47.783458616 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_talk.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_talk.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_talk.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_talk.h	2004-05-19 10:22:33.000000000 +0200
 @@ -0,0 +1,143 @@
 +#ifndef _IP_CONNTRACK_TALK_H
 +#define _IP_CONNTRACK_TALK_H
@@ -392,9 +420,21 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntr
 +};
 +
 +#endif /* _IP_CONNTRACK_TALK_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_tuple.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_tuple.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntrack_tuple.h	2004-01-05 19:42:34.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_conntrack_tuple.h	2004-04-29 20:03:00.938458752 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_tftp.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_tftp.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_tftp.h	2003-12-15 19:46:58.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_tftp.h	2004-05-19 09:06:43.000000000 +0200
+@@ -9,5 +9,8 @@
+ 
+ #define TFTP_OPCODE_READ	1
+ #define TFTP_OPCODE_WRITE	2
++#define TFTP_OPCODE_DATA	3
++#define TFTP_OPCODE_ACK		4
++#define TFTP_OPCODE_ERROR	5
+ 
+ #endif /* _IP_CT_TFTP */
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_tuple.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_tuple.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_conntrack_tuple.h	2004-01-05 19:42:34.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_conntrack_tuple.h	2004-05-19 10:22:58.000000000 +0200
 @@ -25,6 +25,9 @@
  	struct {
  		u_int16_t id;
@@ -415,9 +455,18 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_conntr
  		} u;
  
  		/* The protocol. */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_pool.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_pool.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_pool.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_pool.h	2004-04-29 20:04:26.536445880 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_logging.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_logging.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_logging.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_logging.h	2004-05-19 10:23:10.000000000 +0200
+@@ -0,0 +1,5 @@
++/* IPv4 macros for the internal logging interface. */
++#ifndef __IP_LOGGING_H
++#define __IP_LOGGING_H
++
++#endif /*__IP_LOGGING_H*/
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_pool.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_pool.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_pool.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_pool.h	2004-05-19 10:25:16.000000000 +0200
 @@ -0,0 +1,56 @@
 +#ifndef _IP_POOL_H
 +#define _IP_POOL_H
@@ -475,10 +524,20 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_pool.h
 +#define IP_POOL_TEST_ADDR	0x00000019	/* result (0/1) returned */
 +
 +#endif /*_IP_POOL_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_tables.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_tables.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_tables.h	2004-01-05 19:42:34.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ip_tables.h	2004-04-29 20:04:48.861052024 +0200
-@@ -127,6 +127,12 @@
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_tables.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_tables.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ip_tables.h	2004-01-05 19:42:34.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ip_tables.h	2004-05-19 10:18:40.000000000 +0200
+@@ -97,7 +97,8 @@
+ 
+ /* Values for "flag" field in struct ipt_ip (general ip structure). */
+ #define IPT_F_FRAG		0x01	/* Set if rule is a fragment rule */
+-#define IPT_F_MASK		0x01	/* All possible flag bits mask. */
++#define IPT_F_GOTO		0x02	/* Set if jump is a goto */
++#define IPT_F_MASK		0x03	/* All possible flag bits mask. */
+ 
+ /* Values for "inv" field in struct ipt_ip. */
+ #define IPT_INV_VIA_IN		0x01	/* Invert the sense of IN IFACE. */
+@@ -127,6 +128,12 @@
  	/* Back pointer */
  	unsigned int comefrom;
  
@@ -491,9 +550,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ip_tables
  	/* Packet and byte counters. */
  	struct ipt_counters counters;
  
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_addrtype.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_addrtype.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_addrtype.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_addrtype.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_addrtype.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_addrtype.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_addrtype.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_addrtype.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,11 @@
 +#ifndef _IPT_ADDRTYPE_H
 +#define _IPT_ADDRTYPE_H
@@ -506,9 +565,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_addrt
 +};
 +
 +#endif
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_connlimit.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_connlimit.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_connlimit.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_connlimit.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_connlimit.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_connlimit.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_connlimit.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_connlimit.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,12 @@
 +#ifndef _IPT_CONNLIMIT_H
 +#define _IPT_CONNLIMIT_H
@@ -522,9 +581,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_connl
 +	struct ipt_connlimit_data *data;
 +};
 +#endif /* _IPT_CONNLIMIT_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_connmark.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_connmark.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_connmark.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_connmark.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_connmark.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_connmark.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_connmark.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_connmark.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,18 @@
 +#ifndef _IPT_CONNMARK_H
 +#define _IPT_CONNMARK_H
@@ -544,9 +603,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_connm
 +};
 +
 +#endif /*_IPT_CONNMARK_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_CONNMARK.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_CONNMARK.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_CONNMARK.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_CONNMARK.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_CONNMARK.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_CONNMARK.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_CONNMARK.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_CONNMARK.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,25 @@
 +#ifndef _IPT_CONNMARK_H_target
 +#define _IPT_CONNMARK_H_target
@@ -573,9 +632,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_CONNM
 +};
 +
 +#endif /*_IPT_CONNMARK_H_target*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_conntrack.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_conntrack.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_conntrack.h	2004-03-05 16:36:39.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_conntrack.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_conntrack.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_conntrack.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_conntrack.h	2004-03-05 16:36:39.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_conntrack.h	2004-05-08 18:51:44.000000000 +0200
 @@ -10,6 +10,7 @@
  
  #define IPT_CONNTRACK_STATE_SNAT (1 << (IP_CT_NUMBER + 1))
@@ -584,9 +643,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_connt
  
  /* flags, invflags: */
  #define IPT_CONNTRACK_STATE	0x01
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_dstlimit.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_dstlimit.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_dstlimit.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_dstlimit.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_dstlimit.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_dstlimit.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_dstlimit.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_dstlimit.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,39 @@
 +#ifndef _IPT_DSTLIMIT_H
 +#define _IPT_DSTLIMIT_H
@@ -627,9 +686,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_dstli
 +	} u;
 +};
 +#endif /*_IPT_DSTLIMIT_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_fuzzy.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_fuzzy.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_fuzzy.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_fuzzy.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_fuzzy.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_fuzzy.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,21 @@
 +#ifndef _IPT_FUZZY_H
 +#define _IPT_FUZZY_H
@@ -652,9 +711,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_fuzzy
 +};
 +
 +#endif /*_IPT_FUZZY_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_IMQ.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_IMQ.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_IMQ.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_IMQ.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_IMQ.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_IMQ.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_IMQ.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_IMQ.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,8 @@
 +#ifndef _IPT_IMQ_H
 +#define _IPT_IMQ_H
@@ -664,9 +723,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_IMQ.h
 +};
 +
 +#endif /* _IPT_IMQ_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_IPMARK.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_IPMARK.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_IPMARK.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_IPMARK.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_IPMARK.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_IPMARK.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_IPMARK.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_IPMARK.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,13 @@
 +#ifndef _IPT_IPMARK_H_target
 +#define _IPT_IPMARK_H_target
@@ -681,9 +740,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_IPMAR
 +#define IPT_IPMARK_DST    1
 +
 +#endif /*_IPT_IPMARK_H_target*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_ipv4options.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_ipv4options.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_ipv4options.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_ipv4options.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_ipv4options.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_ipv4options.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_ipv4options.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_ipv4options.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,21 @@
 +#ifndef __ipt_ipv4options_h_included__
 +#define __ipt_ipv4options_h_included__
@@ -706,9 +765,28 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_ipv4o
 +
 +
 +#endif /* __ipt_ipv4options_h_included__ */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_mport.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_mport.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_mport.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_mport.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_MARK.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_MARK.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_MARK.h	2003-12-15 19:46:58.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_MARK.h	2004-05-19 09:06:43.000000000 +0200
+@@ -1,8 +1,15 @@
+ #ifndef _IPT_MARK_H_target
+ #define _IPT_MARK_H_target
+ 
++enum {
++        IPT_MARK_SET,
++        IPT_MARK_AND,
++        IPT_MARK_OR
++};
++
+ struct ipt_mark_target_info {
+ 	unsigned long mark;
++	u_int8_t mode;
+ };
+ 
+ #endif /*_IPT_MARK_H_target*/
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_mport.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_mport.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_mport.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_mport.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,24 @@
 +#ifndef _IPT_MPORT_H
 +#define _IPT_MPORT_H
@@ -734,9 +812,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_mport
 +	u_int16_t ports[IPT_MULTI_PORTS];	/* Ports */
 +};
 +#endif /*_IPT_MPORT_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_NETLINK.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_NETLINK.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_NETLINK.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_NETLINK.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_NETLINK.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_NETLINK.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_NETLINK.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_NETLINK.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,27 @@
 +#ifndef _IPT_FWMON_H
 +#define _IPT_FWMON_H
@@ -765,9 +843,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_NETLI
 +};
 +
 +#endif /*_IPT_FWMON_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_nth.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_nth.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_nth.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_nth.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_nth.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_nth.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_nth.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_nth.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,19 @@
 +#ifndef _IPT_NTH_H
 +#define _IPT_NTH_H
@@ -788,9 +866,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_nth.h
 +};
 +
 +#endif /*_IPT_NTH_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_osf.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_osf.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_osf.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_osf.h	2004-04-29 20:07:32.248213400 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_osf.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_osf.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_osf.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_osf.h	2004-05-19 10:15:37.000000000 +0200
 @@ -0,0 +1,94 @@
 +/*
 + * ipt_osf.h
@@ -886,9 +964,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_osf.h
 +};
 +
 +#endif /* _IPT_OSF_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_policy.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_policy.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_policy.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_policy.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_policy.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_policy.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_policy.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_policy.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,52 @@
 +#ifndef _IPT_POLICY_H
 +#define _IPT_POLICY_H
@@ -942,9 +1020,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_polic
 +};
 +
 +#endif /* _IPT_POLICY_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_pool.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_pool.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_pool.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_pool.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_pool.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_pool.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_pool.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_pool.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,25 @@
 +#ifndef _IPT_POOL_H
 +#define _IPT_POOL_H
@@ -971,9 +1049,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_pool.
 +};
 +
 +#endif /*_IPT_POOL_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_psd.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_psd.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_psd.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_psd.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_psd.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_psd.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_psd.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_psd.h	2004-05-19 09:06:43.000000000 +0200
 @@ -0,0 +1,40 @@
 +#ifndef _IPT_PSD_H
 +#define _IPT_PSD_H
@@ -995,7 +1073,7 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_psd.h
 +#define SCAN_MIN_COUNT			7
 +#define SCAN_MAX_COUNT			(SCAN_MIN_COUNT * PORT_WEIGHT_PRIV)
 +#define SCAN_WEIGHT_THRESHOLD		SCAN_MAX_COUNT
-+#define SCAN_DELAY_THRESHOLD		(HZ * 3)
++#define SCAN_DELAY_THRESHOLD		(300) /* old usage of HZ here was erroneously and broke under uml */
 +
 +/*
 + * Keep track of up to LIST_SIZE source addresses, using a hash table of
@@ -1015,9 +1093,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_psd.h
 +};
 +
 +#endif /*_IPT_PSD_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_quota.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_quota.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_quota.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_quota.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_quota.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_quota.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_quota.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_quota.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,11 @@
 +#ifndef _IPT_QUOTA_H
 +#define _IPT_QUOTA_H
@@ -1030,9 +1108,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_quota
 +};
 +
 +#endif /*_IPT_QUOTA_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_random.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_random.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_random.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_random.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_random.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_random.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_random.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_random.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,11 @@
 +#ifndef _IPT_RAND_H
 +#define _IPT_RAND_H
@@ -1045,9 +1123,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_rando
 +};
 +
 +#endif /*_IPT_RAND_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_realm.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_realm.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_realm.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_realm.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_realm.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_realm.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_realm.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_realm.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,9 @@
 +#ifndef _IPT_REALM_H
 +#define _IPT_REALM_H
@@ -1058,9 +1136,35 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_realm
 +	u_int8_t invert;
 +};
 +#endif /*_IPT_REALM_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_sctp.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_sctp.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_sctp.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_sctp.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_ROUTE.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_ROUTE.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_ROUTE.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_ROUTE.h	2004-05-19 09:06:43.000000000 +0200
+@@ -0,0 +1,22 @@
++/* Header file for iptables ipt_ROUTE target
++ *
++ * (C) 2002 by Cédric de Launois <delaunois@info.ucl.ac.be>
++ *
++ * This software is distributed under GNU GPL v2, 1991
++ */
++#ifndef _IPT_ROUTE_H_target
++#define _IPT_ROUTE_H_target
++
++#define IPT_ROUTE_IFNAMSIZ 16
++
++struct ipt_route_target_info {
++	char      oif[IPT_ROUTE_IFNAMSIZ];      /* Output Interface Name */
++	char      iif[IPT_ROUTE_IFNAMSIZ];      /* Input Interface Name  */
++	u_int32_t gw;                           /* IP address of gateway */
++	u_int8_t  flags;
++};
++
++/* Values for "flags" field */
++#define IPT_ROUTE_CONTINUE        0x01
++
++#endif /*_IPT_ROUTE_H_target*/
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_sctp.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_sctp.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_sctp.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_sctp.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,107 @@
 +#ifndef _IPT_SCTP_H_
 +#define _IPT_SCTP_H_
@@ -1169,9 +1273,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_sctp.
 +
 +#endif /* _IPT_SCTP_H_ */
 +
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_state.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_state.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_state.h	2004-03-05 16:36:39.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_state.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_state.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_state.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_state.h	2004-03-05 16:36:39.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_state.h	2004-05-08 18:51:44.000000000 +0200
 @@ -4,6 +4,8 @@
  #define IPT_STATE_BIT(ctinfo) (1 << ((ctinfo)%IP_CT_IS_REPLY+1))
  #define IPT_STATE_INVALID (1 << 0)
@@ -1181,9 +1285,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_state
  struct ipt_state_info
  {
  	unsigned int statemask;
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_string.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_string.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_string.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_string.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_string.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_string.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_string.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_string.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,21 @@
 +#ifndef _IPT_STRING_H
 +#define _IPT_STRING_H
@@ -1206,10 +1310,24 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_strin
 +};
 +
 +#endif /* _IPT_STRING_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_time.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_time.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_time.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_time.h	2004-04-29 17:18:07.000000000 +0200
-@@ -0,0 +1,13 @@
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_TCPLAG.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_TCPLAG.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_TCPLAG.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_TCPLAG.h	2004-05-19 09:06:43.000000000 +0200
+@@ -0,0 +1,10 @@
++#ifndef _IPT_TCPLAG_H
++#define _IPT_TCPLAG_H
++
++struct ipt_tcplag
++{
++	unsigned char level;
++	unsigned char prefix[ 15 ];
++};
++
++#endif
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_time.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_time.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_time.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_time.h	2004-05-19 09:06:43.000000000 +0200
+@@ -0,0 +1,15 @@
 +#ifndef __ipt_time_h_included__
 +#define __ipt_time_h_included__
 +
@@ -1219,13 +1337,15 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_time.
 +	u_int16_t time_start;   /* 0 < time_start < 23*60+59 = 1439             */
 +	u_int16_t time_stop;    /* 0:0 < time_stat < 23:59                      */
 +	u_int8_t  kerneltime;   /* ignore skb time (and use kerneltime) or not. */
++	time_t    date_start;
++	time_t    date_stop;
 +};
 +
 +
 +#endif /* __ipt_time_h_included__ */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_TTL.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_TTL.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_TTL.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_TTL.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_TTL.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_TTL.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_TTL.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_TTL.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,21 @@
 +/* TTL modification module for IP tables
 + * (C) 2000 by Harald Welte <laforge@gnumonks.org> */
@@ -1248,9 +1368,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_TTL.h
 +
 +
 +#endif
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_u32.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_u32.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_u32.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_u32.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_u32.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_u32.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_u32.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_u32.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,40 @@
 +#ifndef _IPT_U32_H
 +#define _IPT_U32_H
@@ -1292,9 +1412,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_u32.h
 +};
 +
 +#endif /*_IPT_U32_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_ULOG.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_ULOG.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_ULOG.h	2004-03-05 16:36:39.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_ULOG.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_ULOG.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_ULOG.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_ULOG.h	2004-03-05 16:36:39.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_ULOG.h	2004-05-08 18:51:44.000000000 +0200
 @@ -11,6 +11,9 @@
  #define NETLINK_NFLOG 	5
  #endif
@@ -1305,9 +1425,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_ULOG.
  #define ULOG_MAC_LEN	80
  #define ULOG_PREFIX_LEN	32
  
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_XOR.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_XOR.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_XOR.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv4/ipt_XOR.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_XOR.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_XOR.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv4/ipt_XOR.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv4/ipt_XOR.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,9 @@
 +#ifndef _IPT_XOR_H
 +#define _IPT_XOR_H
@@ -1318,9 +1438,19 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv4/ipt_XOR.h
 +};
 +
 +#endif /* _IPT_XOR_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6_tables.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6_tables.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6_tables.h	2004-01-05 19:42:34.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6_tables.h	2004-04-29 20:05:36.883751464 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6_logging.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6_logging.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6_logging.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6_logging.h	2004-05-19 10:10:30.000000000 +0200
+@@ -0,0 +1,6 @@
++/* IPv6 macros for the nternal logging interface. */
++#ifndef __IP6_LOGGING_H
++#define __IP6_LOGGING_H
++
++
++#endif /*__IP6_LOGGING_H*/
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6_tables.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6_tables.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6_tables.h	2004-01-05 19:42:34.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6_tables.h	2004-05-19 10:10:53.000000000 +0200
 @@ -133,6 +133,12 @@
  	/* Back pointer */
  	unsigned int comefrom;
@@ -1334,9 +1464,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6_table
  	/* Packet and byte counters. */
  	struct ip6t_counters counters;
  
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_fuzzy.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_fuzzy.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_fuzzy.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_fuzzy.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,21 @@
 +#ifndef _IP6T_FUZZY_H
 +#define _IP6T_FUZZY_H
@@ -1359,9 +1489,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_fuzz
 +};
 +
 +#endif /*_IP6T_FUZZY_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_HL.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_HL.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_HL.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_HL.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_HL.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_HL.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_HL.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_HL.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,22 @@
 +/* Hop Limit modification module for ip6tables
 + * Maciej Soltysiak <solt@dns.toxicfilms.tv>
@@ -1385,9 +1515,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_HL.h
 +
 +
 +#endif
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_nth.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_nth.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_nth.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_nth.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_nth.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_nth.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_nth.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_nth.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,19 @@
 +#ifndef _IP6T_NTH_H
 +#define _IP6T_NTH_H
@@ -1408,9 +1538,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_nth.
 +};
 +
 +#endif /*_IP6T_NTH_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_owner.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_owner.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_owner.h	2003-12-15 19:46:58.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_owner.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_owner.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_owner.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_owner.h	2003-12-15 19:46:58.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_owner.h	2004-05-08 18:51:44.000000000 +0200
 @@ -6,12 +6,14 @@
  #define IP6T_OWNER_GID	0x02
  #define IP6T_OWNER_PID	0x04
@@ -1426,9 +1556,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_owne
      u_int8_t match, invert;	/* flags */
  };
  
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_policy.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_policy.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_policy.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_policy.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_policy.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_policy.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_policy.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_policy.h	2004-05-19 09:06:43.000000000 +0200
 @@ -0,0 +1,52 @@
 +#ifndef _IP6T_POLICY_H
 +#define _IP6T_POLICY_H
@@ -1482,9 +1612,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_poli
 +};
 +
 +#endif /* _IP6T_POLICY_H */
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_random.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_random.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_random.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_random.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_random.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_random.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_random.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_random.h	2004-05-08 18:51:44.000000000 +0200
 @@ -0,0 +1,11 @@
 +#ifndef _IP6T_RAND_H
 +#define _IP6T_RAND_H
@@ -1497,9 +1627,9 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_rand
 +};
 +
 +#endif /*_IP6T_RAND_H*/
-diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_REJECT.h linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_REJECT.h
---- linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_REJECT.h	2004-03-05 16:36:39.000000000 +0100
-+++ linux-libc-headers-2.6.5.0/include/linux/netfilter_ipv6/ip6t_REJECT.h	2004-04-29 17:18:07.000000000 +0200
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_REJECT.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_REJECT.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_REJECT.h	2004-03-05 16:36:39.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_REJECT.h	2004-05-08 18:51:44.000000000 +0200
 @@ -2,15 +2,17 @@
  #define _IP6T_REJECT_H
  
@@ -1524,3 +1654,29 @@ diff -uNr linux-libc-headers-2.6.5.0.orig/include/linux/netfilter_ipv6/ip6t_REJE
  
 -#endif /*_IPT_REJECT_H*/
 +#endif /*_IP6T_REJECT_H*/
+diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_ROUTE.h linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_ROUTE.h
+--- linux-libc-headers-2.6.5.1.orig/include/linux/netfilter_ipv6/ip6t_ROUTE.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.5.1/include/linux/netfilter_ipv6/ip6t_ROUTE.h	2004-05-19 09:06:43.000000000 +0200
+@@ -0,0 +1,22 @@
++/* Header file for iptables ip6t_ROUTE target
++ *
++ * (C) 2003 by Cédric de Launois <delaunois@info.ucl.ac.be>
++ *
++ * This software is distributed under GNU GPL v2, 1991
++ */
++#ifndef _IPT_ROUTE_H_target
++#define _IPT_ROUTE_H_target
++
++#define IP6T_ROUTE_IFNAMSIZ 16
++
++struct ip6t_route_target_info {
++	char      oif[IP6T_ROUTE_IFNAMSIZ];     /* Output Interface Name */
++	char      iif[IP6T_ROUTE_IFNAMSIZ];     /* Input Interface Name  */
++	u_int32_t gw[4];                        /* IPv6 address of gateway */
++	u_int8_t  flags;
++};
++
++/* Values for "flags" field */
++#define IP6T_ROUTE_CONTINUE        0x01
++
++#endif /*_IP6T_ROUTE_H_target*/
