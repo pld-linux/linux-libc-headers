@@ -12,7 +12,7 @@ Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-netfilter.patch
 Patch3:		%{name}-alsa-1.0.6.patch
-Patch4:		%{name}-update.patch
+#Patch4:		%{name}-update.patch
 BuildRequires:	rpmbuild(macros) >= 1.153
 AutoReqProv:	no
 Requires(pre):	fileutils
