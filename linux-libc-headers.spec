@@ -119,11 +119,11 @@ cp -a include/sound $RPM_BUILD_ROOT%{_includedir}
 rm -rf $RPM_BUILD_ROOT
 
 %pre
-[ -L /usr/include/linux ] && rm -f /usr/include/linux || :
-[ -L /usr/include/asm ] && rm -f /usr/include/asm || :
+[ ! -L /usr/include/linux ] || rm -f /usr/include/linux
+[ ! -L /usr/include/asm ] || rm -f /usr/include/asm
 %ifarch sparc
-[ -L /usr/include/asm-sparc ] && rm -f /usr/include/asm-sparc
-[ -L /usr/include/asm-sparc64 ] && rm -f /usr/include/asm-sparc64
+[ ! -L /usr/include/asm-sparc ] || rm -f /usr/include/asm-sparc
+[ ! -L /usr/include/asm-sparc64 ] || rm -f /usr/include/asm-sparc64
 %endif
 
 %files
