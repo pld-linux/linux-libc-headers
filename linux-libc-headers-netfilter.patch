@@ -1,0 +1,508 @@
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ip_conntrack_amanda.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ip_conntrack_amanda.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ip_conntrack_amanda.h	2004-01-05 19:42:34.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ip_conntrack_amanda.h	2004-03-04 15:16:13.000000000 +0100
+@@ -5,8 +5,8 @@
+ struct ip_ct_amanda_expect
+ {
+ 	u_int16_t port;		/* port number of this expectation */
+-	u_int16_t offset;	/* offset of the port specification in ctrl packet */
+-	u_int16_t len;		/* the length of the port number specification */
++	u_int16_t offset;	/* offset of port in ctrl packet */
++	u_int16_t len;		/* length of the port number string */
+ };
+ 
+ #endif /* _IP_CONNTRACK_AMANDA_H */
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_connlimit.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_connlimit.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_connlimit.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_connlimit.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,12 @@
++#ifndef _IPT_CONNLIMIT_H
++#define _IPT_CONNLIMIT_H
++
++struct ipt_connlimit_data;
++
++struct ipt_connlimit_info {
++	int limit;
++	int inverse;
++	u_int32_t mask;
++	struct ipt_connlimit_data *data;
++};
++#endif /* _IPT_CONNLIMIT_H */
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_connmark.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_connmark.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_connmark.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_connmark.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,9 @@
++#ifndef _IPT_CONNMARK_H
++#define _IPT_CONNMARK_H
++
++struct ipt_connmark_info {
++	unsigned long mark, mask;
++	u_int8_t invert;
++};
++
++#endif /*_IPT_CONNMARK_H*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_CONNMARK.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_CONNMARK.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_CONNMARK.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_CONNMARK.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,15 @@
++#ifndef _IPT_CONNMARK_H_target
++#define _IPT_CONNMARK_H_target
++
++enum {
++    IPT_CONNMARK_SET = 0,
++    IPT_CONNMARK_SAVE,
++    IPT_CONNMARK_RESTORE
++};
++
++struct ipt_connmark_target_info {
++	unsigned long mark, mask;
++	u_int8_t mode;
++};
++
++#endif /*_IPT_CONNMARK_H_target*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_conntrack.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_conntrack.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_conntrack.h	2003-12-15 19:46:58.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_conntrack.h	2004-03-04 15:16:13.000000000 +0100
+@@ -10,6 +10,7 @@
+ 
+ #define IPT_CONNTRACK_STATE_SNAT (1 << (IP_CT_NUMBER + 1))
+ #define IPT_CONNTRACK_STATE_DNAT (1 << (IP_CT_NUMBER + 2))
++#define IPT_CONNTRACK_STATE_UNTRACKED (1 << (IP_CT_NUMBER + 3))
+ 
+ /* flags, invflags: */
+ #define IPT_CONNTRACK_STATE	0x01
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_dstlimit.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_dstlimit.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_dstlimit.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_dstlimit.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,39 @@
++#ifndef _IPT_DSTLIMIT_H
++#define _IPT_DSTLIMIT_H
++
++/* timings are in milliseconds. */
++#define IPT_DSTLIMIT_SCALE 10000
++/* 1/10,000 sec period => max of 10,000/sec.  Min rate is then 429490
++   seconds, or one every 59 hours. */
++
++/* details of this structure hidden by the implementation */
++struct ipt_dstlimit_htable;
++
++#define IPT_DSTLIMIT_HASH_DIP	0x0001
++#define IPT_DSTLIMIT_HASH_DPT	0x0002
++#define IPT_DSTLIMIT_HASH_SIP	0x0004
++
++struct dstlimit_cfg {
++	u_int32_t mode;	  /* bitmask of IPT_DSTLIMIT_HASH_* */
++	u_int32_t avg;    /* Average secs between packets * scale */
++	u_int32_t burst;  /* Period multiplier for upper limit. */
++
++	/* user specified */
++	u_int32_t size;		/* how many buckets */
++	u_int32_t max;		/* max number of entries */
++	u_int32_t gc_interval;	/* gc interval */
++	u_int32_t expire;	/* when do entries expire? */
++};
++
++struct ipt_dstlimit_info {
++	char name [IFNAMSIZ];		/* name */
++	struct dstlimit_cfg cfg;
++	struct ipt_dstlimit_htable *hinfo;
++
++	/* Used internally by the kernel */
++	union {
++		void *ptr;
++		struct ipt_dstlimit_info *master;
++	} u;
++};
++#endif /*_IPT_DSTLIMIT_H*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_fuzzy.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_fuzzy.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_fuzzy.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,21 @@
++#ifndef _IPT_FUZZY_H
++#define _IPT_FUZZY_H
++
++#include <linux/param.h>
++#include <linux/types.h>
++
++#define MAXFUZZYRATE 10000000
++#define MINFUZZYRATE 3
++
++struct ipt_fuzzy_info {
++	u_int32_t minimum_rate;
++	u_int32_t maximum_rate;
++	u_int32_t packets_total;
++	u_int32_t bytes_total;
++	u_int32_t previous_time;
++	u_int32_t present_time;
++	u_int32_t mean_rate;
++	u_int8_t acceptance_rate;
++};
++
++#endif /*_IPT_FUZZY_H*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_IMQ.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_IMQ.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_IMQ.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_IMQ.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,8 @@
++#ifndef _IPT_IMQ_H
++#define _IPT_IMQ_H
++
++struct ipt_imq_info {
++	unsigned int todev;	/* target imq device */
++};
++
++#endif /* _IPT_IMQ_H */
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_ipv4options.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_ipv4options.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_ipv4options.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_ipv4options.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,21 @@
++#ifndef __ipt_ipv4options_h_included__
++#define __ipt_ipv4options_h_included__
++
++#define IPT_IPV4OPTION_MATCH_SSRR		0x01  /* For strict source routing */
++#define IPT_IPV4OPTION_MATCH_LSRR		0x02  /* For loose source routing */
++#define IPT_IPV4OPTION_DONT_MATCH_SRR		0x04  /* any source routing */
++#define IPT_IPV4OPTION_MATCH_RR			0x08  /* For Record route */
++#define IPT_IPV4OPTION_DONT_MATCH_RR		0x10
++#define IPT_IPV4OPTION_MATCH_TIMESTAMP		0x20  /* For timestamp request */
++#define IPT_IPV4OPTION_DONT_MATCH_TIMESTAMP	0x40
++#define IPT_IPV4OPTION_MATCH_ROUTER_ALERT	0x80  /* For router-alert */
++#define IPT_IPV4OPTION_DONT_MATCH_ROUTER_ALERT	0x100
++#define IPT_IPV4OPTION_MATCH_ANY_OPT		0x200 /* match packet with any option */
++#define IPT_IPV4OPTION_DONT_MATCH_ANY_OPT	0x400 /* match packet with no option */
++
++struct ipt_ipv4options_info {
++	u_int16_t options;
++};
++
++
++#endif /* __ipt_ipv4options_h_included__ */
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_mport.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_mport.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_mport.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_mport.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,24 @@
++#ifndef _IPT_MPORT_H
++#define _IPT_MPORT_H
++#include <linux/netfilter_ipv4/ip_tables.h>
++
++#define IPT_MPORT_SOURCE (1<<0)
++#define IPT_MPORT_DESTINATION (1<<1)
++#define IPT_MPORT_EITHER (IPT_MPORT_SOURCE|IPT_MPORT_DESTINATION)
++
++#define IPT_MULTI_PORTS	15
++
++/* Must fit inside union ipt_matchinfo: 32 bytes */
++/* every entry in ports[] except for the last one has one bit in pflags
++ * associated with it. If this bit is set, the port is the first port of
++ * a portrange, with the next entry being the last.
++ * End of list is marked with pflags bit set and port=65535.
++ * If 14 ports are used (last one does not have a pflag), the last port
++ * is repeated to fill the last entry in ports[] */
++struct ipt_mport
++{
++	u_int8_t flags:2;			/* Type of comparison */
++	u_int16_t pflags:14;			/* Port flags */
++	u_int16_t ports[IPT_MULTI_PORTS];	/* Ports */
++};
++#endif /*_IPT_MPORT_H*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_nth.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_nth.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_nth.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_nth.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,19 @@
++#ifndef _IPT_NTH_H
++#define _IPT_NTH_H
++
++#include <linux/param.h>
++#include <linux/types.h>
++
++#ifndef IPT_NTH_NUM_COUNTERS
++#define IPT_NTH_NUM_COUNTERS 16
++#endif
++
++struct ipt_nth_info {
++	u_int8_t every;
++	u_int8_t not;
++	u_int8_t startat;
++	u_int8_t counter;
++	u_int8_t packet;
++};
++
++#endif /*_IPT_NTH_H*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_quota.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_quota.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_quota.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_quota.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,11 @@
++#ifndef _IPT_QUOTA_H
++#define _IPT_QUOTA_H
++
++/* print debug info in both kernel/netfilter module & iptable library */
++//#define DEBUG_IPT_QUOTA
++
++struct ipt_quota_info {
++        u_int64_t quota;
++};
++
++#endif /*_IPT_QUOTA_H*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_realm.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_realm.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_realm.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_realm.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,9 @@
++#ifndef _IPT_REALM_H
++#define _IPT_REALM_H
++
++struct ipt_realm_info {
++	u_int32_t id;
++	u_int32_t mask;
++	u_int8_t invert;
++};
++#endif /*_IPT_REALM_H*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_sctp.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_sctp.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_sctp.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_sctp.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,96 @@
++#ifndef _IPT_SCTP_H_
++#define _IPT_SCTP_H_
++
++#define IPT_SCTP_SRC_PORTS	        0x01
++#define IPT_SCTP_DEST_PORTS	        0x02
++#define IPT_SCTP_CHUNK_TYPES		0x04
++
++#define IPT_SCTP_VALID_FLAGS		0x07
++
++#define ELEMCOUNT(x) (sizeof(x)/sizeof(x[0]))
++
++struct ipt_sctp_info {
++	u_int16_t dpts[2];  /* Min, Max */
++	u_int16_t spts[2];  /* Min, Max */
++
++	u_int32_t chunkmap[256 / sizeof (u_int32_t)];  /* Bit mask of chunks to be matched according to RFC 2960 */
++
++#define SCTP_CHUNK_MATCH_ANY   0x01  /* Match if any of the chunk types are present */
++#define SCTP_CHUNK_MATCH_ALL   0x02  /* Match if all of the chunk types are present */
++#define SCTP_CHUNK_MATCH_ONLY  0x04  /* Match if these are the only chunk types present */
++
++	u_int32_t chunk_match_type;
++
++	u_int32_t flags;
++	u_int32_t invflags;
++};
++
++#define bytes(type) (sizeof(type) * 8)
++
++#define SCTP_CHUNKMAP_SET(chunkmap, type) 		\
++	do { 						\
++		chunkmap[type / bytes(u_int32_t)] |= 	\
++			1 << (type % bytes(u_int32_t));	\
++	} while (0)
++
++#define SCTP_CHUNKMAP_CLEAR(chunkmap, type)		 	\
++	do {							\
++		chunkmap[type / bytes(u_int32_t)] &= 		\
++			~(1 << (type % bytes(u_int32_t)));	\
++	} while (0)
++
++#define SCTP_CHUNKMAP_IS_SET(chunkmap, type) 			\
++({								\
++	(chunkmap[type / bytes (u_int32_t)] & 			\
++		(1 << (type % bytes (u_int32_t)))) ? 1: 0;	\
++})
++
++#define SCTP_CHUNKMAP_RESET(chunkmap) 				\
++	do {							\
++		int i; 						\
++		for (i = 0; i < ELEMCOUNT(chunkmap); i++)	\
++			chunkmap[i] = 0;			\
++	} while (0)
++
++#define SCTP_CHUNKMAP_SET_ALL(chunkmap) 			\
++	do {							\
++		int i; 						\
++		for (i = 0; i < ELEMCOUNT(chunkmap); i++) 	\
++			chunkmap[i] = ~0;			\
++	} while (0)
++
++#define SCTP_CHUNKMAP_COPY(destmap, srcmap) 			\
++	do {							\
++		int i; 						\
++		for (i = 0; i < ELEMCOUNT(chunkmap); i++) 	\
++			destmap[i] = srcmap[i];			\
++	} while (0)
++
++#define SCTP_CHUNKMAP_IS_CLEAR(chunkmap) 		\
++({							\
++	int i; 						\
++	int flag = 1;					\
++	for (i = 0; i < ELEMCOUNT(chunkmap); i++) {	\
++		if (chunkmap[i]) {			\
++			flag = 0;			\
++			break;				\
++		}					\
++	}						\
++        flag;						\
++})
++
++#define SCTP_CHUNKMAP_IS_ALL_SET(chunkmap) 		\
++({							\
++	int i; 						\
++	int flag = 1;					\
++	for (i = 0; i < ELEMCOUNT(chunkmap); i++) {	\
++		if (chunkmap[i] != ~0) {		\
++			flag = 0;			\
++				break;			\
++		}					\
++	}						\
++        flag;						\
++})
++
++#endif /* _IPT_SCTP_H_ */
++
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_state.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_state.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_state.h	2003-12-15 19:46:58.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_state.h	2004-03-04 15:16:13.000000000 +0100
+@@ -4,6 +4,8 @@
+ #define IPT_STATE_BIT(ctinfo) (1 << ((ctinfo)%IP_CT_IS_REPLY+1))
+ #define IPT_STATE_INVALID (1 << 0)
+ 
++#define IPT_STATE_UNTRACKED (1 << (IP_CT_NUMBER + 1))
++
+ struct ipt_state_info
+ {
+ 	unsigned int statemask;
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_TTL.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_TTL.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_TTL.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_TTL.h	2004-03-04 15:16:13.000000000 +0100
+@@ -0,0 +1,21 @@
++/* TTL modification module for IP tables
++ * (C) 2000 by Harald Welte <laforge@gnumonks.org> */
++
++#ifndef _IPT_TTL_H
++#define _IPT_TTL_H
++
++enum {
++	IPT_TTL_SET = 0,
++	IPT_TTL_INC,
++	IPT_TTL_DEC
++};
++
++#define IPT_TTL_MAXMODE	IPT_TTL_DEC
++
++struct ipt_TTL_info {
++	u_int8_t	mode;
++	u_int8_t	ttl;
++};
++
++
++#endif
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_ULOG.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_ULOG.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv4/ipt_ULOG.h	2003-12-15 19:46:58.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv4/ipt_ULOG.h	2004-03-04 15:16:13.000000000 +0100
+@@ -11,6 +11,9 @@
+ #define NETLINK_NFLOG 	5
+ #endif
+ 
++#define ULOG_DEFAULT_NLGROUP	1
++#define ULOG_DEFAULT_QTHRESHOLD	1
++
+ #define ULOG_MAC_LEN	80
+ #define ULOG_PREFIX_LEN	32
+ 
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv6/ip6t_fuzzy.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv6/ip6t_fuzzy.h	2004-03-04 15:16:20.000000000 +0100
+@@ -0,0 +1,21 @@
++#ifndef _IP6T_FUZZY_H
++#define _IP6T_FUZZY_H
++
++#include <linux/param.h>
++#include <linux/types.h>
++
++#define MAXFUZZYRATE 10000000
++#define MINFUZZYRATE 3
++
++struct ip6t_fuzzy_info {
++	u_int32_t minimum_rate;
++	u_int32_t maximum_rate;
++	u_int32_t packets_total;
++	u_int32_t bytes_total;
++	u_int32_t previous_time;
++	u_int32_t present_time;
++	u_int32_t mean_rate;
++	u_int8_t acceptance_rate;
++};
++
++#endif /*_IP6T_FUZZY_H*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv6/ip6t_HL.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv6/ip6t_HL.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv6/ip6t_HL.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv6/ip6t_HL.h	2004-03-04 15:16:20.000000000 +0100
+@@ -0,0 +1,22 @@
++/* Hop Limit modification module for ip6tables
++ * Maciej Soltysiak <solt@dns.toxicfilms.tv>
++ * Based on HW's TTL module */
++
++#ifndef _IP6T_HL_H
++#define _IP6T_HL_H
++
++enum {
++	IP6T_HL_SET = 0,
++	IP6T_HL_INC,
++	IP6T_HL_DEC
++};
++
++#define IP6T_HL_MAXMODE	IP6T_HL_DEC
++
++struct ip6t_HL_info {
++	u_int8_t	mode;
++	u_int8_t	hop_limit;
++};
++
++
++#endif
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv6/ip6t_nth.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv6/ip6t_nth.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv6/ip6t_nth.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv6/ip6t_nth.h	2004-03-04 15:16:20.000000000 +0100
+@@ -0,0 +1,19 @@
++#ifndef _IP6T_NTH_H
++#define _IP6T_NTH_H
++
++#include <linux/param.h>
++#include <linux/types.h>
++
++#ifndef IP6T_NTH_NUM_COUNTERS
++#define IP6T_NTH_NUM_COUNTERS 16
++#endif
++
++struct ip6t_nth_info {
++	u_int8_t every;
++	u_int8_t not;
++	u_int8_t startat;
++	u_int8_t counter;
++	u_int8_t packet;
++};
++
++#endif /*_IP6T_NTH_H*/
+diff -uNr linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv6/ip6t_REJECT.h linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv6/ip6t_REJECT.h
+--- linux-libc-headers-2.6.3.0.orig/include/linux/netfilter_ipv6/ip6t_REJECT.h	2003-12-15 19:46:58.000000000 +0100
++++ linux-libc-headers-2.6.3.0/include/linux/netfilter_ipv6/ip6t_REJECT.h	2004-03-04 15:16:20.000000000 +0100
+@@ -2,15 +2,17 @@
+ #define _IP6T_REJECT_H
+ 
+ enum ip6t_reject_with {
+-	IP6T_ICMP_NET_UNREACHABLE,
+-	IP6T_ICMP_HOST_UNREACHABLE,
+-	IP6T_ICMP_PROT_UNREACHABLE,
+-	IP6T_ICMP_PORT_UNREACHABLE,
+-	IP6T_ICMP_ECHOREPLY
++	IP6T_ICMP6_NO_ROUTE,
++	IP6T_ICMP6_ADM_PROHIBITED,
++	IP6T_ICMP6_NOT_NEIGHBOUR,
++	IP6T_ICMP6_ADDR_UNREACH,
++	IP6T_ICMP6_PORT_UNREACH,
++	IP6T_ICMP6_ECHOREPLY,
++	IP6T_TCP_RESET
+ };
+ 
+ struct ip6t_reject_info {
+ 	enum ip6t_reject_with with;      /* reject type */
+ };
+ 
+-#endif /*_IPT_REJECT_H*/
++#endif /*_IP6T_REJECT_H*/
