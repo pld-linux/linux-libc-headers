@@ -3,6 +3,7 @@ Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku w glibc
 Name:		glibc-kernel-headers
 Version:	1
 Release:	2
+Epoch:		1
 License:	GPL
 Group:		Development
 Source0:	ftp://ftp.debian.org/debian/pool/main/l/linux-kernel-headers/linux-kernel-headers_2.5.999-test7-bk.orig.tar.gz
@@ -20,6 +21,7 @@ Patch9:		%{name}-other.patch
 Requires(pre):	fileutils
 AutoReqProv:	no
 ExclusiveOS:	Linux
+Obsoletes:	glibc-kernheaders
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		no_install_post_strip		1
