@@ -1,6 +1,6 @@
-diff -Nru a/include/linux/console_splash.h b/include/linux/console_splash.h
---- /dev/null	Wed Dec 31 16:00:00 196900
-+++ b/include/linux/console_splash.h	2004-12-11 19:23:54 +01:00
+diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_splash.h linux-libc-headers-2.6.11.0/include/linux/console_splash.h
+--- linux-libc-headers-2.6.11.0.orig/include/linux/console_splash.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.11.0/include/linux/console_splash.h	2005-03-13 23:23:02.000000000 +0100
 @@ -0,0 +1,13 @@
 +#ifndef _LINUX_CONSOLE_SPLASH_H_
 +#define _LINUX_CONSOLE_SPLASH_H_ 1
@@ -15,29 +15,29 @@ diff -Nru a/include/linux/console_splash.h b/include/linux/console_splash.h
 +};
 +
 +#endif
-diff -Nru a/include/linux/console_struct.h b/include/linux/console_struct.h
---- a/include/linux/console_struct.h	2004-12-11 19:23:54 +01:00
-+++ b/include/linux/console_struct.h	2004-12-11 19:23:54 +01:00
-@@ -10,6 +10,7 @@
-  */
+diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_struct.h linux-libc-headers-2.6.11.0/include/linux/console_struct.h
+--- linux-libc-headers-2.6.11.0.orig/include/linux/console_struct.h	2005-03-13 21:54:02.000000000 +0100
++++ linux-libc-headers-2.6.11.0/include/linux/console_struct.h	2005-03-13 23:23:02.000000000 +0100
+@@ -12,6 +12,7 @@
+ struct vt_struct;
  
  #define NPAR 16
 +#include <linux/console_splash.h>
  
  struct vc_data {
  	unsigned short	vc_num;			/* Console number */
-@@ -87,6 +88,8 @@
- 	struct vc_data **vc_display_fg;		/* [!] Ptr to var holding fg console for this display */
+@@ -90,6 +91,8 @@
  	unsigned long	vc_uni_pagedir;
  	unsigned long	*vc_uni_pagedir_loc;  /* [!] Location of uni_pagedir variable for this console */
+ 	struct vt_struct *vc_vt;
 +
 +	struct vc_splash vc_splash;
  	/* additional information is in vt_kern.h */
  };
  
-diff -Nru a/include/linux/fb.h b/include/linux/fb.h
---- a/include/linux/fb.h	2004-12-11 19:23:54 +01:00
-+++ b/include/linux/fb.h	2004-12-11 19:23:54 +01:00
+diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/fb.h linux-libc-headers-2.6.11.0/include/linux/fb.h
+--- linux-libc-headers-2.6.11.0.orig/include/linux/fb.h	2005-01-08 15:03:32.000000000 +0100
++++ linux-libc-headers-2.6.11.0/include/linux/fb.h	2005-03-13 23:33:46.000000000 +0100
 @@ -8,6 +8,13 @@
  #define FB_MAJOR		29
  #define FB_MAX			32	/* sufficient for now */
@@ -52,21 +52,16 @@ diff -Nru a/include/linux/fb.h b/include/linux/fb.h
  /* ioctls
     0x46 is 'F'								*/
  #define FBIOGET_VSCREENINFO	0x4600
-@@ -35,7 +42,19 @@
- #define FBIOGET_HWCINFO         0x4616
+@@ -32,6 +39,15 @@
  #define FBIOPUT_MODEINFO        0x4617
  #define FBIOGET_DISPINFO        0x4618
--
+ 
 +#define FBIOSPLASH_SETCFG	_IOWR('F', 0x19, struct fb_splash_iowrapper)
 +#define FBIOSPLASH_GETCFG	_IOR('F', 0x1A, struct fb_splash_iowrapper)
 +#define FBIOSPLASH_SETSTATE	_IOWR('F', 0x1B, struct fb_splash_iowrapper)
 +#define FBIOSPLASH_GETSTATE	_IOR('F', 0x1C, struct fb_splash_iowrapper)
-+#define FBIOSPLASH_SETMODE	_IOWR('F', 0x1D, unsigned int)
-+#define FBIOSPLASH_GETMODE	_IOR('F', 0x1E, unsigned int)
-+#define FBIOSPLASH_SETPIC 	_IOWR('F', 0x1F, struct fb_splash_iowrapper)
++#define FBIOSPLASH_SETPIC 	_IOWR('F', 0x1D, struct fb_splash_iowrapper)
 +
-+#define FB_SPLASH_MODE_VERBOSE	 	1	/* Verbose mode */
-+#define FB_SPLASH_MODE_SILENT 		2	/* Silent mode */
 +#define FB_SPLASH_THEME_LEN		128	/* Maximum lenght of a theme name */
 +#define FB_SPLASH_IO_ORIG_KERNEL	0	/* Kernel ioctl origin */
 +#define FB_SPLASH_IO_ORIG_USER		1 	/* User ioctl origin */
