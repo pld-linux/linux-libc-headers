@@ -1637,6 +1637,22 @@ diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ipt_acco
 +
 +#endif
 +
+diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ipt_connlimit.h linux-libc-headers-2.6.11.0/include/linux/netfilter_ipv4/ipt_connlimit.h
+--- linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ipt_connlimit.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.11.0/include/linux/netfilter_ipv4/ipt_connlimit.h	2005-03-13 13:50:15.000000000 +0100
+@@ -0,0 +1,12 @@
++#ifndef _IPT_CONNLIMIT_H
++#define _IPT_CONNLIMIT_H
++
++struct ipt_connlimit_data;
++
++struct ipt_connlimit_info {
++	int limit;
++	int inverse;
++	u_int32_t mask;
++	struct ipt_connlimit_data *data;
++};
++#endif /* _IPT_CONNLIMIT_H */
 diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ipt_fuzzy.h linux-libc-headers-2.6.11.0/include/linux/netfilter_ipv4/ipt_fuzzy.h
 --- linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ipt_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
 +++ linux-libc-headers-2.6.11.0/include/linux/netfilter_ipv4/ipt_fuzzy.h	2005-03-13 13:50:15.000000000 +0100
