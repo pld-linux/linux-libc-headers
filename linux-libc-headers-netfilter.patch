@@ -526,31 +526,6 @@ diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv4/ip_queue.
 +#define IPQM_MAX	(IPQM_BASE + 5)
  
  #endif /*_IP_QUEUE_H*/
-diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv4/ip_tables.h linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv4/ip_tables.h
---- linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv4/ip_tables.h	2004-01-05 19:42:34.000000000 +0100
-+++ linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv4/ip_tables.h	2004-06-20 12:25:57.484862600 +0200
-@@ -127,6 +127,12 @@
- 	/* Back pointer */
- 	unsigned int comefrom;
- 
-+	/* Name of the chain */
-+	char *chainname;
-+	
-+	/* Rule number in the chain. */
-+	u_int32_t rulenum;
-+
- 	/* Packet and byte counters. */
- 	struct ipt_counters counters;
- 
-@@ -276,6 +282,8 @@
- 	struct ipt_entry entrytable[0];
- };
- 
-+extern struct semaphore ipt_mutex;
-+
- /* Standard return verdict, or do jump. */
- #define IPT_STANDARD_TARGET ""
- /* Error verdict. */
 diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv4/ipt_account.h linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv4/ipt_account.h
 --- linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv4/ipt_account.h	1970-01-01 01:00:00.000000000 +0100
 +++ linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv4/ipt_account.h	2004-06-20 12:02:53.000000000 +0200
@@ -1404,22 +1379,6 @@ diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv6/ip6_loggi
 +#define __IP6_LOGGING_H
 +
 +#endif /*__IP6_LOGGING_H*/
-diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv6/ip6_tables.h linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv6/ip6_tables.h
---- linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv6/ip6_tables.h	2004-01-05 19:42:34.000000000 +0100
-+++ linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv6/ip6_tables.h	2004-06-20 12:26:05.731608904 +0200
-@@ -133,6 +133,12 @@
- 	/* Back pointer */
- 	unsigned int comefrom;
- 
-+	/* Name of the chain */
-+	char *chainname;
-+	
-+	/* Rule number in the chain. */
-+	u_int32_t rulenum;
-+
- 	/* Packet and byte counters. */
- 	struct ip6t_counters counters;
- 
 diff -uNr linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv6/ip6t_fuzzy.h
 --- linux-libc-headers-2.6.6.0.orig/include/linux/netfilter_ipv6/ip6t_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
 +++ linux-libc-headers-2.6.6.0/include/linux/netfilter_ipv6/ip6t_fuzzy.h	2004-06-20 12:02:52.000000000 +0200
