@@ -834,14 +834,13 @@ diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ip_loggi
 diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ip_nat.h linux-libc-headers-2.6.11.0/include/linux/netfilter_ipv4/ip_nat.h
 --- linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ip_nat.h	2005-03-13 21:53:55.000000000 +0100
 +++ linux-libc-headers-2.6.11.0/include/linux/netfilter_ipv4/ip_nat.h	2005-03-13 22:55:37.000000000 +0100
-@@ -39,33 +39,13 @@
+@@ -39,33 +39,14 @@
  	union ip_conntrack_manip_proto min, max;
  };
  
 -/* A range consists of an array of 1 or more ip_nat_range */
--struct ip_nat_multi_range
 +/* For backwards compat: don't use in modern code. */
-+struct ip_nat_multi_range_compat
+ struct ip_nat_multi_range_compat
  {
 -	unsigned int rangesize;
 +	unsigned int rangesize; /* Must be 1. */
@@ -868,7 +867,7 @@ diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ip_nat.h
 -	struct ip_conntrack_manip manip;
 -};
 -
--#define ip_nat_multi_range ip_nat_multi_range_compat
+ #define ip_nat_multi_range ip_nat_multi_range_compat
 -
  #endif
 diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/netfilter_ipv4/ip_queue.h linux-libc-headers-2.6.11.0/include/linux/netfilter_ipv4/ip_queue.h
