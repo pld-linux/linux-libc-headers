@@ -12,7 +12,6 @@ Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-netfilter.patch
 Patch3:		%{name}-ia64.patch
-Patch4:		%{name}-pkt.patch
 BuildRequires:	rpmbuild(macros) >= 1.153
 AutoReqProv:	no
 Requires(pre):	fileutils
@@ -48,7 +47,6 @@ potrzebne do przebudowania pakietu glibc.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 %ifarch sparc sparcv6 sparc64
