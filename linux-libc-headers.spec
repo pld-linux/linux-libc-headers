@@ -127,7 +127,7 @@ EOF
 EOF
 
 done
-echo "asm-${a1} asm-${a2}" > asmdirs
+echo "asm asm-${a1} asm-${a2}" > asmdirs
 %endif
 
 %install
