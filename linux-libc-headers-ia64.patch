@@ -1,0 +1,19 @@
+Index: linux-libc-headers/include/asm-ia64/page.h
+===================================================================
+RCS file: /cvsroot/linux-libc-headers/include/asm-ia64/page.h,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -u -r1.5 -r1.6
+--- linux-libc-headers/include/asm-ia64/page.h	27 Mar 2004 16:02:58 -0000	1.5
++++ linux-libc-headers/include/asm-ia64/page.h	10 Jul 2004 12:32:13 -0000	1.6
+@@ -23,7 +23,9 @@
+ #elif defined(CONFIG_IA64_PAGE_SIZE_64KB)
+ # define PAGE_SHIFT	16
+ #else
+-# error Unsupported page size!
++/* take 16kB as default for llh */
++# define PAGE_SHIFT	14
++/* # error Unsupported page size! */
+ #endif
+ 
+ #define PAGE_SIZE		(__IA64_UL_CONST(1) << PAGE_SHIFT)
