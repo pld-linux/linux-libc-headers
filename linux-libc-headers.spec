@@ -1,13 +1,13 @@
 Summary:	Header files for the Linux kernel for use by glibc
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku w glibc
 Name:		glibc-kernel-headers
-Version:	2.6.1.0
+Version:	2.6.1.1
 Release:	1
 Epoch:		7
 License:	GPL
 Group:		Development
 Source0:	http://ep09.pld-linux.org/~mmazur/%{name}/%{name}-%{version}.tar.bz2
-# Source0-md5:	b01cf3cb5e838159b4921ac3e202444a
+# Source0-md5:	fa2b1c89f9111eb321ca614a16768ad0
 Requires(pre):	fileutils
 AutoReqProv:	no
 Provides:	alsa-driver-devel
