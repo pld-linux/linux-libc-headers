@@ -2,7 +2,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	2.6.7.0
-Release:	8
+Release:	9
 Epoch:		7
 License:	GPL
 Group:		Development
@@ -44,8 +44,7 @@ potrzebne do przebudowania pakietu glibc.
 %prep
 %setup -q
 %patch0 -p1
-# wrr is broken. try to compile/preprocess this one: #include <linux/pkt_sched.h>
-#%patch1 -p1
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 

@@ -1,13 +1,21 @@
---- linux-libc-headers-2.6.5.1/include/linux/pkt_sched.h.orig	2004-05-08 18:48:47.000000000 +0200
-+++ linux-libc-headers-2.6.5.1/include/linux/pkt_sched.h	2004-05-08 18:50:40.189566024 +0200
-@@ -442,6 +442,118 @@
+diff -urN linux-libc-headers-2.6.7.0.org/include/linux/pkt_sched.h linux-libc-headers-2.6.7.0/include/linux/pkt_sched.h
+--- linux-libc-headers-2.6.7.0.org/include/linux/pkt_sched.h	2004-08-04 19:36:56.953369088 +0200
++++ linux-libc-headers-2.6.7.0/include/linux/pkt_sched.h	2004-08-04 19:45:15.968507256 +0200
+@@ -2,7 +2,8 @@
+ #define __LINUX_PKT_SCHED_H
+ 
+ #include <asm/types.h>
+-
++#include <sys/time.h>
++#include <linux/if_ether.h>
+ 
+ /* Logical priority bands not depending on specific packet scheduler.
+    Every scheduler will map them to real traffic classes, if it has
+@@ -432,6 +433,115 @@
  
  #define TCA_ATM_MAX	TCA_ATM_STATE
  
 +/* WRR section */
-+
-+/* Other includes */
-+#include <linux/if_ether.h>
 +
 +// A sub weight and of a class
 +// All numbers are represented as parts of (2^64-1).
