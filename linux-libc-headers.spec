@@ -2,7 +2,7 @@ Summary:	Header files for the Linux kernel for use by glibc
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku w glibc
 Name:		glibc-kernel-headers
 Version:	1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development
 Source0:	ftp://ftp.debian.org/debian/pool/main/l/linux-kernel-headers/linux-kernel-headers_2.5.999-test7-bk.orig.tar.gz
@@ -125,6 +125,7 @@ cp -a include/asm-sparc $RPM_BUILD_ROOT%{_includedir}
 cp -a include/asm-sparc64 $RPM_BUILD_ROOT%{_includedir}
 %endif
 
+cp -a include/asm-generic $RPM_BUILD_ROOT%{_includedir}
 cp -a include/asm-$arch $RPM_BUILD_ROOT%{_includedir}/asm
 cp -a include/linux $RPM_BUILD_ROOT%{_includedir}
 
