@@ -1,0 +1,14 @@
+diff -urN linux-libc-headers-2.6.6.0.org/include/linux/tcp.h linux-libc-headers-2.6.6.0/include/linux/tcp.h
+--- linux-libc-headers-2.6.6.0.org/include/linux/tcp.h	2004-06-16 20:28:19.022797736 +0200
++++ linux-libc-headers-2.6.6.0/include/linux/tcp.h	2004-06-16 20:30:31.476661688 +0200
+@@ -184,6 +184,9 @@
+ 	__u32	tcpi_snd_cwnd;
+ 	__u32	tcpi_advmss;
+ 	__u32	tcpi_reordering;
++
++	__u32   tcpi_rcv_rtt;
++	__u32   tcpi_rcv_space;
+ };
+ 
+ #endif	/* _LINUX_TCP_H */
+
