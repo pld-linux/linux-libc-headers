@@ -13,8 +13,8 @@ Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-netfilter.patch
 Patch3:		%{name}-fbsplash.patch
 Patch4:		%{name}-tc-u32-mark.patch
-BuildRequires:	rpmbuild(macros) >= 1.153
 AutoReqProv:	no
+BuildRequires:	rpmbuild(macros) >= 1.213
 Requires(pre):	fileutils
 Provides:	alsa-driver-devel
 Provides:	i2c-devel = 2.8.2
@@ -28,7 +28,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		no_install_post_strip		1
 
-%ifarch amd64 ppc64 s390x sparc sparc64 sparcv9
+%ifarch %{x8664} ppc64 s390x sparc sparc64 sparcv9
 %define		dodual	1
 %else
 %define		dodual	0
@@ -57,7 +57,7 @@ potrzebne do przebudowania pakietu glibc.
 %patch4 -p1
 
 %build
-%ifarch amd64
+%ifarch %{x8664}
 a1=i386
 a2=x86_64
 c1='defined(__i386__)'
