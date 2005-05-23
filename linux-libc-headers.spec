@@ -2,7 +2,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	2.6.11.2
-Release:	4
+Release:	5
 Epoch:		7
 License:	GPL
 Group:		Development
@@ -142,6 +142,8 @@ cp -a asm-%{_target_base_arch} $RPM_BUILD_ROOT%{_includedir}/asm
 %endif
 cp -a linux $RPM_BUILD_ROOT%{_includedir}
 cp -a sound $RPM_BUILD_ROOT%{_includedir}
+
+find $RPM_BUILD_ROOT%{_includedir} -type f -name '*.orig' | xargs rm
 
 %clean
 rm -rf $RPM_BUILD_ROOT
