@@ -26,11 +26,10 @@ diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_struct.h linux-
  
  struct vc_data {
  	unsigned short	vc_num;			/* Console number */
-@@ -90,6 +91,8 @@
+@@ -95,6 +96,7 @@
+ 	struct vc_data **vc_display_fg;		/* [!] Ptr to var holding fg console for this display */
  	unsigned long	vc_uni_pagedir;
  	unsigned long	*vc_uni_pagedir_loc;  /* [!] Location of uni_pagedir variable for this console */
- 	struct vt_struct *vc_vt;
-+
 +	struct vc_splash vc_splash;
  	/* additional information is in vt_kern.h */
  };
