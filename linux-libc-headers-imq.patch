@@ -1,0 +1,47 @@
+--- a/include/linux/imq.h	1970-01-01 00:00:00.000000000 +0000
++++ b/include/linux/imq.h	2004-10-19 18:34:52.000000000 +0000
+@@ -0,0 +1,9 @@
++#ifndef _IMQ_H
++#define _IMQ_H
++
++#define IMQ_MAX_DEVS   16
++
++#define IMQ_F_IFMASK   0x7f
++#define IMQ_F_ENQUEUE  0x80
++
++#endif /* _IMQ_H */
+--- a/include/linux/netfilter_ipv4/ipt_IMQ.h	1970-01-01 00:00:00.000000000 +0000
++++ b/include/linux/netfilter_ipv4/ipt_IMQ.h	2004-10-19 18:34:52.000000000 +0000
+@@ -0,0 +1,8 @@
++#ifndef _IPT_IMQ_H
++#define _IPT_IMQ_H
++
++struct ipt_imq_info {
++       unsigned int todev;     /* target imq device */
++};
++
++#endif /* _IPT_IMQ_H */
+--- a/include/linux/netfilter_ipv6/ip6t_IMQ.h	1970-01-01 00:00:00.000000000 +0000
++++ b/include/linux/netfilter_ipv6/ip6t_IMQ.h	2004-10-19 18:34:52.000000000 +0000
+@@ -0,0 +1,8 @@
++#ifndef _IP6T_IMQ_H
++#define _IP6T_IMQ_H
++
++struct ip6t_imq_info {
++       unsigned int todev;     /* target imq device */
++};
++
++#endif /* _IP6T_IMQ_H */
+--- a/include/linux/skbuff.h	2004-10-18 21:55:36.000000000 +0000
++++ b/include/linux/skbuff.h	2004-10-19 18:40:20.000000000 +0000
+@@ -261,6 +261,10 @@
+ #if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
+ 	struct sk_buff		*nfct_reasm;
+ #endif
++#if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
++	unsigned char           imq_flags;
++	struct nf_info          *nf_info;
++#endif
+ #ifdef CONFIG_NETFILTER_DEBUG
+         unsigned int		nf_debug;
+ #endif
