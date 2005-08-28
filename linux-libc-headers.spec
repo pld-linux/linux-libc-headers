@@ -100,7 +100,7 @@ for h in `( ls asm-${a1}; ls asm-${a2} ) | grep '\.h$' | sort -u`; do
 	# common header
 	cat > asm/$h << EOF
 /* All asm/ files are generated and point to the corresponding
- * file in asm-${a1} or asm-${a2}. To regenerate, run "generate-asm"
+ * file in asm-${a1} or asm-${a2}.
  */
 
 #ifndef __ASM_STUB_${name}__
