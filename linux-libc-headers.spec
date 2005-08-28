@@ -150,7 +150,8 @@ cp -a asm-%{_target_base_arch} $RPM_BUILD_ROOT%{_includedir}/asm
 cp -a linux $RPM_BUILD_ROOT%{_includedir}
 cp -a sound $RPM_BUILD_ROOT%{_includedir}
 
-find $RPM_BUILD_ROOT%{_includedir} -type f -name '*.orig' | xargs rm
+find $RPM_BUILD_ROOT%{_includedir} -type f \
+	'(' -name '*.orig' -o -name '*~' ')' | xargs -r rm
 
 %clean
 rm -rf $RPM_BUILD_ROOT
