@@ -2,13 +2,14 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	2.6.12.0
-Release:	6
+Release:	7
 Epoch:		7
 License:	GPL
 Group:		Development
 Source0:	http://ep09.pld-linux.org/~mmazur/linux-libc-headers/%{name}-%{version}.tar.bz2
 # Source0-md5:	eae2f562afe224ad50f65a6acfb4252c
 Source1:	%{name}-dv1394.h
+Source2:	%{name}-ieee1394-ioctl.h
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-netfilter.patch
@@ -151,7 +152,9 @@ cp -a asm-%{_target_base_arch} $RPM_BUILD_ROOT%{_includedir}/asm
 cp -a linux $RPM_BUILD_ROOT%{_includedir}
 cp -a sound $RPM_BUILD_ROOT%{_includedir}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/linux/dv1394.h
+install -d $RPM_BUILD_ROOT%{_includedir}/linux/ieee1394/
+install %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/linux/ieee1394/dv1394.h
+install %{SOURCE2} $RPM_BUILD_ROOT%{_includedir}/linux/ieee1394/ieee1394-ioctl.h
 
 find $RPM_BUILD_ROOT%{_includedir} -type f \
 	'(' -name '*.orig' -o -name '*~' ')' | xargs -r rm
