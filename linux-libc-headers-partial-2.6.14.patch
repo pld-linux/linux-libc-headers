@@ -1,0 +1,280 @@
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/inet_diag.h linux-libc-headers-2.6.12.0/include/linux/inet_diag.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/inet_diag.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/inet_diag.h	2005-11-10 15:32:27.457707250 +0100
+@@ -0,0 +1,121 @@
++#ifndef _INET_DIAG_H_
++#define _INET_DIAG_H_ 1
++
++/* Just some random number */
++#define TCPDIAG_GETSOCK 18
++#define DCCPDIAG_GETSOCK 19
++
++#define INET_DIAG_GETSOCK_MAX 24
++
++/* Socket identity */
++struct inet_diag_sockid {
++	__u16	idiag_sport;
++	__u16	idiag_dport;
++	__u32	idiag_src[4];
++	__u32	idiag_dst[4];
++	__u32	idiag_if;
++	__u32	idiag_cookie[2];
++#define INET_DIAG_NOCOOKIE (~0U)
++};
++
++/* Request structure */
++
++struct inet_diag_req {
++	__u8	idiag_family;		/* Family of addresses. */
++	__u8	idiag_src_len;
++	__u8	idiag_dst_len;
++	__u8	idiag_ext;		/* Query extended information */
++
++	struct inet_diag_sockid id;
++
++	__u32	idiag_states;		/* States to dump */
++	__u32	idiag_dbs;		/* Tables to dump (NI) */
++};
++
++enum {
++	INET_DIAG_REQ_NONE,
++	INET_DIAG_REQ_BYTECODE,
++};
++
++#define INET_DIAG_REQ_MAX INET_DIAG_REQ_BYTECODE
++
++/* Bytecode is sequence of 4 byte commands followed by variable arguments.
++ * All the commands identified by "code" are conditional jumps forward:
++ * to offset cc+"yes" or to offset cc+"no". "yes" is supposed to be
++ * length of the command and its arguments.
++ */
++ 
++struct inet_diag_bc_op {
++	unsigned char	code;
++	unsigned char	yes;
++	unsigned short	no;
++};
++
++enum {
++	INET_DIAG_BC_NOP,
++	INET_DIAG_BC_JMP,
++	INET_DIAG_BC_S_GE,
++	INET_DIAG_BC_S_LE,
++	INET_DIAG_BC_D_GE,
++	INET_DIAG_BC_D_LE,
++	INET_DIAG_BC_AUTO,
++	INET_DIAG_BC_S_COND,
++	INET_DIAG_BC_D_COND,
++};
++
++struct inet_diag_hostcond {
++	__u8	family;
++	__u8	prefix_len;
++	int	port;
++	__u32	addr[0];
++};
++
++/* Base info structure. It contains socket identity (addrs/ports/cookie)
++ * and, alas, the information shown by netstat. */
++struct inet_diag_msg {
++	__u8	idiag_family;
++	__u8	idiag_state;
++	__u8	idiag_timer;
++	__u8	idiag_retrans;
++
++	struct inet_diag_sockid id;
++
++	__u32	idiag_expires;
++	__u32	idiag_rqueue;
++	__u32	idiag_wqueue;
++	__u32	idiag_uid;
++	__u32	idiag_inode;
++};
++
++/* Extensions */
++
++enum {
++	INET_DIAG_NONE,
++	INET_DIAG_MEMINFO,
++	INET_DIAG_INFO,
++	INET_DIAG_VEGASINFO,
++	INET_DIAG_CONG,
++};
++
++#define INET_DIAG_MAX INET_DIAG_CONG
++
++
++/* INET_DIAG_MEM */
++
++struct inet_diag_meminfo {
++	__u32	idiag_rmem;
++	__u32	idiag_wmem;
++	__u32	idiag_fmem;
++	__u32	idiag_tmem;
++};
++
++/* INET_DIAG_VEGASINFO */
++
++struct tcpvegas_info {
++	__u32	tcpv_enabled;
++	__u32	tcpv_rttcnt;
++	__u32	tcpv_rtt;
++	__u32	tcpv_minrtt;
++};
++
++#endif /* _INET_DIAG_H_ */
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netlink.h linux-libc-headers-2.6.12.0/include/linux/netlink.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/netlink.h	2005-11-10 15:01:31.969746000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/netlink.h	2005-11-10 15:36:12.847793250 +0100
+@@ -8,18 +8,19 @@
+ #define NETLINK_SKIP		1	/* Reserved for ENskip  			*/
+ #define NETLINK_USERSOCK	2	/* Reserved for user mode socket protocols 	*/
+ #define NETLINK_FIREWALL	3	/* Firewalling hook				*/
+-#define NETLINK_TCPDIAG		4	/* TCP socket monitoring			*/
++#define NETLINK_INET_DIAG	4	/* INET socket monitoring			*/
+ #define NETLINK_NFLOG		5	/* netfilter/iptables ULOG */
+ #define NETLINK_XFRM		6	/* ipsec */
+ #define NETLINK_SELINUX		7	/* SELinux event notifications */
+-#define NETLINK_ARPD		8
++#define NETLINK_ISCSI		8	/* Open-ISCSI */
+ #define NETLINK_AUDIT		9	/* auditing */
+-#define NETLINK_NETFILTER	10	/* netfilter subsystem */
+-#define NETLINK_ROUTE6		11	/* af_inet6 route comm channel */
++#define NETLINK_FIB_LOOKUP	10
++#define NETLINK_CONNECTOR	11
++#define NETLINK_NETFILTER	12	/* netfilter subsystem */
+ #define NETLINK_IP6_FW		13
+ #define NETLINK_DNRTMSG		14	/* DECnet routing messages */
+ #define NETLINK_KOBJECT_UEVENT	15	/* Kernel messages to userspace */
+-#define NETLINK_TAPBASE		16	/* 16 to 31 are ethertap */
++#define NETLINK_GENERIC		16
+ 
+ #define MAX_LINKS 32		
+ 
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netlink.h~ linux-libc-headers-2.6.12.0/include/linux/netlink.h~
+--- linux-libc-headers-2.6.12.0.org/include/linux/netlink.h~	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/netlink.h~	2005-11-10 15:36:06.063369250 +0100
+@@ -0,0 +1,103 @@
++#ifndef __LINUX_NETLINK_H
++#define __LINUX_NETLINK_H
++
++#include <sys/socket.h> /* for sa_family_t */
++#include <linux/types.h>
++
++#define NETLINK_ROUTE		0	/* Routing/device hook				*/
++#define NETLINK_SKIP		1	/* Reserved for ENskip  			*/
++#define NETLINK_USERSOCK	2	/* Reserved for user mode socket protocols 	*/
++#define NETLINK_FIREWALL	3	/* Firewalling hook				*/
++#define NETLINK_INET_DIAG	4	/* INET socket monitoring			*/
++#define NETLINK_NFLOG		5	/* netfilter/iptables ULOG */
++#define NETLINK_XFRM		6	/* ipsec */
++#define NETLINK_SELINUX		7	/* SELinux event notifications */
++#define NETLINK_ISCSI		8	/* Open-ISCSI */
++#define NETLINK_AUDIT		9	/* auditing */
++#define NETLINK_FIB_LOOKUP	10
++#define NETLINK_CONNECTOR	11
++#define NETLINK_NETFILTER	12	/* netfilter subsystem */
++#define NETLINK_IP6_FW		13
++#define NETLINK_DNRTMSG		14	/* DECnet routing messages */
++#define NETLINK_KOBJECT_UEVENT	15	/* Kernel messages to userspace */
++#define NETLINK_GENERIC		16
++
++#define MAX_LINKS 32		
++
++struct sockaddr_nl
++{
++	sa_family_t	nl_family;	/* AF_NETLINK	*/
++	unsigned short	nl_pad;		/* zero		*/
++	__u32		nl_pid;		/* process pid	*/
++       	__u32		nl_groups;	/* multicast groups mask */
++};
++
++struct nlmsghdr
++{
++	__u32		nlmsg_len;	/* Length of message including header */
++	__u16		nlmsg_type;	/* Message content */
++	__u16		nlmsg_flags;	/* Additional flags */
++	__u32		nlmsg_seq;	/* Sequence number */
++	__u32		nlmsg_pid;	/* Sending process PID */
++};
++
++/* Flags values */
++
++#define NLM_F_REQUEST		1	/* It is request message. 	*/
++#define NLM_F_MULTI		2	/* Multipart message, terminated by NLMSG_DONE */
++#define NLM_F_ACK		4	/* Reply with ack, with zero or error code */
++#define NLM_F_ECHO		8	/* Echo this request 		*/
++
++/* Modifiers to GET request */
++#define NLM_F_ROOT	0x100	/* specify tree	root	*/
++#define NLM_F_MATCH	0x200	/* return all matching	*/
++#define NLM_F_ATOMIC	0x400	/* atomic GET		*/
++#define NLM_F_DUMP	(NLM_F_ROOT|NLM_F_MATCH)
++
++/* Modifiers to NEW request */
++#define NLM_F_REPLACE	0x100	/* Override existing		*/
++#define NLM_F_EXCL	0x200	/* Do not touch, if it exists	*/
++#define NLM_F_CREATE	0x400	/* Create, if it does not exist	*/
++#define NLM_F_APPEND	0x800	/* Add to end of list		*/
++
++
++/*
++   4.4BSD ADD		NLM_F_CREATE|NLM_F_EXCL
++   4.4BSD CHANGE	NLM_F_REPLACE
++
++   True CHANGE		NLM_F_CREATE|NLM_F_REPLACE
++   Append		NLM_F_CREATE
++   Check		NLM_F_EXCL
++ */
++
++#define NLMSG_ALIGNTO	4
++#define NLMSG_ALIGN(len) ( ((len)+NLMSG_ALIGNTO-1) & ~(NLMSG_ALIGNTO-1) )
++#define NLMSG_LENGTH(len) ((len)+NLMSG_ALIGN(sizeof(struct nlmsghdr)))
++#define NLMSG_SPACE(len) NLMSG_ALIGN(NLMSG_LENGTH(len))
++#define NLMSG_DATA(nlh)  ((void*)(((char*)nlh) + NLMSG_LENGTH(0)))
++#define NLMSG_NEXT(nlh,len)	 ((len) -= NLMSG_ALIGN((nlh)->nlmsg_len), \
++				  (struct nlmsghdr*)(((char*)(nlh)) + NLMSG_ALIGN((nlh)->nlmsg_len)))
++#define NLMSG_OK(nlh,len) ((len) >= (int)sizeof(struct nlmsghdr) && \
++			   (nlh)->nlmsg_len >= sizeof(struct nlmsghdr) && \
++			   (nlh)->nlmsg_len <= (len))
++#define NLMSG_PAYLOAD(nlh,len) ((nlh)->nlmsg_len - NLMSG_SPACE((len)))
++
++#define NLMSG_NOOP		0x1	/* Nothing.		*/
++#define NLMSG_ERROR		0x2	/* Error		*/
++#define NLMSG_DONE		0x3	/* End of a dump	*/
++#define NLMSG_OVERRUN		0x4	/* Data lost		*/
++
++struct nlmsgerr
++{
++	int		error;
++	struct nlmsghdr msg;
++};
++
++#define NET_MAJOR 36		/* Major 36 is reserved for networking */
++
++enum {
++	NETLINK_UNCONNECTED = 0,
++	NETLINK_CONNECTED
++};
++
++#endif	/* __LINUX_NETLINK_H */
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/xfrm.h linux-libc-headers-2.6.12.0/include/linux/xfrm.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/xfrm.h	2005-07-06 02:17:21.000000000 +0200
++++ linux-libc-headers-2.6.12.0/include/linux/xfrm.h	2005-11-10 15:30:37.046807000 +0100
+@@ -174,6 +174,8 @@
+ 	XFRMA_ALG_COMP,		/* struct xfrm_algo */
+ 	XFRMA_ENCAP,		/* struct xfrm_algo + struct xfrm_encap_tmpl */
+ 	XFRMA_TMPL,		/* 1 or more struct xfrm_user_tmpl */
++	XFRMA_SA,
++	XFRMA_POLICY,
+ 	__XFRMA_MAX
+ 
+ #define XFRMA_MAX (__XFRMA_MAX - 1)
+@@ -257,5 +259,6 @@
+ 
+ #define XFRMGRP_ACQUIRE		1
+ #define XFRMGRP_EXPIRE		2
+-
++#define XFRMGRP_SA		4
++#define XFRMGRP_POLICY		8
+ #endif /* _LINUX_XFRM_H */
