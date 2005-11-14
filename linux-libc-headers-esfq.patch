@@ -1,21 +1,27 @@
 diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/pkt_sched.h linux-libc-headers-2.6.5.1/include/linux/pkt_sched.h
 --- linux-libc-headers-2.6.5.1.orig/include/linux/pkt_sched.h	2004-05-02 23:08:48.000000000 +0200
 +++ linux-libc-headers-2.6.5.1/include/linux/pkt_sched.h	2004-05-07 23:42:56.411761880 +0200
-@@ -145,8 +145,29 @@
+@@ -145,8 +145,35 @@
   *
   *	The only reason for this is efficiency, it is possible
   *	to change these parameters in compile time.
-+ *	
-+ *	If you need to play with this values use esfq.
++ *
++ *	If you need to play with these values use esfq instead.
   */
  
 +/* ESFQ section */
 +
 +enum
 +{
++	/* traditional */
 +	TCA_SFQ_HASH_CLASSIC,
 +	TCA_SFQ_HASH_DST,
 +	TCA_SFQ_HASH_SRC,
++	TCA_SFQ_HASH_FWMARK,
++	/* direct */
++	TCA_SFQ_HASH_DSTDIR,
++	TCA_SFQ_HASH_SRCDIR,
++	TCA_SFQ_HASH_FWMARKDIR,
 +};
 +
 +struct tc_esfq_qopt
