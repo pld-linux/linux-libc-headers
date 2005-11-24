@@ -278,3 +278,150 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/xfrm.h linux-libc-header
 +#define XFRMGRP_SA		4
 +#define XFRMGRP_POLICY		8
  #endif /* _LINUX_XFRM_H */
+diff -uNr linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set.h linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set.h
+--- linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set.h	2005-11-24 11:44:43.747372500 +0100
++++ linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set.h	2005-11-22 11:04:34.000000000 +0100
+@@ -77,10 +81,12 @@
+ #define IPSET_MATCH_INV		0x04	/* Inverse matching */
+ 
+ /*
+- * Set types (flavours)
++ * Set features
+  */
+-#define IPSET_TYPE_IP		0	/* IP address type of set */
+-#define IPSET_TYPE_PORT		1	/* Port type of set */
++#define IPSET_TYPE_IP		0x01	/* IP address type of set */
++#define IPSET_TYPE_PORT		0x02	/* Port type of set */
++#define IPSET_DATA_SINGLE	0x04	/* Single data storage */
++#define IPSET_DATA_DOUBLE	0x08	/* Double data storage */
+ 
+ /* Reserved keywords */
+ #define IPSET_TOKEN_DEFAULT	":default:"
+@@ -336,8 +342,9 @@
+ 	 */
+ 	int (*testip_kernel) (struct ip_set *set,
+ 			      const struct sk_buff * skb, 
+-			      u_int32_t flags,
+-			      ip_set_ip_t *ip);
++			      ip_set_ip_t *ip,
++			      const u_int32_t *flags,
++			      unsigned char index);
+ 
+ 	/* test for IP in set (userspace: ipset -T set IP)
+ 	 * return 0 if not in set, 1 if in set.
+@@ -368,8 +375,9 @@
+ 	 */
+ 	int (*addip_kernel) (struct ip_set *set,
+ 			     const struct sk_buff * skb, 
+-			     u_int32_t flags,
+-			     ip_set_ip_t *ip);
++			     ip_set_ip_t *ip,
++			     const u_int32_t *flags,
++			     unsigned char index);
+ 
+ 	/* remove IP from set (userspace: ipset -D set --entry x)
+ 	 * Return -EEXIST if the address is NOT in the set,
+@@ -387,8 +395,9 @@
+ 	 */
+ 	int (*delip_kernel) (struct ip_set *set,
+ 			     const struct sk_buff * skb, 
+-			     u_int32_t flags,
+-			     ip_set_ip_t *ip);
++			     ip_set_ip_t *ip,
++			     const u_int32_t *flags,
++			     unsigned char index);
+ 
+ 	/* new set creation - allocated type specific items
+ 	 */
+@@ -439,7 +448,7 @@
+ 			      void *data);
+ 
+ 	char typename[IP_SET_MAXNAMELEN];
+-	char typecode;
++	unsigned char features;
+ 	int protocol_version;
+ 
+ 	/* Set this to THIS_MODULE if you are a module, otherwise NULL */
+diff -uNr linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_iphash.h linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set_iphash.h
+--- linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_iphash.h	2005-11-24 11:44:43.747372500 +0100
++++ linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set_iphash.h	2005-11-22 11:04:34.000000000 +0100
+@@ -8,12 +8,11 @@
+ 
+ struct ip_set_iphash {
+ 	ip_set_ip_t *members;		/* the iphash proper */
+-	uint32_t initval;		/* initval for jhash_1word */
+-	uint32_t prime;			/* prime for double hashing */
+ 	uint32_t hashsize;		/* hash size */
+ 	uint16_t probes;		/* max number of probes  */
+ 	uint16_t resize;		/* resize factor in percent */
+ 	ip_set_ip_t netmask;		/* netmask */
++	void *initval[0];		/* initvals for jhash_1word */
+ };
+ 
+ struct ip_set_req_iphash_create {
+diff -uNr linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipmap.h linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set_ipmap.h
+--- linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipmap.h	2005-11-24 11:44:43.747372500 +0100
++++ linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set_ipmap.h	2005-11-22 11:04:34.000000000 +0100
+@@ -12,7 +12,7 @@
+ 	ip_set_ip_t last_ip;		/* host byte order, included in range */
+ 	ip_set_ip_t netmask;		/* subnet netmask */
+ 	ip_set_ip_t sizeid;		/* size of set in IPs */
+-	u_int16_t hosts;		/* number of hosts in a subnet */
++	ip_set_ip_t hosts;		/* number of hosts in a subnet */
+ };
+ 
+ struct ip_set_req_ipmap_create {
+diff -uNr linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipporthash.h linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set_ipporthash.h
+--- linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipporthash.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set_ipporthash.h	2005-11-22 11:04:34.000000000 +0100
+@@ -0,0 +1,33 @@
++#ifndef __IP_SET_IPPORTHASH_H
++#define __IP_SET_IPPORTHASH_H
++
++#include <linux/netfilter_ipv4/ip_set.h>
++
++#define SETTYPE_NAME "ipporthash"
++#define MAX_RANGE 0x0000FFFF
++#define INVALID_PORT	(MAX_RANGE + 1)
++
++struct ip_set_ipporthash {
++	ip_set_ip_t *members;		/* the ipporthash proper */
++	uint32_t hashsize;		/* hash size */
++	uint16_t probes;		/* max number of probes  */
++	uint16_t resize;		/* resize factor in percent */
++	ip_set_ip_t first_ip;		/* host byte order, included in range */
++	ip_set_ip_t last_ip;		/* host byte order, included in range */
++	void *initval[0];		/* initvals for jhash_1word */
++};
++
++struct ip_set_req_ipporthash_create {
++	uint32_t hashsize;
++	uint16_t probes;
++	uint16_t resize;
++	ip_set_ip_t from;
++	ip_set_ip_t to;
++};
++
++struct ip_set_req_ipporthash {
++	ip_set_ip_t ip;
++	ip_set_ip_t port;
++};
++
++#endif	/* __IP_SET_IPPORTHASH_H */
+diff -uNr linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_nethash.h linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set_nethash.h
+--- linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_nethash.h	2005-11-24 11:44:43.755373000 +0100
++++ linux-libc-headers-2.6.12.0.ipset/include/linux/netfilter_ipv4/ip_set_nethash.h	2005-11-22 11:04:34.000000000 +0100
+@@ -8,12 +8,11 @@
+ 
+ struct ip_set_nethash {
+ 	ip_set_ip_t *members;		/* the nethash proper */
+-	uint32_t initval;		/* initval for jhash_1word */
+-	uint32_t prime;			/* prime for double hashing */
+ 	uint32_t hashsize;		/* hash size */
+ 	uint16_t probes;		/* max number of probes  */
+ 	uint16_t resize;		/* resize factor in percent */
+ 	unsigned char cidr[30];		/* CIDR sizes */
++	void *initval[0];		/* initvals for jhash_1word */
+ };
+ 
+ struct ip_set_req_nethash_create {
