@@ -1,0 +1,468 @@
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/inet_diag.h linux-libc-headers-2.6.12.0/include/linux/inet_diag.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/inet_diag.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/inet_diag.h	2006-01-10 22:04:30.029930500 +0100
+@@ -0,0 +1,121 @@
++#ifndef _INET_DIAG_H_
++#define _INET_DIAG_H_ 1
++
++/* Just some random number */
++#define TCPDIAG_GETSOCK 18
++#define DCCPDIAG_GETSOCK 19
++
++#define INET_DIAG_GETSOCK_MAX 24
++
++/* Socket identity */
++struct inet_diag_sockid {
++	__u16	idiag_sport;
++	__u16	idiag_dport;
++	__u32	idiag_src[4];
++	__u32	idiag_dst[4];
++	__u32	idiag_if;
++	__u32	idiag_cookie[2];
++#define INET_DIAG_NOCOOKIE (~0U)
++};
++
++/* Request structure */
++
++struct inet_diag_req {
++	__u8	idiag_family;		/* Family of addresses. */
++	__u8	idiag_src_len;
++	__u8	idiag_dst_len;
++	__u8	idiag_ext;		/* Query extended information */
++
++	struct inet_diag_sockid id;
++
++	__u32	idiag_states;		/* States to dump */
++	__u32	idiag_dbs;		/* Tables to dump (NI) */
++};
++
++enum {
++	INET_DIAG_REQ_NONE,
++	INET_DIAG_REQ_BYTECODE,
++};
++
++#define INET_DIAG_REQ_MAX INET_DIAG_REQ_BYTECODE
++
++/* Bytecode is sequence of 4 byte commands followed by variable arguments.
++ * All the commands identified by "code" are conditional jumps forward:
++ * to offset cc+"yes" or to offset cc+"no". "yes" is supposed to be
++ * length of the command and its arguments.
++ */
++ 
++struct inet_diag_bc_op {
++	unsigned char	code;
++	unsigned char	yes;
++	unsigned short	no;
++};
++
++enum {
++	INET_DIAG_BC_NOP,
++	INET_DIAG_BC_JMP,
++	INET_DIAG_BC_S_GE,
++	INET_DIAG_BC_S_LE,
++	INET_DIAG_BC_D_GE,
++	INET_DIAG_BC_D_LE,
++	INET_DIAG_BC_AUTO,
++	INET_DIAG_BC_S_COND,
++	INET_DIAG_BC_D_COND,
++};
++
++struct inet_diag_hostcond {
++	__u8	family;
++	__u8	prefix_len;
++	int	port;
++	__u32	addr[0];
++};
++
++/* Base info structure. It contains socket identity (addrs/ports/cookie)
++ * and, alas, the information shown by netstat. */
++struct inet_diag_msg {
++	__u8	idiag_family;
++	__u8	idiag_state;
++	__u8	idiag_timer;
++	__u8	idiag_retrans;
++
++	struct inet_diag_sockid id;
++
++	__u32	idiag_expires;
++	__u32	idiag_rqueue;
++	__u32	idiag_wqueue;
++	__u32	idiag_uid;
++	__u32	idiag_inode;
++};
++
++/* Extensions */
++
++enum {
++	INET_DIAG_NONE,
++	INET_DIAG_MEMINFO,
++	INET_DIAG_INFO,
++	INET_DIAG_VEGASINFO,
++	INET_DIAG_CONG,
++};
++
++#define INET_DIAG_MAX INET_DIAG_CONG
++
++
++/* INET_DIAG_MEM */
++
++struct inet_diag_meminfo {
++	__u32	idiag_rmem;
++	__u32	idiag_wmem;
++	__u32	idiag_fmem;
++	__u32	idiag_tmem;
++};
++
++/* INET_DIAG_VEGASINFO */
++
++struct tcpvegas_info {
++	__u32	tcpv_enabled;
++	__u32	tcpv_rttcnt;
++	__u32	tcpv_rtt;
++	__u32	tcpv_minrtt;
++};
++
++#endif /* _INET_DIAG_H_ */
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set.h	2006-01-10 22:03:59.272008000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set.h	2006-01-10 22:04:30.029930500 +0100
+@@ -77,10 +77,12 @@
+ #define IPSET_MATCH_INV		0x04	/* Inverse matching */
+ 
+ /*
+- * Set types (flavours)
++ * Set features
+  */
+-#define IPSET_TYPE_IP		0	/* IP address type of set */
+-#define IPSET_TYPE_PORT		1	/* Port type of set */
++#define IPSET_TYPE_IP		0x01	/* IP address type of set */
++#define IPSET_TYPE_PORT		0x02	/* Port type of set */
++#define IPSET_DATA_SINGLE	0x04	/* Single data storage */
++#define IPSET_DATA_DOUBLE	0x08	/* Double data storage */
+ 
+ /* Reserved keywords */
+ #define IPSET_TOKEN_DEFAULT	":default:"
+@@ -336,8 +338,9 @@
+ 	 */
+ 	int (*testip_kernel) (struct ip_set *set,
+ 			      const struct sk_buff * skb, 
+-			      u_int32_t flags,
+-			      ip_set_ip_t *ip);
++			      ip_set_ip_t *ip,
++			      const u_int32_t *flags,
++			      unsigned char index);
+ 
+ 	/* test for IP in set (userspace: ipset -T set IP)
+ 	 * return 0 if not in set, 1 if in set.
+@@ -368,8 +371,9 @@
+ 	 */
+ 	int (*addip_kernel) (struct ip_set *set,
+ 			     const struct sk_buff * skb, 
+-			     u_int32_t flags,
+-			     ip_set_ip_t *ip);
++			     ip_set_ip_t *ip,
++			     const u_int32_t *flags,
++			     unsigned char index);
+ 
+ 	/* remove IP from set (userspace: ipset -D set --entry x)
+ 	 * Return -EEXIST if the address is NOT in the set,
+@@ -387,8 +391,9 @@
+ 	 */
+ 	int (*delip_kernel) (struct ip_set *set,
+ 			     const struct sk_buff * skb, 
+-			     u_int32_t flags,
+-			     ip_set_ip_t *ip);
++			     ip_set_ip_t *ip,
++			     const u_int32_t *flags,
++			     unsigned char index);
+ 
+ 	/* new set creation - allocated type specific items
+ 	 */
+@@ -439,7 +444,7 @@
+ 			      void *data);
+ 
+ 	char typename[IP_SET_MAXNAMELEN];
+-	char typecode;
++	unsigned char features;
+ 	int protocol_version;
+ 
+ 	/* Set this to THIS_MODULE if you are a module, otherwise NULL */
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_iphash.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_iphash.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_iphash.h	2006-01-10 22:03:59.272008000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_iphash.h	2006-01-10 22:04:30.029930500 +0100
+@@ -8,12 +8,11 @@
+ 
+ struct ip_set_iphash {
+ 	ip_set_ip_t *members;		/* the iphash proper */
+-	uint32_t initval;		/* initval for jhash_1word */
+-	uint32_t prime;			/* prime for double hashing */
+ 	uint32_t hashsize;		/* hash size */
+ 	uint16_t probes;		/* max number of probes  */
+ 	uint16_t resize;		/* resize factor in percent */
+ 	ip_set_ip_t netmask;		/* netmask */
++	void *initval[0];		/* initvals for jhash_1word */
+ };
+ 
+ struct ip_set_req_iphash_create {
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ipmap.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipmap.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ipmap.h	2006-01-10 22:03:59.284009000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipmap.h	2006-01-10 22:04:30.029930500 +0100
+@@ -12,7 +12,7 @@
+ 	ip_set_ip_t last_ip;		/* host byte order, included in range */
+ 	ip_set_ip_t netmask;		/* subnet netmask */
+ 	ip_set_ip_t sizeid;		/* size of set in IPs */
+-	u_int16_t hosts;		/* number of hosts in a subnet */
++	ip_set_ip_t hosts;		/* number of hosts in a subnet */
+ };
+ 
+ struct ip_set_req_ipmap_create {
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ipporthash.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipporthash.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ipporthash.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipporthash.h	2006-01-10 22:04:30.029930500 +0100
+@@ -0,0 +1,33 @@
++#ifndef __IP_SET_IPPORTHASH_H
++#define __IP_SET_IPPORTHASH_H
++
++#include <linux/netfilter_ipv4/ip_set.h>
++
++#define SETTYPE_NAME "ipporthash"
++#define MAX_RANGE 0x0000FFFF
++#define INVALID_PORT	(MAX_RANGE + 1)
++
++struct ip_set_ipporthash {
++	ip_set_ip_t *members;		/* the ipporthash proper */
++	uint32_t hashsize;		/* hash size */
++	uint16_t probes;		/* max number of probes  */
++	uint16_t resize;		/* resize factor in percent */
++	ip_set_ip_t first_ip;		/* host byte order, included in range */
++	ip_set_ip_t last_ip;		/* host byte order, included in range */
++	void *initval[0];		/* initvals for jhash_1word */
++};
++
++struct ip_set_req_ipporthash_create {
++	uint32_t hashsize;
++	uint16_t probes;
++	uint16_t resize;
++	ip_set_ip_t from;
++	ip_set_ip_t to;
++};
++
++struct ip_set_req_ipporthash {
++	ip_set_ip_t ip;
++	ip_set_ip_t port;
++};
++
++#endif	/* __IP_SET_IPPORTHASH_H */
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_nethash.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_nethash.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_nethash.h	2006-01-10 22:03:59.284009000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_nethash.h	2006-01-10 22:04:30.029930500 +0100
+@@ -8,12 +8,11 @@
+ 
+ struct ip_set_nethash {
+ 	ip_set_ip_t *members;		/* the nethash proper */
+-	uint32_t initval;		/* initval for jhash_1word */
+-	uint32_t prime;			/* prime for double hashing */
+ 	uint32_t hashsize;		/* hash size */
+ 	uint16_t probes;		/* max number of probes  */
+ 	uint16_t resize;		/* resize factor in percent */
+ 	unsigned char cidr[30];		/* CIDR sizes */
++	void *initval[0];		/* initvals for jhash_1word */
+ };
+ 
+ struct ip_set_req_nethash_create {
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netlink.h linux-libc-headers-2.6.12.0/include/linux/netlink.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/netlink.h	2006-01-10 22:03:59.296009000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/netlink.h	2006-01-10 22:04:30.029930500 +0100
+@@ -8,18 +8,19 @@
+ #define NETLINK_SKIP		1	/* Reserved for ENskip  			*/
+ #define NETLINK_USERSOCK	2	/* Reserved for user mode socket protocols 	*/
+ #define NETLINK_FIREWALL	3	/* Firewalling hook				*/
+-#define NETLINK_TCPDIAG		4	/* TCP socket monitoring			*/
++#define NETLINK_INET_DIAG	4	/* INET socket monitoring			*/
+ #define NETLINK_NFLOG		5	/* netfilter/iptables ULOG */
+ #define NETLINK_XFRM		6	/* ipsec */
+ #define NETLINK_SELINUX		7	/* SELinux event notifications */
+-#define NETLINK_ARPD		8
++#define NETLINK_ISCSI		8	/* Open-ISCSI */
+ #define NETLINK_AUDIT		9	/* auditing */
+-#define NETLINK_NETFILTER	10	/* netfilter subsystem */
+-#define NETLINK_ROUTE6		11	/* af_inet6 route comm channel */
++#define NETLINK_FIB_LOOKUP	10
++#define NETLINK_CONNECTOR	11
++#define NETLINK_NETFILTER	12	/* netfilter subsystem */
+ #define NETLINK_IP6_FW		13
+ #define NETLINK_DNRTMSG		14	/* DECnet routing messages */
+ #define NETLINK_KOBJECT_UEVENT	15	/* Kernel messages to userspace */
+-#define NETLINK_TAPBASE		16	/* 16 to 31 are ethertap */
++#define NETLINK_GENERIC		16
+ 
+ #define MAX_LINKS 32		
+ 
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/pkt_sched.h linux-libc-headers-2.6.12.0/include/linux/pkt_sched.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/pkt_sched.h	2006-01-10 22:03:59.228005000 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/pkt_sched.h	2006-01-10 22:13:49.168874500 +0100
+@@ -459,6 +459,7 @@
+ 	TCA_NETEM_CORR,
+ 	TCA_NETEM_DELAY_DIST,
+ 	TCA_NETEM_REORDER,
++	TCA_NETEM_CORRUPT,
+ 	__TCA_NETEM_MAX,
+ };
+ 
+@@ -487,6 +488,12 @@
+ 	__u32	correlation;
+ };
+ 
++struct tc_netem_corrupt
++{
++	__u32   probability;
++	__u32   correlation;
++};
++
+ #define NETEM_DIST_SCALE	8192
+ 
+ /* WRR section */
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/rtnetlink.h linux-libc-headers-2.6.12.0/include/linux/rtnetlink.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/rtnetlink.h	2005-07-06 02:17:21.000000000 +0200
++++ linux-libc-headers-2.6.12.0/include/linux/rtnetlink.h	2006-01-10 22:12:13.210877500 +0100
+@@ -89,6 +89,13 @@
+ 	RTM_GETANYCAST	= 62,
+ #define RTM_GETANYCAST	RTM_GETANYCAST
+ 
++	RTM_NEWNEIGHTBL = 64,
++#define RTM_NEWNEIGHTBL RTM_NEWNEIGHTBL
++        RTM_GETNEIGHTBL = 66,
++#define RTM_GETNEIGHTBL RTM_GETNEIGHTBL
++        RTM_SETNEIGHTBL,
++#define RTM_SETNEIGHTBL RTM_SETNEIGHTBL
++
+ 	__RTM_MAX,
+ #define RTM_MAX		(((__RTM_MAX + 3) & ~3) - 1)
+ };
+@@ -492,6 +499,106 @@
+ 	__u32		ndm_refcnt;
+ };
+ 
++
++/*****************************************************************
++ *              Neighbour tables specific messages.
++ *
++ * To retrieve the neighbour tables send RTM_GETNEIGHTBL with the
++ * NLM_F_DUMP flag set. Every neighbour table configuration is
++ * spread over multiple messages to avoid running into message
++ * size limits on systems with many interfaces. The first message
++ * in the sequence transports all not device specific data such as
++ * statistics, configuration, and the default parameter set.
++ * This message is followed by 0..n messages carrying device
++ * specific parameter sets.
++ * Although the ordering should be sufficient, NDTA_NAME can be
++ * used to identify sequences. The initial message can be identified
++ * by checking for NDTA_CONFIG. The device specific messages do
++ * not contain this TLV but have NDTPA_IFINDEX set to the
++ * corresponding interface index.
++ *
++ * To change neighbour table attributes, send RTM_SETNEIGHTBL
++ * with NDTA_NAME set. Changeable attribute include NDTA_THRESH[1-3],
++ * NDTA_GC_INTERVAL, and all TLVs in NDTA_PARMS unless marked
++ * otherwise. Device specific parameter sets can be changed by
++ * setting NDTPA_IFINDEX to the interface index of the corresponding
++ * device.
++ ****/
++
++struct ndt_stats
++{
++        __u64           ndts_allocs;
++        __u64           ndts_destroys;
++        __u64           ndts_hash_grows;
++        __u64           ndts_res_failed;
++        __u64           ndts_lookups;
++        __u64           ndts_hits;
++        __u64           ndts_rcv_probes_mcast;
++        __u64           ndts_rcv_probes_ucast;
++        __u64           ndts_periodic_gc_runs;
++        __u64           ndts_forced_gc_runs;
++};
++
++enum {
++        NDTPA_UNSPEC,
++        NDTPA_IFINDEX,                  /* u32, unchangeable */
++        NDTPA_REFCNT,                   /* u32, read-only */
++        NDTPA_REACHABLE_TIME,           /* u64, read-only, msecs */
++        NDTPA_BASE_REACHABLE_TIME,      /* u64, msecs */
++        NDTPA_RETRANS_TIME,             /* u64, msecs */
++        NDTPA_GC_STALETIME,             /* u64, msecs */
++        NDTPA_DELAY_PROBE_TIME,         /* u64, msecs */
++        NDTPA_QUEUE_LEN,                /* u32 */
++        NDTPA_APP_PROBES,               /* u32 */
++        NDTPA_UCAST_PROBES,             /* u32 */
++        NDTPA_MCAST_PROBES,             /* u32 */
++        NDTPA_ANYCAST_DELAY,            /* u64, msecs */
++        NDTPA_PROXY_DELAY,              /* u64, msecs */
++        NDTPA_PROXY_QLEN,               /* u32 */
++        NDTPA_LOCKTIME,                 /* u64, msecs */
++        __NDTPA_MAX
++};
++#define NDTPA_MAX (__NDTPA_MAX - 1)
++
++struct ndtmsg
++{
++        __u8            ndtm_family;
++        __u8            ndtm_pad1;
++        __u16           ndtm_pad2;
++};
++
++struct ndt_config
++{
++        __u16           ndtc_key_len;
++        __u16           ndtc_entry_size;
++        __u32           ndtc_entries;
++        __u32           ndtc_last_flush;        /* delta to now in msecs */
++        __u32           ndtc_last_rand;         /* delta to now in msecs */
++        __u32           ndtc_hash_rnd;
++        __u32           ndtc_hash_mask;
++        __u32           ndtc_hash_chain_gc;
++        __u32           ndtc_proxy_qlen;
++};
++
++enum {
++        NDTA_UNSPEC,
++        NDTA_NAME,                      /* char *, unchangeable */
++        NDTA_THRESH1,                   /* u32 */
++        NDTA_THRESH2,                   /* u32 */
++        NDTA_THRESH3,                   /* u32 */
++        NDTA_CONFIG,                    /* struct ndt_config, read-only */
++        NDTA_PARMS,                     /* nested TLV NDTPA_* */
++        NDTA_STATS,                     /* struct ndt_stats, read-only */
++        NDTA_GC_INTERVAL,               /* u64, msecs */
++        __NDTA_MAX
++};
++#define NDTA_MAX (__NDTA_MAX - 1)
++
++#define NDTA_RTA(r) ((struct rtattr*)(((char*)(r)) + \
++                     NLMSG_ALIGN(sizeof(struct ndtmsg))))
++#define NDTA_PAYLOAD(n) NLMSG_PAYLOAD(n,sizeof(struct ndtmsg))
++
++
+ /****
+  *		General form of address family dependent message.
+  ****/
+diff -urN linux-libc-headers-2.6.12.0.org/include/linux/xfrm.h linux-libc-headers-2.6.12.0/include/linux/xfrm.h
+--- linux-libc-headers-2.6.12.0.org/include/linux/xfrm.h	2005-07-06 02:17:21.000000000 +0200
++++ linux-libc-headers-2.6.12.0/include/linux/xfrm.h	2006-01-10 22:04:30.029930500 +0100
+@@ -174,6 +174,8 @@
+ 	XFRMA_ALG_COMP,		/* struct xfrm_algo */
+ 	XFRMA_ENCAP,		/* struct xfrm_algo + struct xfrm_encap_tmpl */
+ 	XFRMA_TMPL,		/* 1 or more struct xfrm_user_tmpl */
++	XFRMA_SA,
++	XFRMA_POLICY,
+ 	__XFRMA_MAX
+ 
+ #define XFRMA_MAX (__XFRMA_MAX - 1)
+@@ -257,5 +259,6 @@
+ 
+ #define XFRMGRP_ACQUIRE		1
+ #define XFRMGRP_EXPIRE		2
+-
++#define XFRMGRP_SA		4
++#define XFRMGRP_POLICY		8
+ #endif /* _LINUX_XFRM_H */
