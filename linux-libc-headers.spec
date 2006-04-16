@@ -2,7 +2,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	2.6.12.0
-Release:	11
+Release:	12
 Epoch:		7
 License:	GPL
 Group:		Development
@@ -20,15 +20,16 @@ Patch6:		%{name}-endian.patch
 # based on http://people.redhat.com/sgrubb/audit/audit.h
 Patch7:		%{name}-audit.patch
 Patch8:		%{name}-partial-2.6.15.patch
+Patch9:		%{name}-nfc.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.213
 Requires(pre):	fileutils
 Provides:	alsa-driver-devel
-Provides:	i2c-devel = 2.8.2
 Provides:	glibc-kernel-headers = %{epoch}:%{version}-%{release}
+Provides:	i2c-devel = 2.8.2
 Obsoletes:	alsa-driver-devel
-Obsoletes:	glibc-kernheaders
 Obsoletes:	glibc-kernel-headers
+Obsoletes:	glibc-kernheaders
 Conflicts:	lm_sensors-devel < 2.8.2-2
 ExclusiveOS:	Linux
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -66,6 +67,7 @@ potrzebne do przebudowania pakietu glibc.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 %ifarch %{x8664}
