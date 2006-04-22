@@ -1,6 +1,6 @@
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/inet_diag.h linux-libc-headers-2.6.12.0/include/linux/inet_diag.h
 --- linux-libc-headers-2.6.12.0.org/include/linux/inet_diag.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/inet_diag.h	2006-01-10 22:04:30.029930500 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/inet_diag.h	2006-04-22 23:35:02.680745750 +0200
 @@ -0,0 +1,121 @@
 +#ifndef _INET_DIAG_H_
 +#define _INET_DIAG_H_ 1
@@ -124,8 +124,8 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/inet_diag.h linux-libc-h
 +
 +#endif /* _INET_DIAG_H_ */
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set.h
---- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set.h	2006-01-10 22:03:59.272008000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set.h	2006-01-10 22:04:30.029930500 +0100
+--- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set.h	2006-04-22 23:34:07.881321000 +0200
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set.h	2006-04-22 23:35:02.680745750 +0200
 @@ -77,10 +77,12 @@
  #define IPSET_MATCH_INV		0x04	/* Inverse matching */
  
@@ -188,8 +188,8 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set.h 
  
  	/* Set this to THIS_MODULE if you are a module, otherwise NULL */
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_iphash.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_iphash.h
---- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_iphash.h	2006-01-10 22:03:59.272008000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_iphash.h	2006-01-10 22:04:30.029930500 +0100
+--- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_iphash.h	2006-04-22 23:34:07.889321000 +0200
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_iphash.h	2006-04-22 23:35:02.680745750 +0200
 @@ -8,12 +8,11 @@
  
  struct ip_set_iphash {
@@ -205,8 +205,8 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ip
  
  struct ip_set_req_iphash_create {
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ipmap.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipmap.h
---- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ipmap.h	2006-01-10 22:03:59.284009000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipmap.h	2006-01-10 22:04:30.029930500 +0100
+--- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ipmap.h	2006-04-22 23:34:07.889321000 +0200
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipmap.h	2006-04-22 23:35:02.680745750 +0200
 @@ -12,7 +12,7 @@
  	ip_set_ip_t last_ip;		/* host byte order, included in range */
  	ip_set_ip_t netmask;		/* subnet netmask */
@@ -218,7 +218,7 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ip
  struct ip_set_req_ipmap_create {
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ipporthash.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipporthash.h
 --- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ipporthash.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipporthash.h	2006-01-10 22:04:30.029930500 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_ipporthash.h	2006-04-22 23:35:02.680745750 +0200
 @@ -0,0 +1,33 @@
 +#ifndef __IP_SET_IPPORTHASH_H
 +#define __IP_SET_IPPORTHASH_H
@@ -254,8 +254,8 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ip
 +
 +#endif	/* __IP_SET_IPPORTHASH_H */
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_nethash.h linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_nethash.h
---- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_nethash.h	2006-01-10 22:03:59.284009000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_nethash.h	2006-01-10 22:04:30.029930500 +0100
+--- linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_nethash.h	2006-04-22 23:34:07.897322000 +0200
++++ linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4/ip_set_nethash.h	2006-04-22 23:35:02.680745750 +0200
 @@ -8,12 +8,11 @@
  
  struct ip_set_nethash {
@@ -271,8 +271,8 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netfilter_ipv4/ip_set_ne
  
  struct ip_set_req_nethash_create {
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netlink.h linux-libc-headers-2.6.12.0/include/linux/netlink.h
---- linux-libc-headers-2.6.12.0.org/include/linux/netlink.h	2006-01-10 22:03:59.296009000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/netlink.h	2006-01-10 22:04:30.029930500 +0100
+--- linux-libc-headers-2.6.12.0.org/include/linux/netlink.h	2006-04-22 23:34:08.049331000 +0200
++++ linux-libc-headers-2.6.12.0/include/linux/netlink.h	2006-04-22 23:35:02.680745750 +0200
 @@ -8,18 +8,19 @@
  #define NETLINK_SKIP		1	/* Reserved for ENskip  			*/
  #define NETLINK_USERSOCK	2	/* Reserved for user mode socket protocols 	*/
@@ -299,8 +299,8 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/netlink.h linux-libc-hea
  #define MAX_LINKS 32		
  
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/pkt_sched.h linux-libc-headers-2.6.12.0/include/linux/pkt_sched.h
---- linux-libc-headers-2.6.12.0.org/include/linux/pkt_sched.h	2006-01-10 22:03:59.228005000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/pkt_sched.h	2006-01-10 22:13:49.168874500 +0100
+--- linux-libc-headers-2.6.12.0.org/include/linux/pkt_sched.h	2006-04-22 23:34:07.765313000 +0200
++++ linux-libc-headers-2.6.12.0/include/linux/pkt_sched.h	2006-04-22 23:35:02.684746000 +0200
 @@ -459,6 +459,7 @@
  	TCA_NETEM_CORR,
  	TCA_NETEM_DELAY_DIST,
@@ -324,7 +324,7 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/pkt_sched.h linux-libc-h
  /* WRR section */
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/rtnetlink.h linux-libc-headers-2.6.12.0/include/linux/rtnetlink.h
 --- linux-libc-headers-2.6.12.0.org/include/linux/rtnetlink.h	2005-07-06 02:17:21.000000000 +0200
-+++ linux-libc-headers-2.6.12.0/include/linux/rtnetlink.h	2006-01-10 22:12:13.210877500 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/rtnetlink.h	2006-04-22 23:38:40.122335000 +0200
 @@ -89,6 +89,13 @@
  	RTM_GETANYCAST	= 62,
  #define RTM_GETANYCAST	RTM_GETANYCAST
@@ -339,7 +339,16 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/rtnetlink.h linux-libc-h
  	__RTM_MAX,
  #define RTM_MAX		(((__RTM_MAX + 3) & ~3) - 1)
  };
-@@ -492,6 +499,106 @@
+@@ -191,6 +198,8 @@
+ #define RTPROT_ZEBRA	11	/* Zebra */
+ #define RTPROT_BIRD	12	/* BIRD */
+ #define RTPROT_DNROUTED	13	/* DECnet routing daemon */
++#define	RTPROT_XORP	14	/* XORP */
++#define	RTPROT_NTK	15	/* Netsukuku */
+ 
+ /* rtm_scope
+ 
+@@ -492,6 +501,106 @@
  	__u32		ndm_refcnt;
  };
  
@@ -448,7 +457,7 @@ diff -urN linux-libc-headers-2.6.12.0.org/include/linux/rtnetlink.h linux-libc-h
   ****/
 diff -urN linux-libc-headers-2.6.12.0.org/include/linux/xfrm.h linux-libc-headers-2.6.12.0/include/linux/xfrm.h
 --- linux-libc-headers-2.6.12.0.org/include/linux/xfrm.h	2005-07-06 02:17:21.000000000 +0200
-+++ linux-libc-headers-2.6.12.0/include/linux/xfrm.h	2006-01-10 22:04:30.029930500 +0100
++++ linux-libc-headers-2.6.12.0/include/linux/xfrm.h	2006-04-22 23:35:02.684746000 +0200
 @@ -174,6 +174,8 @@
  	XFRMA_ALG_COMP,		/* struct xfrm_algo */
  	XFRMA_ENCAP,		/* struct xfrm_algo + struct xfrm_encap_tmpl */
