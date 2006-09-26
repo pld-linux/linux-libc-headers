@@ -2,7 +2,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	2.6.12.0
-Release:	13
+Release:	14
 Epoch:		7
 License:	GPL
 Group:		Development
@@ -21,6 +21,7 @@ Patch6:		%{name}-endian.patch
 Patch7:		%{name}-audit.patch
 Patch8:		%{name}-partial-2.6.15.patch
 Patch9:		%{name}-nfc.patch
+Patch10:	linux-headers-2.6.17.11-08232006-unistd_x86_PIC-1.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.213
 Requires(pre):	fileutils
@@ -68,6 +69,7 @@ potrzebne do przebudowania pakietu glibc.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 %ifarch %{x8664}
