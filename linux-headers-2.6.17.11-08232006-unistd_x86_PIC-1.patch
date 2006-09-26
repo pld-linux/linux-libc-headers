@@ -1,0 +1,172 @@
+Submitted By: Robert Connolly <robert at linuxfromscratch dot org> (ashes)
+Date: 2006-06-24
+Initial Package Version: 2.6.17.1
+Upstream Status: Not submitted
+Origin: Gentoo - unistd.h-i386-pic.patch
+Description: This patch adds position independent assembly for syscalls.
+This fixes problems with llseek(), util-linux, vsftpd, proftpd, and more.
+
+diff -Naur linux-2.6.17.1.orig/include/asm-i386/unistd.h linux-2.6.17.1/include/asm-i386/unistd.h
+--- linux-2.6.17.1.orig/include/asm-i386/unistd.h	2006-06-20 09:31:55.000000000 +0000
++++ linux-2.6.17.1/include/asm-i386/unistd.h	2006-06-24 18:23:34.000000000 +0000
+@@ -349,6 +349,21 @@
+ __syscall_return(type,__res); \
+ }
+ 
++#ifdef __PIC__
++#define _syscall1(type,name,type1,arg1) \
++type name(type1 arg1) \
++{ \
++long __res; \
++__asm__ volatile (\
++	"pushl %%ebx\n\t" \
++	"movl %2,%%ebx\n\t" \
++	"int $0x80\n\t" \
++	"popl %%ebx\n\t" \
++	: "=a" (__res) \
++	: "0" (__NR_##name),"r" ((long)(arg1))); \
++__syscall_return(type,__res); \
++}
++#else
+ #define _syscall1(type,name,type1,arg1) \
+ type name(type1 arg1) \
+ { \
+@@ -358,7 +373,23 @@
+ 	: "0" (__NR_##name),"ri" ((long)(arg1)) : "memory"); \
+ __syscall_return(type,__res); \
+ }
++#endif
+ 
++#ifdef __PIC__
++#define _syscall2(type,name,type1,arg1,type2,arg2) \
++type name(type1 arg1,type2 arg2) \
++{ \
++long __res; \
++__asm__ volatile (\
++	"pushl %%ebx\n\t" \
++	"movl %2,%%ebx\n\t" \
++	"int $0x80\n\t" \
++	"popl %%ebx\n\t" \
++	: "=a" (__res) \
++	: "0" (__NR_##name),"r" ((long)(arg1)),"c" ((long)(arg2))); \
++__syscall_return(type,__res); \
++}
++#else
+ #define _syscall2(type,name,type1,arg1,type2,arg2) \
+ type name(type1 arg1,type2 arg2) \
+ { \
+@@ -369,7 +400,24 @@
+ 	: "memory"); \
+ __syscall_return(type,__res); \
+ }
++#endif
+ 
++#ifdef __PIC__
++#define _syscall3(type,name,type1,arg1,type2,arg2,type3,arg3) \
++type name(type1 arg1,type2 arg2,type3 arg3) \
++{ \
++long __res; \
++__asm__ volatile (\
++	"pushl %%ebx\n\t" \
++	"movl %2,%%ebx\n\t" \
++	"int $0x80\n\t" \
++	"popl %%ebx\n\t" \
++	: "=a" (__res) \
++	: "0" (__NR_##name),"r" ((long)(arg1)),"c" ((long)(arg2)), \
++		  "d" ((long)(arg3))); \
++__syscall_return(type,__res); \
++}
++#else
+ #define _syscall3(type,name,type1,arg1,type2,arg2,type3,arg3) \
+ type name(type1 arg1,type2 arg2,type3 arg3) \
+ { \
+@@ -380,7 +428,24 @@
+ 		  "d" ((long)(arg3)) : "memory"); \
+ __syscall_return(type,__res); \
+ }
++#endif
+ 
++#ifdef __PIC__
++#define _syscall4(type,name,type1,arg1,type2,arg2,type3,arg3,type4,arg4) \
++type name (type1 arg1, type2 arg2, type3 arg3, type4 arg4) \
++{ \
++long __res; \
++__asm__ volatile (\
++	"pushl %%ebx\n\t" \
++	"movl %2,%%ebx\n\t" \
++	"int $0x80\n\t" \
++	"popl %%ebx\n\t" \
++	: "=a" (__res) \
++	: "0" (__NR_##name),"r" ((long)(arg1)),"c" ((long)(arg2)), \
++	  "d" ((long)(arg3)),"S" ((long)(arg4))); \
++__syscall_return(type,__res); \
++} 
++#else
+ #define _syscall4(type,name,type1,arg1,type2,arg2,type3,arg3,type4,arg4) \
+ type name (type1 arg1, type2 arg2, type3 arg3, type4 arg4) \
+ { \
+@@ -391,7 +456,25 @@
+ 	  "d" ((long)(arg3)),"S" ((long)(arg4)) : "memory"); \
+ __syscall_return(type,__res); \
+ } 
++#endif
+ 
++#ifdef __PIC__
++#define _syscall5(type,name,type1,arg1,type2,arg2,type3,arg3,type4,arg4, \
++	  type5,arg5) \
++type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5) \
++{ \
++long __res; \
++__asm__ volatile (\
++	"pushl %%ebx\n\t" \
++	"movl %2,%%ebx\n\t" \
++	"int $0x80\n\t" \
++	"popl %%ebx\n\t" \
++	: "=a" (__res) \
++	: "0" (__NR_##name),"m" ((long)(arg1)),"c" ((long)(arg2)), \
++	  "d" ((long)(arg3)),"S" ((long)(arg4)),"D" ((long)(arg5))); \
++__syscall_return(type,__res); \
++}
++#else
+ #define _syscall5(type,name,type1,arg1,type2,arg2,type3,arg3,type4,arg4, \
+ 	  type5,arg5) \
+ type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5) \
+@@ -405,7 +488,30 @@
+ 	: "memory"); \
+ __syscall_return(type,__res); \
+ }
++#endif
+ 
++#ifdef __PIC__
++#define _syscall6(type,name,type1,arg1,type2,arg2,type3,arg3,type4,arg4, \
++	  type5,arg5,type6,arg6) \
++type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5,type6 arg6) \
++{ \
++long __res; \
++__asm__ volatile (\
++	"pushl %%ebp\n\t" \
++	"movl %%eax,%%ebp\n\t" \
++	"movl %1,%%eax\n\t" \
++	"pushl %%ebx\n\t" \
++	"movl %2,%%ebx\n\t" \
++	"int $0x80\n\t" \
++	"popl %%ebx\n\t" \
++	"popl %%ebp\n\t" \
++	: "=a" (__res) \
++	: "i" (__NR_##name),"m" ((long)(arg1)),"c" ((long)(arg2)), \
++	  "d" ((long)(arg3)),"S" ((long)(arg4)),"D" ((long)(arg5)), \
++	  "0" ((long)(arg6))); \
++__syscall_return(type,__res); \
++}
++#else
+ #define _syscall6(type,name,type1,arg1,type2,arg2,type3,arg3,type4,arg4, \
+ 	  type5,arg5,type6,arg6) \
+ type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5,type6 arg6) \
+@@ -421,6 +527,7 @@
+ 	: "memory"); \
+ __syscall_return(type,__res); \
+ }
++#endif
+ 
+ #ifdef __KERNEL__
+ #define __ARCH_WANT_IPC_PARSE_VERSION
