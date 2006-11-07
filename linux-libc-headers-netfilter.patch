@@ -1,11 +1,11 @@
-diff -uNr include.orig/linux/netfilter/ipv4/nf_conntrack_icmp.h include/linux/netfilter/ipv4/nf_conntrack_icmp.h
+diff -uNr include.orig/linux/netfilter/ipv4/nf_conntrack_icmp.h usr/include/linux/netfilter/ipv4/nf_conntrack_icmp.h
 --- include.orig/linux/netfilter/ipv4/nf_conntrack_icmp.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/ipv4/nf_conntrack_icmp.h	2005-08-02 20:02:17.683251344 +0200
++++ usr/include/linux/netfilter/ipv4/nf_conntrack_icmp.h	2005-08-02 20:02:17.683251344 +0200
 @@ -0,0 +1,17 @@
 +/*
 + * ICMP tracking.
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack_icmp.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack_icmp.h
 + */
 +
 +#ifndef _NF_CONNTRACK_ICMP_H
@@ -19,15 +19,15 @@ diff -uNr include.orig/linux/netfilter/ipv4/nf_conntrack_icmp.h include/linux/ne
 +};
 +
 +#endif /* _NF_CONNTRACK_ICMP_H */
-diff -uNr include.orig/linux/netfilter/ipv4/nf_conntrack_ipv4.h include/linux/netfilter/ipv4/nf_conntrack_ipv4.h
+diff -uNr include.orig/linux/netfilter/ipv4/nf_conntrack_ipv4.h usr/include/linux/netfilter/ipv4/nf_conntrack_ipv4.h
 --- include.orig/linux/netfilter/ipv4/nf_conntrack_ipv4.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/ipv4/nf_conntrack_ipv4.h	2005-08-02 20:02:17.684251192 +0200
++++ usr/include/linux/netfilter/ipv4/nf_conntrack_ipv4.h	2005-08-02 20:02:17.684251192 +0200
 @@ -0,0 +1,40 @@
 +/*
 + * IPv4 support for nf_conntrack.
 + *
 + * 23 Mar 2004: Yasuyuki Kozakai @ USAGI <yasuyuki.kozakai@toshiba.co.jp>
-+ *	- move L3 protocol dependent part from include/linux/netfilter_ipv4/
++ *	- move L3 protocol dependent part from usr/include/linux/netfilter_ipv4/
 + *	  ip_conntarck.h
 + */
 +
@@ -63,9 +63,9 @@ diff -uNr include.orig/linux/netfilter/ipv4/nf_conntrack_ipv4.h include/linux/ne
 +nf_ct_ipv4_ct_gather_frags(struct sk_buff *skb);
 +
 +#endif /*_NF_CONNTRACK_IPV4_H*/
-diff -uNr include.orig/linux/netfilter/ipv6/nf_conntrack_icmpv6.h include/linux/netfilter/ipv6/nf_conntrack_icmpv6.h
+diff -uNr include.orig/linux/netfilter/ipv6/nf_conntrack_icmpv6.h usr/include/linux/netfilter/ipv6/nf_conntrack_icmpv6.h
 --- include.orig/linux/netfilter/ipv6/nf_conntrack_icmpv6.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/ipv6/nf_conntrack_icmpv6.h	2005-08-02 20:02:17.698249064 +0200
++++ usr/include/linux/netfilter/ipv6/nf_conntrack_icmpv6.h	2005-08-02 20:02:17.698249064 +0200
 @@ -0,0 +1,27 @@
 +/*
 + * ICMPv6 tracking.
@@ -73,7 +73,7 @@ diff -uNr include.orig/linux/netfilter/ipv6/nf_conntrack_icmpv6.h include/linux/
 + * 21 Apl 2004: Yasuyuki Kozakai @USAGI <yasuyuki.kozakai@toshiba.co.jp>
 + *	- separated from nf_conntrack_icmp.h
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack_icmp.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack_icmp.h
 + */
 +
 +#ifndef _NF_CONNTRACK_ICMPV6_H
@@ -94,9 +94,9 @@ diff -uNr include.orig/linux/netfilter/ipv6/nf_conntrack_icmpv6.h include/linux/
 +};
 +
 +#endif /* _NF_CONNTRACK_ICMPV6_H */
-diff -uNr include.orig/linux/netfilter/nf_conntrack_core.h include/linux/netfilter/nf_conntrack_core.h
+diff -uNr include.orig/linux/netfilter/nf_conntrack_core.h usr/include/linux/netfilter/nf_conntrack_core.h
 --- include.orig/linux/netfilter/nf_conntrack_core.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nf_conntrack_core.h	2005-08-02 20:02:17.687250736 +0200
++++ usr/include/linux/netfilter/nf_conntrack_core.h	2005-08-02 20:02:17.687250736 +0200
 @@ -0,0 +1,72 @@
 +/*
 + * This header is used to share core functionality between the
@@ -106,7 +106,7 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_core.h include/linux/netfilt
 + * 16 Dec 2003: Yasuyuki Kozakai @USAGI <yasuyuki.kozakai@toshiba.co.jp>
 + *	- generalize L3 protocol dependent part.
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack_core.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack_core.h
 + */
 +
 +#ifndef _NF_CONNTRACK_CORE_H
@@ -170,16 +170,16 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_core.h include/linux/netfilt
 +extern struct list_head nf_conntrack_expect_list;
 +DECLARE_RWLOCK_EXTERN(nf_conntrack_lock);
 +#endif /* _NF_CONNTRACK_CORE_H */
-diff -uNr include.orig/linux/netfilter/nf_conntrack_ftp.h include/linux/netfilter/nf_conntrack_ftp.h
+diff -uNr include.orig/linux/netfilter/nf_conntrack_ftp.h usr/include/linux/netfilter/nf_conntrack_ftp.h
 --- include.orig/linux/netfilter/nf_conntrack_ftp.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nf_conntrack_ftp.h	2005-08-02 20:02:17.700248760 +0200
++++ usr/include/linux/netfilter/nf_conntrack_ftp.h	2005-08-02 20:02:17.700248760 +0200
 @@ -0,0 +1,59 @@
 +/*
 + * nf_conntrack_ftp.h
 + *
 + * Definitions and Declarations for FTP tracking.
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack_ftp.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack_ftp.h
 + *
 + * 16 Dec 2003: Yasuyuki Kozakai @ USAGI <yasuyuki.kozakai@toshiba.co.jp>
 + *	- IPv6 support.
@@ -233,9 +233,9 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_ftp.h include/linux/netfilte
 +				       struct nf_conntrack_expect *exp,
 +				       u32 *seq);
 +#endif /* _NF_CONNTRACK_FTP_H */
-diff -uNr include.orig/linux/netfilter/nf_conntrack.h include/linux/netfilter/nf_conntrack.h
+diff -uNr include.orig/linux/netfilter/nf_conntrack.h usr/include/linux/netfilter/nf_conntrack.h
 --- include.orig/linux/netfilter/nf_conntrack.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nf_conntrack.h	2005-08-02 20:02:17.708247544 +0200
++++ usr/include/linux/netfilter/nf_conntrack.h	2005-08-02 20:02:17.708247544 +0200
 @@ -0,0 +1,302 @@
 +/*
 + * Connection state tracking for netfilter.  This is separated from,
@@ -245,7 +245,7 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack.h include/linux/netfilter/nf
 + * 16 Dec 2003: Yasuyuki Kozakai @USAGI <yasuyuki.kozakai@toshiba.co.jp>
 + *	- generalize L3 protocol dependent part.
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack.h
 + */
 +
 +#ifndef _NF_CONNTRACK_H
@@ -539,9 +539,9 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack.h include/linux/netfilter/nf
 +
 +#endif /* __KERNEL__ */
 +#endif /* _NF_CONNTRACK_H */
-diff -uNr include.orig/linux/netfilter/nf_conntrack_helper.h include/linux/netfilter/nf_conntrack_helper.h
+diff -uNr include.orig/linux/netfilter/nf_conntrack_helper.h usr/include/linux/netfilter/nf_conntrack_helper.h
 --- include.orig/linux/netfilter/nf_conntrack_helper.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nf_conntrack_helper.h	2005-08-02 20:02:17.706247848 +0200
++++ usr/include/linux/netfilter/nf_conntrack_helper.h	2005-08-02 20:02:17.706247848 +0200
 @@ -0,0 +1,50 @@
 +/*
 + * connection tracking helpers.
@@ -549,7 +549,7 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_helper.h include/linux/netfi
 + * 16 Dec 2003: Yasuyuki Kozakai @USAGI <yasuyuki.kozakai@toshiba.co.jp>
 + *	- generalize L3 protocol dependent part.
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack_helper.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack_helper.h
 + */
 +
 +#ifndef _NF_CONNTRACK_HELPER_H
@@ -593,9 +593,9 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_helper.h include/linux/netfi
 +extern void nf_conntrack_unexpect_related(struct nf_conntrack_expect *exp);
 +
 +#endif /*_NF_CONNTRACK_HELPER_H*/
-diff -uNr include.orig/linux/netfilter/nf_conntrack_l3proto.h include/linux/netfilter/nf_conntrack_l3proto.h
+diff -uNr include.orig/linux/netfilter/nf_conntrack_l3proto.h usr/include/linux/netfilter/nf_conntrack_l3proto.h
 --- include.orig/linux/netfilter/nf_conntrack_l3proto.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nf_conntrack_l3proto.h	2005-08-02 20:02:17.713246784 +0200
++++ usr/include/linux/netfilter/nf_conntrack_l3proto.h	2005-08-02 20:02:17.713246784 +0200
 @@ -0,0 +1,93 @@
 +/*
 + * Copyright (C)2003,2004 USAGI/WIDE Project
@@ -605,7 +605,7 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_l3proto.h include/linux/netf
 + * Author:
 + *	Yasuyuki Kozakai @USAGI	<yasuyuki.kozakai@toshiba.co.jp>
 + *
-+ * Derived from include/netfilter_ipv4/ip_conntrack_protocol.h
++ * Derived from usr/include/netfilter_ipv4/ip_conntrack_protocol.h
 + */
 +
 +#ifndef _NF_CONNTRACK_L3PROTO_H
@@ -690,9 +690,9 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_l3proto.h include/linux/netf
 +extern struct nf_conntrack_l3proto nf_conntrack_l3proto_ipv6;
 +extern struct nf_conntrack_l3proto nf_conntrack_generic_l3proto;
 +#endif /*_NF_CONNTRACK_L3PROTO_H*/
-diff -uNr include.orig/linux/netfilter/nf_conntrack_protocol.h include/linux/netfilter/nf_conntrack_protocol.h
+diff -uNr include.orig/linux/netfilter/nf_conntrack_protocol.h usr/include/linux/netfilter/nf_conntrack_protocol.h
 --- include.orig/linux/netfilter/nf_conntrack_protocol.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nf_conntrack_protocol.h	2005-08-02 20:02:17.710247240 +0200
++++ usr/include/linux/netfilter/nf_conntrack_protocol.h	2005-08-02 20:02:17.710247240 +0200
 @@ -0,0 +1,105 @@
 +/*
 + * Header for use in defining a given protocol for connection tracking.
@@ -700,7 +700,7 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_protocol.h include/linux/net
 + * 16 Dec 2003: Yasuyuki Kozakai @USAGI <yasuyuki.kozakai@toshiba.co.jp>
 + *	- generalized L3 protocol dependent part.
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack_protcol.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack_protcol.h
 + */
 +
 +#ifndef _NF_CONNTRACK_PROTOCOL_H
@@ -799,14 +799,14 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_protocol.h include/linux/net
 +#endif /* CONFIG_SYSCTL */
 +
 +#endif /*_NF_CONNTRACK_PROTOCOL_H*/
-diff -uNr include.orig/linux/netfilter/nf_conntrack_sctp.h include/linux/netfilter/nf_conntrack_sctp.h
+diff -uNr include.orig/linux/netfilter/nf_conntrack_sctp.h usr/include/linux/netfilter/nf_conntrack_sctp.h
 --- include.orig/linux/netfilter/nf_conntrack_sctp.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nf_conntrack_sctp.h	2005-08-02 20:02:17.701248608 +0200
++++ usr/include/linux/netfilter/nf_conntrack_sctp.h	2005-08-02 20:02:17.701248608 +0200
 @@ -0,0 +1,30 @@
 +/*
 + * SCTP tracking.
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack_tcp.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack_tcp.h
 + */
 +
 +#ifndef _NF_CONNTRACK_SCTP_H
@@ -833,14 +833,14 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_sctp.h include/linux/netfilt
 +};
 +
 +#endif /* _NF_CONNTRACK_SCTP_H */
-diff -uNr include.orig/linux/netfilter/nf_conntrack_tcp.h include/linux/netfilter/nf_conntrack_tcp.h
+diff -uNr include.orig/linux/netfilter/nf_conntrack_tcp.h usr/include/linux/netfilter/nf_conntrack_tcp.h
 --- include.orig/linux/netfilter/nf_conntrack_tcp.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nf_conntrack_tcp.h	2005-08-02 20:02:17.681251648 +0200
++++ usr/include/linux/netfilter/nf_conntrack_tcp.h	2005-08-02 20:02:17.681251648 +0200
 @@ -0,0 +1,63 @@
 +/*
 + * TCP tracking.
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack_tcp.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack_tcp.h
 + */
 +
 +#ifndef _NF_CONNTRACK_TCP_H
@@ -900,9 +900,9 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_tcp.h include/linux/netfilte
 +				    int dir);
 +
 +#endif /* _NF_CONNTRACK_TCP_H */
-diff -uNr include.orig/linux/netfilter/nf_conntrack_tuple.h include/linux/netfilter/nf_conntrack_tuple.h
+diff -uNr include.orig/linux/netfilter/nf_conntrack_tuple.h usr/include/linux/netfilter/nf_conntrack_tuple.h
 --- include.orig/linux/netfilter/nf_conntrack_tuple.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nf_conntrack_tuple.h	2005-08-02 20:02:17.704248152 +0200
++++ usr/include/linux/netfilter/nf_conntrack_tuple.h	2005-08-02 20:02:17.704248152 +0200
 @@ -0,0 +1,201 @@
 +/*
 + * Definitions and Declarations for tuple.
@@ -910,7 +910,7 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_tuple.h include/linux/netfil
 + * 16 Dec 2003: Yasuyuki Kozakai @USAGI <yasuyuki.kozakai@toshiba.co.jp>
 + *	- generalize L3 protocol dependent part.
 + *
-+ * Derived from include/linux/netfiter_ipv4/ip_conntrack_tuple.h
++ * Derived from usr/include/linux/netfiter_ipv4/ip_conntrack_tuple.h
 + */
 +
 +#ifndef _NF_CONNTRACK_TUPLE_H
@@ -1105,9 +1105,9 @@ diff -uNr include.orig/linux/netfilter/nf_conntrack_tuple.h include/linux/netfil
 +}
 +
 +#endif /* _NF_CONNTRACK_TUPLE_H */
-diff -uNr include.orig/linux/netfilter/nfnetlink.h include/linux/netfilter/nfnetlink.h
+diff -uNr include.orig/linux/netfilter/nfnetlink.h usr/include/linux/netfilter/nfnetlink.h
 --- include.orig/linux/netfilter/nfnetlink.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter/nfnetlink.h	2005-08-02 20:02:17.715246480 +0200
++++ usr/include/linux/netfilter/nfnetlink.h	2005-08-02 20:02:17.715246480 +0200
 @@ -0,0 +1,145 @@
 +#ifndef _NFNETLINK_H
 +#define _NFNETLINK_H
@@ -1254,9 +1254,9 @@ diff -uNr include.orig/linux/netfilter/nfnetlink.h include/linux/netfilter/nfnet
 +
 +#endif	/* __KERNEL__ */
 +#endif	/* _NFNETLINK_H */
-diff -uNr include.orig/linux/netfilter.h include/linux/netfilter.h
+diff -uNr include.orig/linux/netfilter.h usr/include/linux/netfilter.h
 --- include.orig/linux/netfilter.h	2005-07-06 02:17:21.000000000 +0200
-+++ include/linux/netfilter.h	2005-08-02 20:02:17.658255144 +0200
++++ usr/include/linux/netfilter.h	2005-08-02 20:02:17.658255144 +0200
 @@ -11,7 +11,7 @@
  #define NF_MAX_VERDICT NF_STOP
  
@@ -1266,9 +1266,9 @@ diff -uNr include.orig/linux/netfilter.h include/linux/netfilter.h
  #define NFC_UNKNOWN 0x4000
  #define NFC_ALTERED 0x8000
  
-diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_core.h include/linux/netfilter_ipv4/ip_conntrack_core.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_core.h usr/include/linux/netfilter_ipv4/ip_conntrack_core.h
 --- include.orig/linux/netfilter_ipv4/ip_conntrack_core.h	2005-03-13 21:53:55.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_conntrack_core.h	2005-08-02 20:02:17.749241312 +0200
++++ usr/include/linux/netfilter_ipv4/ip_conntrack_core.h	2005-08-02 20:02:17.749241312 +0200
 @@ -34,15 +34,26 @@
  ip_conntrack_find_get(const struct ip_conntrack_tuple *tuple,
  		      const struct ip_conntrack *ignored_conntrack);
@@ -1298,9 +1298,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_core.h include/linux/ne
  }
  
  extern struct list_head *ip_conntrack_hash;
-diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack.h include/linux/netfilter_ipv4/ip_conntrack.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack.h usr/include/linux/netfilter_ipv4/ip_conntrack.h
 --- include.orig/linux/netfilter_ipv4/ip_conntrack.h	2005-03-13 21:53:55.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_conntrack.h	2005-08-02 20:05:38.525718648 +0200
++++ usr/include/linux/netfilter_ipv4/ip_conntrack.h	2005-08-02 20:05:38.525718648 +0200
 @@ -65,6 +65,63 @@
  
  	/* Both together */
@@ -1365,9 +1365,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack.h include/linux/netfilt
  };
  
  #endif /* _IP_CONNTRACK_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_h323.h include/linux/netfilter_ipv4/ip_conntrack_h323.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_h323.h usr/include/linux/netfilter_ipv4/ip_conntrack_h323.h
 --- include.orig/linux/netfilter_ipv4/ip_conntrack_h323.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_conntrack_h323.h	2005-08-02 20:02:17.725244960 +0200
++++ usr/include/linux/netfilter_ipv4/ip_conntrack_h323.h	2005-08-02 20:02:17.725244960 +0200
 @@ -0,0 +1,38 @@
 +#ifndef _IP_CONNTRACK_H323_H
 +#define _IP_CONNTRACK_H323_H
@@ -1407,9 +1407,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_h323.h include/linux/ne
 +#endif /* __KERNEL__ */
 +
 +#endif /* _IP_CONNTRACK_H323_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_mms.h include/linux/netfilter_ipv4/ip_conntrack_mms.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_mms.h usr/include/linux/netfilter_ipv4/ip_conntrack_mms.h
 --- include.orig/linux/netfilter_ipv4/ip_conntrack_mms.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_conntrack_mms.h	2005-08-02 20:02:17.774237512 +0200
++++ usr/include/linux/netfilter_ipv4/ip_conntrack_mms.h	2005-08-02 20:02:17.774237512 +0200
 @@ -0,0 +1,36 @@
 +#ifndef _IP_CONNTRACK_MMS_H
 +#define _IP_CONNTRACK_MMS_H
@@ -1447,9 +1447,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_mms.h include/linux/net
 +				       struct ip_conntrack_expect *exp);
 +#endif
 +#endif /* _IP_CONNTRACK_MMS_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_pptp.h include/linux/netfilter_ipv4/ip_conntrack_pptp.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_pptp.h usr/include/linux/netfilter_ipv4/ip_conntrack_pptp.h
 --- include.orig/linux/netfilter_ipv4/ip_conntrack_pptp.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_conntrack_pptp.h	2005-08-02 20:02:17.800233560 +0200
++++ usr/include/linux/netfilter_ipv4/ip_conntrack_pptp.h	2005-08-02 20:02:17.800233560 +0200
 @@ -0,0 +1,336 @@
 +/* PPTP constants and structs */
 +#ifndef _CONNTRACK_PPTP_H
@@ -1787,9 +1787,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_pptp.h include/linux/ne
 +			     struct ip_conntrack_expect *exp);
 +#endif /* __KERNEL__ */
 +#endif /* _CONNTRACK_PPTP_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_protocol.h include/linux/netfilter_ipv4/ip_conntrack_protocol.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_protocol.h usr/include/linux/netfilter_ipv4/ip_conntrack_protocol.h
 --- include.orig/linux/netfilter_ipv4/ip_conntrack_protocol.h	2005-03-13 21:53:55.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_conntrack_protocol.h	2005-08-02 20:02:17.753240704 +0200
++++ usr/include/linux/netfilter_ipv4/ip_conntrack_protocol.h	2005-08-02 20:02:17.753240704 +0200
 @@ -34,7 +34,7 @@
  
  	/* Returns verdict for packet, or -1 for invalid. */
@@ -1799,9 +1799,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_protocol.h include/linu
  		      enum ip_conntrack_info ctinfo);
  
  	/* Called when a new connection for this protocol found;
-diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_proto_gre.h include/linux/netfilter_ipv4/ip_conntrack_proto_gre.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_proto_gre.h usr/include/linux/netfilter_ipv4/ip_conntrack_proto_gre.h
 --- include.orig/linux/netfilter_ipv4/ip_conntrack_proto_gre.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_conntrack_proto_gre.h	2005-08-02 20:02:17.718246024 +0200
++++ usr/include/linux/netfilter_ipv4/ip_conntrack_proto_gre.h	2005-08-02 20:02:17.718246024 +0200
 @@ -0,0 +1,114 @@
 +#ifndef _CONNTRACK_PROTO_GRE_H
 +#define _CONNTRACK_PROTO_GRE_H
@@ -1917,9 +1917,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_proto_gre.h include/lin
 +#endif /* __KERNEL__ */
 +
 +#endif /* _CONNTRACK_PROTO_GRE_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_quake3.h include/linux/netfilter_ipv4/ip_conntrack_quake3.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_quake3.h usr/include/linux/netfilter_ipv4/ip_conntrack_quake3.h
 --- include.orig/linux/netfilter_ipv4/ip_conntrack_quake3.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_conntrack_quake3.h	2005-08-02 20:02:17.771237968 +0200
++++ usr/include/linux/netfilter_ipv4/ip_conntrack_quake3.h	2005-08-02 20:02:17.771237968 +0200
 @@ -0,0 +1,22 @@
 +#ifndef _IP_CT_QUAKE3
 +#define _IP_CT_QUAKE3
@@ -1943,9 +1943,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_quake3.h include/linux/
 +
 +extern unsigned int (*ip_nat_quake3_hook)(struct ip_conntrack_expect *exp);
 +#endif /* _IP_CT_QUAKE3 */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_tuple.h include/linux/netfilter_ipv4/ip_conntrack_tuple.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_tuple.h usr/include/linux/netfilter_ipv4/ip_conntrack_tuple.h
 --- include.orig/linux/netfilter_ipv4/ip_conntrack_tuple.h	2005-03-13 21:53:55.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_conntrack_tuple.h	2005-08-02 20:02:17.807232496 +0200
++++ usr/include/linux/netfilter_ipv4/ip_conntrack_tuple.h	2005-08-02 20:02:17.807232496 +0200
 @@ -28,6 +28,9 @@
  	struct {
  		u_int16_t port;
@@ -1966,9 +1966,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_conntrack_tuple.h include/linux/n
  		} u;
  
  		/* The protocol. */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_nat_pptp.h include/linux/netfilter_ipv4/ip_nat_pptp.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_nat_pptp.h usr/include/linux/netfilter_ipv4/ip_nat_pptp.h
 --- include.orig/linux/netfilter_ipv4/ip_nat_pptp.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_nat_pptp.h	2005-08-02 20:02:17.767238576 +0200
++++ usr/include/linux/netfilter_ipv4/ip_nat_pptp.h	2005-08-02 20:02:17.767238576 +0200
 @@ -0,0 +1,11 @@
 +/* PPTP constants and structs */
 +#ifndef _NAT_PPTP_H
@@ -1981,9 +1981,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_nat_pptp.h include/linux/netfilte
 +};
 +
 +#endif /* _NAT_PPTP_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_queue.h include/linux/netfilter_ipv4/ip_queue.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_queue.h usr/include/linux/netfilter_ipv4/ip_queue.h
 --- include.orig/linux/netfilter_ipv4/ip_queue.h	2004-10-31 20:56:03.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_queue.h	2005-08-02 20:02:17.823230064 +0200
++++ usr/include/linux/netfilter_ipv4/ip_queue.h	2005-08-02 20:02:17.823230064 +0200
 @@ -39,10 +39,20 @@
  	unsigned char payload[0];	/* Optional replacement packet */
  } ipq_verdict_msg_t;
@@ -2014,9 +2014,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_queue.h include/linux/netfilter_i
 +#define IPQM_MAX	(IPQM_BASE + 5)
  
  #endif /*_IP_QUEUE_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set.h include/linux/netfilter_ipv4/ip_set.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set.h usr/include/linux/netfilter_ipv4/ip_set.h
 --- include.orig/linux/netfilter_ipv4/ip_set.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set.h	2005-08-02 20:02:17.828229304 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set.h	2005-08-02 20:02:17.828229304 +0200
 @@ -0,0 +1,489 @@
 +#ifndef _IP_SET_H
 +#define _IP_SET_H
@@ -2507,9 +2507,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set.h include/linux/netfilter_ipv
 +#endif				/* __KERNEL__ */
 +
 +#endif /*_IP_SET_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set_iphash.h include/linux/netfilter_ipv4/ip_set_iphash.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set_iphash.h usr/include/linux/netfilter_ipv4/ip_set_iphash.h
 --- include.orig/linux/netfilter_ipv4/ip_set_iphash.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set_iphash.h	2005-08-02 20:02:17.803233104 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set_iphash.h	2005-08-02 20:02:17.803233104 +0200
 @@ -0,0 +1,30 @@
 +#ifndef __IP_SET_IPHASH_H
 +#define __IP_SET_IPHASH_H
@@ -2541,9 +2541,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set_iphash.h include/linux/netfil
 +};
 +
 +#endif	/* __IP_SET_IPHASH_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set_ipmap.h include/linux/netfilter_ipv4/ip_set_ipmap.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set_ipmap.h usr/include/linux/netfilter_ipv4/ip_set_ipmap.h
 --- include.orig/linux/netfilter_ipv4/ip_set_ipmap.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set_ipmap.h	2005-08-02 20:02:17.763239184 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set_ipmap.h	2005-08-02 20:02:17.763239184 +0200
 @@ -0,0 +1,56 @@
 +#ifndef __IP_SET_IPMAP_H
 +#define __IP_SET_IPMAP_H
@@ -2601,9 +2601,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set_ipmap.h include/linux/netfilt
 +}
 +	
 +#endif /* __IP_SET_IPMAP_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set_iptree.h include/linux/netfilter_ipv4/ip_set_iptree.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set_iptree.h usr/include/linux/netfilter_ipv4/ip_set_iptree.h
 --- include.orig/linux/netfilter_ipv4/ip_set_iptree.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set_iptree.h	2005-08-02 20:02:17.810232040 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set_iptree.h	2005-08-02 20:02:17.810232040 +0200
 @@ -0,0 +1,39 @@
 +#ifndef __IP_SET_IPTREE_H
 +#define __IP_SET_IPTREE_H
@@ -2644,9 +2644,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set_iptree.h include/linux/netfil
 +};
 +
 +#endif	/* __IP_SET_IPTREE_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set_jhash.h include/linux/netfilter_ipv4/ip_set_jhash.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set_jhash.h usr/include/linux/netfilter_ipv4/ip_set_jhash.h
 --- include.orig/linux/netfilter_ipv4/ip_set_jhash.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set_jhash.h	2005-08-02 20:02:17.758239944 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set_jhash.h	2005-08-02 20:02:17.758239944 +0200
 @@ -0,0 +1,148 @@
 +#ifndef _LINUX_IPSET_JHASH_H
 +#define _LINUX_IPSET_JHASH_H
@@ -2796,9 +2796,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set_jhash.h include/linux/netfilt
 +}
 +
 +#endif /* _LINUX_IPSET_JHASH_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set_macipmap.h include/linux/netfilter_ipv4/ip_set_macipmap.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set_macipmap.h usr/include/linux/netfilter_ipv4/ip_set_macipmap.h
 --- include.orig/linux/netfilter_ipv4/ip_set_macipmap.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set_macipmap.h	2005-08-02 20:02:17.776237208 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set_macipmap.h	2005-08-02 20:02:17.776237208 +0200
 @@ -0,0 +1,38 @@
 +#ifndef __IP_SET_MACIPMAP_H
 +#define __IP_SET_MACIPMAP_H
@@ -2838,9 +2838,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set_macipmap.h include/linux/netf
 +};
 +
 +#endif	/* __IP_SET_MACIPMAP_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set_malloc.h include/linux/netfilter_ipv4/ip_set_malloc.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set_malloc.h usr/include/linux/netfilter_ipv4/ip_set_malloc.h
 --- include.orig/linux/netfilter_ipv4/ip_set_malloc.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set_malloc.h	2005-08-02 20:02:17.788235384 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set_malloc.h	2005-08-02 20:02:17.788235384 +0200
 @@ -0,0 +1,34 @@
 +#ifndef _IP_SET_MALLOC_H
 +#define _IP_SET_MALLOC_H
@@ -2876,9 +2876,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set_malloc.h include/linux/netfil
 +#endif				/* __KERNEL__ */
 +
 +#endif /*_IP_SET_MALLOC_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set_nethash.h include/linux/netfilter_ipv4/ip_set_nethash.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set_nethash.h usr/include/linux/netfilter_ipv4/ip_set_nethash.h
 --- include.orig/linux/netfilter_ipv4/ip_set_nethash.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set_nethash.h	2005-08-02 20:02:17.755240400 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set_nethash.h	2005-08-02 20:02:17.755240400 +0200
 @@ -0,0 +1,55 @@
 +#ifndef __IP_SET_NETHASH_H
 +#define __IP_SET_NETHASH_H
@@ -2935,9 +2935,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set_nethash.h include/linux/netfi
 +}
 +
 +#endif	/* __IP_SET_NETHASH_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set_portmap.h include/linux/netfilter_ipv4/ip_set_portmap.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set_portmap.h usr/include/linux/netfilter_ipv4/ip_set_portmap.h
 --- include.orig/linux/netfilter_ipv4/ip_set_portmap.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set_portmap.h	2005-08-02 20:02:17.772237816 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set_portmap.h	2005-08-02 20:02:17.772237816 +0200
 @@ -0,0 +1,25 @@
 +#ifndef __IP_SET_PORTMAP_H
 +#define __IP_SET_PORTMAP_H
@@ -2964,9 +2964,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set_portmap.h include/linux/netfi
 +};
 +
 +#endif /* __IP_SET_PORTMAP_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_set_prime.h include/linux/netfilter_ipv4/ip_set_prime.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_set_prime.h usr/include/linux/netfilter_ipv4/ip_set_prime.h
 --- include.orig/linux/netfilter_ipv4/ip_set_prime.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ip_set_prime.h	2005-08-02 20:02:17.825229760 +0200
++++ usr/include/linux/netfilter_ipv4/ip_set_prime.h	2005-08-02 20:02:17.825229760 +0200
 @@ -0,0 +1,34 @@
 +#ifndef __IP_SET_PRIME_H
 +#define __IP_SET_PRIME_H
@@ -3002,9 +3002,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_set_prime.h include/linux/netfilt
 +}
 +
 +#endif /* __IP_SET_PRIME_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ip_tables.h include/linux/netfilter_ipv4/ip_tables.h
+diff -uNr include.orig/linux/netfilter_ipv4/ip_tables.h usr/include/linux/netfilter_ipv4/ip_tables.h
 --- include.orig/linux/netfilter_ipv4/ip_tables.h	2005-07-06 02:17:20.000000000 +0200
-+++ include/linux/netfilter_ipv4/ip_tables.h	2005-08-02 20:02:17.815231280 +0200
++++ usr/include/linux/netfilter_ipv4/ip_tables.h	2005-08-02 20:02:17.815231280 +0200
 @@ -101,7 +101,8 @@
  
  /* Values for "flag" field in struct ipt_ip (general ip structure). */
@@ -3039,9 +3039,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ip_tables.h include/linux/netfilter_
  /* CONTINUE verdict for targets */
  #define IPT_CONTINUE 0xFFFFFFFF
  
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_account.h include/linux/netfilter_ipv4/ipt_account.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_account.h usr/include/linux/netfilter_ipv4/ipt_account.h
 --- include.orig/linux/netfilter_ipv4/ipt_account.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_account.h	2005-08-02 20:02:17.786235688 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_account.h	2005-08-02 20:02:17.786235688 +0200
 @@ -0,0 +1,26 @@
 +/* 
 + * accounting match (ipt_account.c)
@@ -3069,9 +3069,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_account.h include/linux/netfilte
 +
 +#endif
 +
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_ACCOUNT.h include/linux/netfilter_ipv4/ipt_ACCOUNT.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_ACCOUNT.h usr/include/linux/netfilter_ipv4/ipt_ACCOUNT.h
 --- include.orig/linux/netfilter_ipv4/ipt_ACCOUNT.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_ACCOUNT.h	2005-08-02 20:02:17.817230976 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_ACCOUNT.h	2005-08-02 20:02:17.817230976 +0200
 @@ -0,0 +1,100 @@
 +/***************************************************************************
 + *   Copyright (C) 2004 by Intra2net AG                                    *
@@ -3173,9 +3173,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_ACCOUNT.h include/linux/netfilte
 +};
 +
 +#endif /*_IPT_ACCOUNT_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_addrtype.h include/linux/netfilter_ipv4/ipt_addrtype.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_addrtype.h usr/include/linux/netfilter_ipv4/ipt_addrtype.h
 --- include.orig/linux/netfilter_ipv4/ipt_addrtype.h	2004-10-31 20:56:02.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_addrtype.h	2005-08-02 20:02:17.751241008 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_addrtype.h	2005-08-02 20:02:17.751241008 +0200
 @@ -4,8 +4,8 @@
  struct ipt_addrtype_info {
  	u_int16_t	source;		/* source-type mask */
@@ -3187,9 +3187,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_addrtype.h include/linux/netfilt
  };
  
  #endif
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_CLUSTERIP.h include/linux/netfilter_ipv4/ipt_CLUSTERIP.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_CLUSTERIP.h usr/include/linux/netfilter_ipv4/ipt_CLUSTERIP.h
 --- include.orig/linux/netfilter_ipv4/ipt_CLUSTERIP.h	2005-01-08 15:03:55.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_CLUSTERIP.h	2005-08-02 20:02:17.832228696 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_CLUSTERIP.h	2005-08-02 20:02:17.832228696 +0200
 @@ -9,7 +9,7 @@
  
  #define CLUSTERIP_HASHMODE_MAX CLUSTERIP_HASHMODE_SIP_SPT_DPT
@@ -3199,9 +3199,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_CLUSTERIP.h include/linux/netfil
  
  #define CLUSTERIP_FLAG_NEW 0x00000001
  
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_connlimit.h include/linux/netfilter_ipv4/ipt_connlimit.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_connlimit.h usr/include/linux/netfilter_ipv4/ipt_connlimit.h
 --- include.orig/linux/netfilter_ipv4/ipt_connlimit.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_connlimit.h	2005-08-02 20:02:17.723245264 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_connlimit.h	2005-08-02 20:02:17.723245264 +0200
 @@ -0,0 +1,12 @@
 +#ifndef _IPT_CONNLIMIT_H
 +#define _IPT_CONNLIMIT_H
@@ -3215,9 +3215,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_connlimit.h include/linux/netfil
 +	struct ipt_connlimit_data *data;
 +};
 +#endif /* _IPT_CONNLIMIT_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_fuzzy.h include/linux/netfilter_ipv4/ipt_fuzzy.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_fuzzy.h usr/include/linux/netfilter_ipv4/ipt_fuzzy.h
 --- include.orig/linux/netfilter_ipv4/ipt_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_fuzzy.h	2005-08-02 20:02:17.781236448 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_fuzzy.h	2005-08-02 20:02:17.781236448 +0200
 @@ -0,0 +1,21 @@
 +#ifndef _IPT_FUZZY_H
 +#define _IPT_FUZZY_H
@@ -3240,9 +3240,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_fuzzy.h include/linux/netfilter_
 +};
 +
 +#endif /*_IPT_FUZZY_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_geoip.h include/linux/netfilter_ipv4/ipt_geoip.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_geoip.h usr/include/linux/netfilter_ipv4/ipt_geoip.h
 --- include.orig/linux/netfilter_ipv4/ipt_geoip.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_geoip.h	2005-08-02 20:02:17.769238272 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_geoip.h	2005-08-02 20:02:17.769238272 +0200
 @@ -0,0 +1,50 @@
 +/* ipt_geoip.h header file for libipt_geoip.c and ipt_geoip.c
 + * 
@@ -3294,9 +3294,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_geoip.h include/linux/netfilter_
 +
 +#endif
 +
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_IPMARK.h include/linux/netfilter_ipv4/ipt_IPMARK.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_IPMARK.h usr/include/linux/netfilter_ipv4/ipt_IPMARK.h
 --- include.orig/linux/netfilter_ipv4/ipt_IPMARK.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_IPMARK.h	2005-08-02 20:02:17.756240248 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_IPMARK.h	2005-08-02 20:02:17.756240248 +0200
 @@ -0,0 +1,13 @@
 +#ifndef _IPT_IPMARK_H_target
 +#define _IPT_IPMARK_H_target
@@ -3311,9 +3311,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_IPMARK.h include/linux/netfilter
 +#define IPT_IPMARK_DST    1
 +
 +#endif /*_IPT_IPMARK_H_target*/
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_ipp2p.h include/linux/netfilter_ipv4/ipt_ipp2p.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_ipp2p.h usr/include/linux/netfilter_ipv4/ipt_ipp2p.h
 --- include.orig/linux/netfilter_ipv4/ipt_ipp2p.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_ipp2p.h	2005-08-02 20:02:17.784235992 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_ipp2p.h	2005-08-02 20:02:17.784235992 +0200
 @@ -0,0 +1,29 @@
 +#ifndef __IPT_IPP2P_H
 +#define __IPT_IPP2P_H
@@ -3344,9 +3344,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_ipp2p.h include/linux/netfilter_
 +#define IPP2P_WINMX		8192
 +#define IPP2P_ARES		16384
 +
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_ipv4options.h include/linux/netfilter_ipv4/ipt_ipv4options.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_ipv4options.h usr/include/linux/netfilter_ipv4/ipt_ipv4options.h
 --- include.orig/linux/netfilter_ipv4/ipt_ipv4options.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_ipv4options.h	2005-08-02 20:02:17.733243744 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_ipv4options.h	2005-08-02 20:02:17.733243744 +0200
 @@ -0,0 +1,21 @@
 +#ifndef __ipt_ipv4options_h_included__
 +#define __ipt_ipv4options_h_included__
@@ -3369,9 +3369,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_ipv4options.h include/linux/netf
 +
 +
 +#endif /* __ipt_ipv4options_h_included__ */
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_layer7.h include/linux/netfilter_ipv4/ipt_layer7.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_layer7.h usr/include/linux/netfilter_ipv4/ipt_layer7.h
 --- include.orig/linux/netfilter_ipv4/ipt_layer7.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_layer7.h	2005-08-02 20:02:17.736243288 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_layer7.h	2005-08-02 20:02:17.736243288 +0200
 @@ -0,0 +1,26 @@
 +/* 
 +  By Matthew Strait <quadong@users.sf.net>, Dec 2003.
@@ -3399,9 +3399,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_layer7.h include/linux/netfilter
 +};
 +
 +#endif /* _IPT_LAYER7_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_nth.h include/linux/netfilter_ipv4/ipt_nth.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_nth.h usr/include/linux/netfilter_ipv4/ipt_nth.h
 --- include.orig/linux/netfilter_ipv4/ipt_nth.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_nth.h	2005-08-02 20:02:17.760239640 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_nth.h	2005-08-02 20:02:17.760239640 +0200
 @@ -0,0 +1,19 @@
 +#ifndef _IPT_NTH_H
 +#define _IPT_NTH_H
@@ -3422,9 +3422,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_nth.h include/linux/netfilter_ip
 +};
 +
 +#endif /*_IPT_NTH_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_osf.h include/linux/netfilter_ipv4/ipt_osf.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_osf.h usr/include/linux/netfilter_ipv4/ipt_osf.h
 --- include.orig/linux/netfilter_ipv4/ipt_osf.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_osf.h	2005-08-02 20:02:17.783236144 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_osf.h	2005-08-02 20:02:17.783236144 +0200
 @@ -0,0 +1,151 @@
 +/*
 + * ipt_osf.h
@@ -3577,9 +3577,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_osf.h include/linux/netfilter_ip
 +#endif /* __KERNEL__ */
 +
 +#endif /* _IPT_OSF_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_policy.h include/linux/netfilter_ipv4/ipt_policy.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_policy.h usr/include/linux/netfilter_ipv4/ipt_policy.h
 --- include.orig/linux/netfilter_ipv4/ipt_policy.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_policy.h	2005-08-02 20:02:17.735243440 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_policy.h	2005-08-02 20:02:17.735243440 +0200
 @@ -0,0 +1,52 @@
 +#ifndef _IPT_POLICY_H
 +#define _IPT_POLICY_H
@@ -3633,9 +3633,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_policy.h include/linux/netfilter
 +};
 +
 +#endif /* _IPT_POLICY_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_psd.h include/linux/netfilter_ipv4/ipt_psd.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_psd.h usr/include/linux/netfilter_ipv4/ipt_psd.h
 --- include.orig/linux/netfilter_ipv4/ipt_psd.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_psd.h	2005-08-02 20:02:17.778236904 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_psd.h	2005-08-02 20:02:17.778236904 +0200
 @@ -0,0 +1,40 @@
 +#ifndef _IPT_PSD_H
 +#define _IPT_PSD_H
@@ -3677,9 +3677,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_psd.h include/linux/netfilter_ip
 +};
 +
 +#endif /*_IPT_PSD_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_quota.h include/linux/netfilter_ipv4/ipt_quota.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_quota.h usr/include/linux/netfilter_ipv4/ipt_quota.h
 --- include.orig/linux/netfilter_ipv4/ipt_quota.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_quota.h	2005-08-02 20:02:17.762239336 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_quota.h	2005-08-02 20:02:17.762239336 +0200
 @@ -0,0 +1,12 @@
 +#ifndef _IPT_QUOTA_H
 +#define _IPT_QUOTA_H
@@ -3693,9 +3693,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_quota.h include/linux/netfilter_
 +};
 +
 +#endif /*_IPT_QUOTA_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_recent.h include/linux/netfilter_ipv4/ipt_recent.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_recent.h usr/include/linux/netfilter_ipv4/ipt_recent.h
 --- include.orig/linux/netfilter_ipv4/ipt_recent.h	2004-10-31 20:56:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_recent.h	2005-08-02 20:02:17.720245720 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_recent.h	2005-08-02 20:02:17.720245720 +0200
 @@ -2,7 +2,7 @@
  #define _IPT_RECENT_H
  
@@ -3705,9 +3705,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_recent.h include/linux/netfilter
  
  #define IPT_RECENT_CHECK  1
  #define IPT_RECENT_SET    2
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_ROUTE.h include/linux/netfilter_ipv4/ipt_ROUTE.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_ROUTE.h usr/include/linux/netfilter_ipv4/ipt_ROUTE.h
 --- include.orig/linux/netfilter_ipv4/ipt_ROUTE.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_ROUTE.h	2005-08-02 20:02:17.726244808 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_ROUTE.h	2005-08-02 20:02:17.726244808 +0200
 @@ -0,0 +1,23 @@
 +/* Header file for iptables ipt_ROUTE target
 + *
@@ -3732,9 +3732,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_ROUTE.h include/linux/netfilter_
 +#define IPT_ROUTE_TEE             0x02
 +
 +#endif /*_IPT_ROUTE_H_target*/
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_set.h include/linux/netfilter_ipv4/ipt_set.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_set.h usr/include/linux/netfilter_ipv4/ipt_set.h
 --- include.orig/linux/netfilter_ipv4/ipt_set.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_set.h	2005-08-02 20:02:17.721245568 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_set.h	2005-08-02 20:02:17.721245568 +0200
 @@ -0,0 +1,21 @@
 +#ifndef _IPT_SET_H
 +#define _IPT_SET_H
@@ -3757,9 +3757,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_set.h include/linux/netfilter_ip
 +};
 +
 +#endif /*_IPT_SET_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_string.h include/linux/netfilter_ipv4/ipt_string.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_string.h usr/include/linux/netfilter_ipv4/ipt_string.h
 --- include.orig/linux/netfilter_ipv4/ipt_string.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_string.h	2005-08-02 20:02:17.805232800 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_string.h	2005-08-02 20:02:17.805232800 +0200
 @@ -0,0 +1,21 @@
 +#ifndef _IPT_STRING_H
 +#define _IPT_STRING_H
@@ -3782,9 +3782,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_string.h include/linux/netfilter
 +};
 +
 +#endif /* _IPT_STRING_H */
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_time.h include/linux/netfilter_ipv4/ipt_time.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_time.h usr/include/linux/netfilter_ipv4/ipt_time.h
 --- include.orig/linux/netfilter_ipv4/ipt_time.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_time.h	2005-08-02 20:02:17.765238880 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_time.h	2005-08-02 20:02:17.765238880 +0200
 @@ -0,0 +1,18 @@
 +#ifndef __ipt_time_h_included__
 +#define __ipt_time_h_included__
@@ -3804,9 +3804,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_time.h include/linux/netfilter_i
 +
 +
 +#endif /* __ipt_time_h_included__ */
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_TTL.h include/linux/netfilter_ipv4/ipt_TTL.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_TTL.h usr/include/linux/netfilter_ipv4/ipt_TTL.h
 --- include.orig/linux/netfilter_ipv4/ipt_TTL.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_TTL.h	2005-08-02 20:02:17.801233408 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_TTL.h	2005-08-02 20:02:17.801233408 +0200
 @@ -0,0 +1,21 @@
 +/* TTL modification module for IP tables
 + * (C) 2000 by Harald Welte <laforge@gnumonks.org> */
@@ -3829,9 +3829,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_TTL.h include/linux/netfilter_ip
 +
 +
 +#endif
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_u32.h include/linux/netfilter_ipv4/ipt_u32.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_u32.h usr/include/linux/netfilter_ipv4/ipt_u32.h
 --- include.orig/linux/netfilter_ipv4/ipt_u32.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_u32.h	2005-08-02 20:02:17.809232192 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_u32.h	2005-08-02 20:02:17.809232192 +0200
 @@ -0,0 +1,40 @@
 +#ifndef _IPT_U32_H
 +#define _IPT_U32_H
@@ -3873,9 +3873,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_u32.h include/linux/netfilter_ip
 +};
 +
 +#endif /*_IPT_U32_H*/
-diff -uNr include.orig/linux/netfilter_ipv4/ipt_XOR.h include/linux/netfilter_ipv4/ipt_XOR.h
+diff -uNr include.orig/linux/netfilter_ipv4/ipt_XOR.h usr/include/linux/netfilter_ipv4/ipt_XOR.h
 --- include.orig/linux/netfilter_ipv4/ipt_XOR.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv4/ipt_XOR.h	2005-08-02 20:02:17.830229000 +0200
++++ usr/include/linux/netfilter_ipv4/ipt_XOR.h	2005-08-02 20:02:17.830229000 +0200
 @@ -0,0 +1,9 @@
 +#ifndef _IPT_XOR_H
 +#define _IPT_XOR_H
@@ -3886,9 +3886,9 @@ diff -uNr include.orig/linux/netfilter_ipv4/ipt_XOR.h include/linux/netfilter_ip
 +};
 +
 +#endif /* _IPT_XOR_H */
-diff -uNr include.orig/linux/netfilter_ipv4.h include/linux/netfilter_ipv4.h
+diff -uNr include.orig/linux/netfilter_ipv4.h usr/include/linux/netfilter_ipv4.h
 --- include.orig/linux/netfilter_ipv4.h	2005-07-06 02:17:21.000000000 +0200
-+++ include/linux/netfilter_ipv4.h	2005-08-02 20:02:17.660254840 +0200
++++ usr/include/linux/netfilter_ipv4.h	2005-08-02 20:02:17.660254840 +0200
 @@ -7,34 +7,6 @@
  
  #include <linux/netfilter.h>
@@ -3924,9 +3924,9 @@ diff -uNr include.orig/linux/netfilter_ipv4.h include/linux/netfilter_ipv4.h
  /* IP Hooks */
  /* After promisc drops, checksum checks. */
  #define NF_IP_PRE_ROUTING	0
-diff -uNr include.orig/linux/netfilter_ipv6/ip6t_fuzzy.h include/linux/netfilter_ipv6/ip6t_fuzzy.h
+diff -uNr include.orig/linux/netfilter_ipv6/ip6t_fuzzy.h usr/include/linux/netfilter_ipv6/ip6t_fuzzy.h
 --- include.orig/linux/netfilter_ipv6/ip6t_fuzzy.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv6/ip6t_fuzzy.h	2005-08-02 20:02:17.652256056 +0200
++++ usr/include/linux/netfilter_ipv6/ip6t_fuzzy.h	2005-08-02 20:02:17.652256056 +0200
 @@ -0,0 +1,21 @@
 +#ifndef _IP6T_FUZZY_H
 +#define _IP6T_FUZZY_H
@@ -3949,9 +3949,9 @@ diff -uNr include.orig/linux/netfilter_ipv6/ip6t_fuzzy.h include/linux/netfilter
 +};
 +
 +#endif /*_IP6T_FUZZY_H*/
-diff -uNr include.orig/linux/netfilter_ipv6/ip6t_HL.h include/linux/netfilter_ipv6/ip6t_HL.h
+diff -uNr include.orig/linux/netfilter_ipv6/ip6t_HL.h usr/include/linux/netfilter_ipv6/ip6t_HL.h
 --- include.orig/linux/netfilter_ipv6/ip6t_HL.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv6/ip6t_HL.h	2005-08-02 20:02:17.656255448 +0200
++++ usr/include/linux/netfilter_ipv6/ip6t_HL.h	2005-08-02 20:02:17.656255448 +0200
 @@ -0,0 +1,22 @@
 +/* Hop Limit modification module for ip6tables
 + * Maciej Soltysiak <solt@dns.toxicfilms.tv>
@@ -3975,9 +3975,9 @@ diff -uNr include.orig/linux/netfilter_ipv6/ip6t_HL.h include/linux/netfilter_ip
 +
 +
 +#endif
-diff -uNr include.orig/linux/netfilter_ipv6/ip6t_nth.h include/linux/netfilter_ipv6/ip6t_nth.h
+diff -uNr include.orig/linux/netfilter_ipv6/ip6t_nth.h usr/include/linux/netfilter_ipv6/ip6t_nth.h
 --- include.orig/linux/netfilter_ipv6/ip6t_nth.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv6/ip6t_nth.h	2005-08-02 20:02:17.652256056 +0200
++++ usr/include/linux/netfilter_ipv6/ip6t_nth.h	2005-08-02 20:02:17.652256056 +0200
 @@ -0,0 +1,19 @@
 +#ifndef _IP6T_NTH_H
 +#define _IP6T_NTH_H
@@ -3998,9 +3998,9 @@ diff -uNr include.orig/linux/netfilter_ipv6/ip6t_nth.h include/linux/netfilter_i
 +};
 +
 +#endif /*_IP6T_NTH_H*/
-diff -uNr include.orig/linux/netfilter_ipv6/ip6t_policy.h include/linux/netfilter_ipv6/ip6t_policy.h
+diff -uNr include.orig/linux/netfilter_ipv6/ip6t_policy.h usr/include/linux/netfilter_ipv6/ip6t_policy.h
 --- include.orig/linux/netfilter_ipv6/ip6t_policy.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv6/ip6t_policy.h	2005-08-02 20:02:17.655255600 +0200
++++ usr/include/linux/netfilter_ipv6/ip6t_policy.h	2005-08-02 20:02:17.655255600 +0200
 @@ -0,0 +1,52 @@
 +#ifndef _IP6T_POLICY_H
 +#define _IP6T_POLICY_H
@@ -4054,9 +4054,9 @@ diff -uNr include.orig/linux/netfilter_ipv6/ip6t_policy.h include/linux/netfilte
 +};
 +
 +#endif /* _IP6T_POLICY_H */
-diff -uNr include.orig/linux/netfilter_ipv6/ip6t_REJECT.h include/linux/netfilter_ipv6/ip6t_REJECT.h
+diff -uNr include.orig/linux/netfilter_ipv6/ip6t_REJECT.h usr/include/linux/netfilter_ipv6/ip6t_REJECT.h
 --- include.orig/linux/netfilter_ipv6/ip6t_REJECT.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv6/ip6t_REJECT.h	2005-08-02 20:02:17.657255296 +0200
++++ usr/include/linux/netfilter_ipv6/ip6t_REJECT.h	2005-08-02 20:02:17.657255296 +0200
 @@ -0,0 +1,18 @@
 +#ifndef _IP6T_REJECT_H
 +#define _IP6T_REJECT_H
@@ -4076,9 +4076,9 @@ diff -uNr include.orig/linux/netfilter_ipv6/ip6t_REJECT.h include/linux/netfilte
 +};
 +
 +#endif /*_IP6T_REJECT_H*/
-diff -uNr include.orig/linux/netfilter_ipv6/ip6t_ROUTE.h include/linux/netfilter_ipv6/ip6t_ROUTE.h
+diff -uNr include.orig/linux/netfilter_ipv6/ip6t_ROUTE.h usr/include/linux/netfilter_ipv6/ip6t_ROUTE.h
 --- include.orig/linux/netfilter_ipv6/ip6t_ROUTE.h	1970-01-01 01:00:00.000000000 +0100
-+++ include/linux/netfilter_ipv6/ip6t_ROUTE.h	2005-08-02 20:02:17.654255752 +0200
++++ usr/include/linux/netfilter_ipv6/ip6t_ROUTE.h	2005-08-02 20:02:17.654255752 +0200
 @@ -0,0 +1,23 @@
 +/* Header file for iptables ip6t_ROUTE target
 + *
@@ -4103,9 +4103,9 @@ diff -uNr include.orig/linux/netfilter_ipv6/ip6t_ROUTE.h include/linux/netfilter
 +#define IP6T_ROUTE_TEE             0x02
 +
 +#endif /*_IP6T_ROUTE_H_target*/
-diff -uNr include.orig/linux/netfilter_ipv6.h include/linux/netfilter_ipv6.h
+diff -uNr include.orig/linux/netfilter_ipv6.h usr/include/linux/netfilter_ipv6.h
 --- include.orig/linux/netfilter_ipv6.h	2004-10-31 20:55:40.000000000 +0100
-+++ include/linux/netfilter_ipv6.h	2005-08-02 20:02:17.661254688 +0200
++++ usr/include/linux/netfilter_ipv6.h	2005-08-02 20:02:17.661254688 +0200
 @@ -56,6 +56,7 @@
  
  enum nf_ip6_hook_priorities {
@@ -4121,9 +4121,9 @@ diff -uNr include.orig/linux/netfilter_ipv6.h include/linux/netfilter_ipv6.h
 +#define SO_ORIGINAL_DST 80
 +
  #endif /*__LINUX_IP6_NETFILTER_H*/
-diff -uNr include.orig/linux/netlink.h include/linux/netlink.h
+diff -uNr include.orig/linux/netlink.h usr/include/linux/netlink.h
 --- include.orig/linux/netlink.h	2005-01-08 15:03:40.000000000 +0100
-+++ include/linux/netlink.h	2005-08-02 20:02:17.679251952 +0200
++++ usr/include/linux/netlink.h	2005-08-02 20:02:17.679251952 +0200
 @@ -14,6 +14,7 @@
  #define NETLINK_SELINUX		7	/* SELinux event notifications */
  #define NETLINK_ARPD		8
@@ -4132,9 +4132,9 @@ diff -uNr include.orig/linux/netlink.h include/linux/netlink.h
  #define NETLINK_ROUTE6		11	/* af_inet6 route comm channel */
  #define NETLINK_IP6_FW		13
  #define NETLINK_DNRTMSG		14	/* DECnet routing messages */
-diff -uNr include.orig/linux/skbuff.h include/linux/skbuff.h
+diff -uNr include.orig/linux/skbuff.h usr/include/linux/skbuff.h
 --- include.orig/linux/skbuff.h	2005-07-06 02:17:21.000000000 +0200
-+++ include/linux/skbuff.h	2005-08-02 20:02:17.667253776 +0200
++++ usr/include/linux/skbuff.h	2005-08-02 20:02:17.667253776 +0200
 @@ -258,6 +258,9 @@
  	__u32			nfcache;
  	__u32			nfctinfo;
@@ -4145,9 +4145,9 @@ diff -uNr include.orig/linux/skbuff.h include/linux/skbuff.h
  #ifdef CONFIG_NETFILTER_DEBUG
          unsigned int		nf_debug;
  #endif
-diff -uNr include.orig/linux/sysctl.h include/linux/sysctl.h
+diff -uNr include.orig/linux/sysctl.h usr/include/linux/sysctl.h
 --- include.orig/linux/sysctl.h	2005-07-06 02:17:21.000000000 +0200
-+++ include/linux/sysctl.h	2005-08-02 20:03:45.127957728 +0200
++++ usr/include/linux/sysctl.h	2005-08-02 20:03:45.127957728 +0200
 @@ -193,7 +193,8 @@
  	NET_DECNET=15,
  	NET_ECONET=16,

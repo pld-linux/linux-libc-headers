@@ -1,6 +1,6 @@
-diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_splash.h linux-libc-headers-2.6.11.0/include/linux/console_splash.h
---- linux-libc-headers-2.6.11.0.orig/include/linux/console_splash.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.11.0/include/linux/console_splash.h	2005-03-13 23:23:02.000000000 +0100
+diff -uNr linux-libc-headers-2.6.11.0.orig/usr/include/linux/console_splash.h linux-libc-headers-2.6.11.0/usr/include/linux/console_splash.h
+--- linux-libc-headers-2.6.11.0.orig/usr/include/linux/console_splash.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-libc-headers-2.6.11.0/usr/include/linux/console_splash.h	2005-03-13 23:23:02.000000000 +0100
 @@ -0,0 +1,13 @@
 +#ifndef _LINUX_CONSOLE_SPLASH_H_
 +#define _LINUX_CONSOLE_SPLASH_H_ 1
@@ -15,9 +15,9 @@ diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_splash.h linux-
 +};
 +
 +#endif
-diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_struct.h linux-libc-headers-2.6.11.0/include/linux/console_struct.h
---- linux-libc-headers-2.6.11.0.orig/include/linux/console_struct.h	2005-03-13 21:54:02.000000000 +0100
-+++ linux-libc-headers-2.6.11.0/include/linux/console_struct.h	2005-03-13 23:23:02.000000000 +0100
+diff -uNr linux-libc-headers-2.6.11.0.orig/usr/include/linux/console_struct.h linux-libc-headers-2.6.11.0/usr/include/linux/console_struct.h
+--- linux-libc-headers-2.6.11.0.orig/usr/include/linux/console_struct.h	2005-03-13 21:54:02.000000000 +0100
++++ linux-libc-headers-2.6.11.0/usr/include/linux/console_struct.h	2005-03-13 23:23:02.000000000 +0100
 @@ -12,6 +12,7 @@
  struct vt_struct;
  
@@ -34,9 +34,9 @@ diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_struct.h linux-
  	/* additional information is in vt_kern.h */
  };
  
-diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/fb.h linux-libc-headers-2.6.11.0/include/linux/fb.h
---- linux-libc-headers-2.6.11.0.orig/include/linux/fb.h	2005-01-08 15:03:32.000000000 +0100
-+++ linux-libc-headers-2.6.11.0/include/linux/fb.h	2005-03-13 23:33:46.000000000 +0100
+diff -uNr linux-libc-headers-2.6.11.0.orig/usr/include/linux/fb.h linux-libc-headers-2.6.11.0/usr/include/linux/fb.h
+--- linux-libc-headers-2.6.11.0.orig/usr/include/linux/fb.h	2005-01-08 15:03:32.000000000 +0100
++++ linux-libc-headers-2.6.11.0/usr/include/linux/fb.h	2005-03-13 23:33:46.000000000 +0100
 @@ -8,6 +8,13 @@
  #define FB_MAJOR		29
  #define FB_MAX			32	/* sufficient for now */

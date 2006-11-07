@@ -1,6 +1,6 @@
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/asm-m32r/elf.h linux-libc-headers-2.6.12.0/include/asm-m32r/elf.h
---- linux-libc-headers-2.6.12.0.orig/include/asm-m32r/elf.h	2005-03-13 21:54:07.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/asm-m32r/elf.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/asm-m32r/elf.h linux-libc-headers-2.6.12.0/usr/include/asm-m32r/elf.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/asm-m32r/elf.h	2005-03-13 21:54:07.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/asm-m32r/elf.h	2005-08-23 22:19:47.000000000 +0200
 @@ -11,6 +11,7 @@
  #include <asm/ptrace.h>
  #include <asm/user.h>
@@ -21,9 +21,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/asm-m32r/elf.h linux-libc-hea
  #define ELF_DATA	ELFDATA2MSB
  #else
  #error no endian defined
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/asm-m32r/stat.h linux-libc-headers-2.6.12.0/include/asm-m32r/stat.h
---- linux-libc-headers-2.6.12.0.orig/include/asm-m32r/stat.h	2005-03-25 20:39:05.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/asm-m32r/stat.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/asm-m32r/stat.h linux-libc-headers-2.6.12.0/usr/include/asm-m32r/stat.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/asm-m32r/stat.h	2005-03-25 20:39:05.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/asm-m32r/stat.h	2005-08-23 22:19:47.000000000 +0200
 @@ -5,7 +5,7 @@
  
  /* orig : i386 2.4.18 */
@@ -46,9 +46,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/asm-m32r/stat.h linux-libc-he
  	unsigned long	st_blocks;	/* Number 512-byte blocks allocated. */
  	unsigned long	__pad4;		/* future possible st_blocks high bits */
  #else
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/asm-mips/jmr3927/jmr3927.h linux-libc-headers-2.6.12.0/include/asm-mips/jmr3927/jmr3927.h
---- linux-libc-headers-2.6.12.0.orig/include/asm-mips/jmr3927/jmr3927.h	2004-10-31 20:54:13.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/asm-mips/jmr3927/jmr3927.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/asm-mips/jmr3927/jmr3927.h linux-libc-headers-2.6.12.0/usr/include/asm-mips/jmr3927/jmr3927.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/asm-mips/jmr3927/jmr3927.h	2004-10-31 20:54:13.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/asm-mips/jmr3927/jmr3927.h	2005-08-23 22:19:47.000000000 +0200
 @@ -16,6 +16,7 @@
  #ifndef __ASSEMBLY__
  #include <asm/system.h>
@@ -70,9 +70,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/asm-mips/jmr3927/jmr3927.h li
  #define jmr3927_ioc_reg_out(d, a)	((*(volatile unsigned char *)((a)^1)) = (d))
  #define jmr3927_ioc_reg_in(a)		(*(volatile unsigned char *)((a)^1))
  #else
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/asm-mips/jmr3927/tx3927.h linux-libc-headers-2.6.12.0/include/asm-mips/jmr3927/tx3927.h
---- linux-libc-headers-2.6.12.0.orig/include/asm-mips/jmr3927/tx3927.h	2004-10-31 20:54:13.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/asm-mips/jmr3927/tx3927.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/asm-mips/jmr3927/tx3927.h linux-libc-headers-2.6.12.0/usr/include/asm-mips/jmr3927/tx3927.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/asm-mips/jmr3927/tx3927.h	2004-10-31 20:54:13.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/asm-mips/jmr3927/tx3927.h	2005-08-23 22:19:47.000000000 +0200
 @@ -67,9 +67,9 @@
  	volatile unsigned long csr;
  };
@@ -85,9 +85,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/asm-mips/jmr3927/tx3927.h lin
  #define endian_def_s2(e1,e2)	\
  	volatile unsigned short e1,e2
  #define endian_def_sb2(e1,e2,e3)	\
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/aio_abi.h linux-libc-headers-2.6.12.0/include/linux/aio_abi.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/aio_abi.h	2005-07-06 02:17:21.000000000 +0200
-+++ linux-libc-headers-2.6.12.0/include/linux/aio_abi.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/aio_abi.h linux-libc-headers-2.6.12.0/usr/include/linux/aio_abi.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/aio_abi.h	2005-07-06 02:17:21.000000000 +0200
++++ linux-libc-headers-2.6.12.0/usr/include/linux/aio_abi.h	2005-08-23 22:19:47.000000000 +0200
 @@ -53,9 +53,9 @@
  	__s64		res2;		/* secondary result */
  };
@@ -100,9 +100,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/aio_abi.h linux-libc-he
  #define PADDED(x,y)	y, x
  #else
  #error edit for your odd byteorder.
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/cdrom.h linux-libc-headers-2.6.12.0/include/linux/cdrom.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/cdrom.h	2005-01-08 15:03:51.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/cdrom.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/cdrom.h linux-libc-headers-2.6.12.0/usr/include/linux/cdrom.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/cdrom.h	2005-01-08 15:03:51.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/cdrom.h	2005-08-23 22:19:47.000000000 +0200
 @@ -15,7 +15,7 @@
  #include <endian.h>
  #include <byteswap.h>
@@ -242,9 +242,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/cdrom.h linux-libc-head
          __u8 track_mode			: 4;
          __u8 copy			: 1;
          __u8 damage			: 1;
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/icmpv6.h linux-libc-headers-2.6.12.0/include/linux/icmpv6.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/icmpv6.h	2005-03-26 19:58:03.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/icmpv6.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/icmpv6.h linux-libc-headers-2.6.12.0/usr/include/linux/icmpv6.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/icmpv6.h	2005-03-26 19:58:03.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/icmpv6.h	2005-08-23 22:19:47.000000000 +0200
 @@ -24,13 +24,13 @@
  		} u_echo;
  
@@ -276,9 +276,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/icmpv6.h linux-libc-hea
  			__u8		managed:1,
  					other:1,
  					reserved:6;
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/ide.h linux-libc-headers-2.6.12.0/include/linux/ide.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/ide.h	2005-03-13 21:54:02.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/ide.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/ide.h linux-libc-headers-2.6.12.0/usr/include/linux/ide.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/ide.h	2005-03-13 21:54:02.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/ide.h	2005-08-23 22:19:47.000000000 +0200
 @@ -221,14 +221,14 @@
  typedef union {
  	unsigned all			: 8;
@@ -440,9 +440,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/ide.h linux-libc-header
  		unsigned one7		:1;
  		unsigned reserved6	:1;
  		unsigned one5		:1;
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/if_hippi.h linux-libc-headers-2.6.12.0/include/linux/if_hippi.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/if_hippi.h	2004-10-31 20:55:19.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/if_hippi.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/if_hippi.h linux-libc-headers-2.6.12.0/usr/include/linux/if_hippi.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/if_hippi.h	2004-10-31 20:55:19.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/if_hippi.h	2005-08-23 22:19:47.000000000 +0200
 @@ -82,7 +82,7 @@
  {
  #if 0
@@ -486,9 +486,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/if_hippi.h linux-libc-h
  	__u8		src_addr_type:4,
  			dest_addr_type:4;
  #endif
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/if_pppox.h linux-libc-headers-2.6.12.0/include/linux/if_pppox.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/if_pppox.h	2005-03-13 21:54:01.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/if_pppox.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/if_pppox.h linux-libc-headers-2.6.12.0/usr/include/linux/if_pppox.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/if_pppox.h	2005-03-13 21:54:01.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/if_pppox.h	2005-08-23 22:19:47.000000000 +0200
 @@ -91,10 +91,10 @@
  #define PTT_GEN_ERR  	__constant_htons(0x0203)
  
@@ -502,9 +502,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/if_pppox.h linux-libc-h
  	__u8 type : 4;
  	__u8 ver : 4;
  #else
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/igmp.h linux-libc-headers-2.6.12.0/include/linux/igmp.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/igmp.h	2005-03-26 19:58:04.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/igmp.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/igmp.h linux-libc-headers-2.6.12.0/usr/include/linux/igmp.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/igmp.h	2005-03-26 19:58:04.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/igmp.h	2005-08-23 22:19:47.000000000 +0200
 @@ -67,11 +67,11 @@
  	__u8 code;
  	__u16 csum;
@@ -519,9 +519,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/igmp.h linux-libc-heade
  	__u8 resv:4,
  	     suppress:1,
  	     qrv:3;
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/ip.h linux-libc-headers-2.6.12.0/include/linux/ip.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/ip.h	2004-10-31 20:55:50.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/ip.h	2005-08-23 22:21:06.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/ip.h linux-libc-headers-2.6.12.0/usr/include/linux/ip.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/ip.h	2004-10-31 20:55:50.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/ip.h	2005-08-23 22:21:06.000000000 +0200
 @@ -83,10 +83,10 @@
  #ifndef __NETINET_IP_H
  
@@ -535,9 +535,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/ip.h linux-libc-headers
  	__u8	version:4,
    		ihl:4;
  #else
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/ipv6.h linux-libc-headers-2.6.12.0/include/linux/ipv6.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/ipv6.h	2004-10-31 20:56:07.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/ipv6.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/ipv6.h linux-libc-headers-2.6.12.0/usr/include/linux/ipv6.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/ipv6.h	2004-10-31 20:56:07.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/ipv6.h	2005-08-23 22:19:47.000000000 +0200
 @@ -102,10 +102,10 @@
   */
  
@@ -551,9 +551,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/ipv6.h linux-libc-heade
  	__u8			version:4,
  				priority:4;
  #else
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/mtd/map.h linux-libc-headers-2.6.12.0/include/linux/mtd/map.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/mtd/map.h	2005-03-25 20:34:24.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/mtd/map.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/mtd/map.h linux-libc-headers-2.6.12.0/usr/include/linux/mtd/map.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/mtd/map.h	2005-03-25 20:34:24.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/mtd/map.h	2005-08-23 22:19:47.000000000 +0200
 @@ -7,6 +7,7 @@
  #include <linux/types.h>
  #include <asm/system.h>
@@ -571,9 +571,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/mtd/map.h linux-libc-he
  			bitpos = i*8;
  #else /* __BIG_ENDIAN */
  			bitpos = (map_bankwidth(map)-1-i)*8;
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/raid/md_p.h linux-libc-headers-2.6.12.0/include/linux/raid/md_p.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/raid/md_p.h	2005-03-26 19:58:00.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/raid/md_p.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/raid/md_p.h linux-libc-headers-2.6.12.0/usr/include/linux/raid/md_p.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/raid/md_p.h	2005-03-26 19:58:00.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/raid/md_p.h	2005-08-23 22:19:47.000000000 +0200
 @@ -16,6 +16,7 @@
  #define _MD_P_H
  
@@ -591,9 +591,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/raid/md_p.h linux-libc-
  	__u32 events_hi;	/*  7 high-order of superblock update count   */
  	__u32 events_lo;	/*  8 low-order of superblock update count    */
  	__u32 cp_events_hi;	/*  9 high-order of checkpoint update count   */
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/tcp.h linux-libc-headers-2.6.12.0/include/linux/tcp.h
---- linux-libc-headers-2.6.12.0.orig/include/linux/tcp.h	2005-01-08 15:03:40.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/linux/tcp.h	2005-08-23 22:22:11.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/linux/tcp.h linux-libc-headers-2.6.12.0/usr/include/linux/tcp.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/linux/tcp.h	2005-01-08 15:03:40.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/linux/tcp.h	2005-08-23 22:22:11.000000000 +0200
 @@ -18,6 +18,7 @@
  #define _LINUX_TCP_H
  
@@ -620,9 +620,9 @@ diff -Nur linux-libc-headers-2.6.12.0.orig/include/linux/tcp.h linux-libc-header
  	__u16	doff:4,
  		res1:4,
  		cwr:1,
-diff -Nur linux-libc-headers-2.6.12.0.orig/include/sound/cs46xx_dsp_scb_types.h linux-libc-headers-2.6.12.0/include/sound/cs46xx_dsp_scb_types.h
---- linux-libc-headers-2.6.12.0.orig/include/sound/cs46xx_dsp_scb_types.h	2005-03-25 20:30:35.000000000 +0100
-+++ linux-libc-headers-2.6.12.0/include/sound/cs46xx_dsp_scb_types.h	2005-08-23 22:19:47.000000000 +0200
+diff -Nur linux-libc-headers-2.6.12.0.orig/usr/include/sound/cs46xx_dsp_scb_types.h linux-libc-headers-2.6.12.0/usr/include/sound/cs46xx_dsp_scb_types.h
+--- linux-libc-headers-2.6.12.0.orig/usr/include/sound/cs46xx_dsp_scb_types.h	2005-03-25 20:30:35.000000000 +0100
++++ linux-libc-headers-2.6.12.0/usr/include/sound/cs46xx_dsp_scb_types.h	2005-08-23 22:19:47.000000000 +0200
 @@ -27,12 +27,12 @@
  #ifndef __CS46XX_DSP_SCB_TYPES_H__
  #define __CS46XX_DSP_SCB_TYPES_H__

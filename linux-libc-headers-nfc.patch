@@ -1,8 +1,8 @@
-fragment from /usr/src/linux-2.6.14.7/include/linux/netfilter_ipv4.h
+fragment from /usr/src/linux-2.6.14.7/usr/include/linux/netfilter_ipv4.h
 needed for frox-0.7.18 to build (using copy of libiptc from iptables 1.2)
 
---- linux-libc-headers-2.6.12.0/include/linux/netfilter_ipv4.h	2006-04-16 22:37:08.996523576 +0300
-+++ /usr/include/linux/netfilter_ipv4.h	2006-04-16 22:35:28.194277687 +0300
+--- linux-libc-headers-2.6.12.0/usr/include/linux/netfilter_ipv4.h	2006-04-16 22:37:08.996523576 +0300
++++ /usr/usr/include/linux/netfilter_ipv4.h	2006-04-16 22:35:28.194277687 +0300
 @@ -45,4 +45,32 @@
  /* 2.4 firewalling went 64 through 67. */
  #define SO_ORIGINAL_DST 80

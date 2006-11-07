@@ -1,5 +1,5 @@
---- linux-libc-headers-2.6.12.0/include/linux/audit.h.orig	2005-07-06 02:17:21.000000000 +0200
-+++ linux-libc-headers-2.6.12.0/include/linux/audit.h	2005-08-28 16:35:11.219052000 +0200
+--- linux-libc-headers-2.6.12.0/usr/include/linux/audit.h.orig	2005-07-06 02:17:21.000000000 +0200
++++ linux-libc-headers-2.6.12.0/usr/include/linux/audit.h	2005-08-28 16:35:11.219052000 +0200
 @@ -24,21 +24,53 @@
  #ifndef _LINUX_AUDIT_H_
  #define _LINUX_AUDIT_H_

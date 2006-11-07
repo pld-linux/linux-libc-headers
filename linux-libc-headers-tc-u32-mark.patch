@@ -1,7 +1,7 @@
 http://linux.bkbits.net:8080/linux-2.5/cset%401.2009.1.32
 
---- a/include/linux/pkt_cls.h	2005-03-13 21:53:56.000000000 +0100
-+++ b/include/linux/pkt_cls.h	2005-04-02 15:00:18.000000000 +0200
+--- a/usr/include/linux/pkt_cls.h	2005-03-13 21:53:56.000000000 +0100
++++ b/usr/include/linux/pkt_cls.h	2005-04-02 15:00:18.000000000 +0200
 @@ -223,6 +223,13 @@
  	struct tc_u32_key	keys[0];
  };

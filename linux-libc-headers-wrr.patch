@@ -1,5 +1,5 @@
---- linux-libc-headers-2.6.9.1/include/linux/pkt_sched.h.orig	2004-11-07 21:03:14.924678496 +0100
-+++ linux-libc-headers-2.6.9.1/include/linux/pkt_sched.h	2004-11-07 21:04:53.666667432 +0100
+--- linux-libc-headers-2.6.9.1/usr/include/linux/pkt_sched.h.orig	2004-11-07 21:03:14.924678496 +0100
++++ linux-libc-headers-2.6.9.1/usr/include/linux/pkt_sched.h	2004-11-07 21:04:53.666667432 +0100
 @@ -2,7 +2,8 @@
  #define __LINUX_PKT_SCHED_H
  
