@@ -1,5 +1,5 @@
 Summary:	Linux kernel headers for use with C libraries
-Summary(pl):	Nag³ówki j±dra Linuksa do u¿ytku z bibliotekami C
+Summary(pl.UTF-8):   NagÅ‚Ã³wki jÄ…dra Linuksa do uÅ¼ytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	2.6.12.0
 Release:	15
@@ -50,11 +50,11 @@ header files define structures and constants that are needed for
 building most standard programs and are also needed for rebuilding the
 glibc package.
 
-%description -l pl
-Ten pakiet zawiera pliki nag³ówkowe C, które definiuj± interfejs
-miêdzy j±drem Linuksa a bibliotekami i programami dzia³aj±cymi w
-przestrzeni u¿ytkownika. Pliki nag³ówkowe definiuj± struktury i sta³e
-potrzebne do zbudowania wiêkszo¶ci standardowych programów, s± tak¿e
+%description -l pl.UTF-8
+Ten pakiet zawiera pliki nagÅ‚Ã³wkowe C, ktÃ³re definiujÄ… interfejs
+miÄ™dzy jÄ…drem Linuksa a bibliotekami i programami dziaÅ‚ajÄ…cymi w
+przestrzeni uÅ¼ytkownika. Pliki nagÅ‚Ã³wkowe definiujÄ… struktury i staÅ‚e
+potrzebne do zbudowania wiÄ™kszoÅ›ci standardowych programÃ³w, sÄ… takÅ¼e
 potrzebne do przebudowania pakietu glibc.
 
 %prep
