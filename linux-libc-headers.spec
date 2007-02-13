@@ -1,5 +1,5 @@
 Summary:	Linux kernel headers for use with C libraries
-Summary(pl.UTF-8):   Nagłówki jądra Linuksa do użytku z bibliotekami C
+Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	2.6.12.0
 Release:	15
