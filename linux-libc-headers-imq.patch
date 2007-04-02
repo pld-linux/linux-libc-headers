@@ -1,17 +1,5 @@
---- a/include/linux/imq.h	1970-01-01 00:00:00.000000000 +0000
-+++ b/include/linux/imq.h	2004-10-19 18:34:52.000000000 +0000
-@@ -0,0 +1,9 @@
-+#ifndef _IMQ_H
-+#define _IMQ_H
-+
-+#define IMQ_MAX_DEVS   16
-+
-+#define IMQ_F_IFMASK   0x7f
-+#define IMQ_F_ENQUEUE  0x80
-+
-+#endif /* _IMQ_H */
---- a/include/linux/netfilter_ipv4/ipt_IMQ.h	1970-01-01 00:00:00.000000000 +0000
-+++ b/include/linux/netfilter_ipv4/ipt_IMQ.h	2004-10-19 18:34:52.000000000 +0000
+--- linux-2.6.17.orig/include/linux/netfilter_ipv4/ipt_IMQ.h	1970-01-01 00:00:00.000000000 +0000
++++ linux-2.6.17/include/linux/netfilter_ipv4/ipt_IMQ.h	2006-09-06 20:58:51.000000000 +0000
 @@ -0,0 +1,8 @@
 +#ifndef _IPT_IMQ_H
 +#define _IPT_IMQ_H
@@ -21,8 +9,12 @@
 +};
 +
 +#endif /* _IPT_IMQ_H */
---- a/include/linux/netfilter_ipv6/ip6t_IMQ.h	1970-01-01 00:00:00.000000000 +0000
-+++ b/include/linux/netfilter_ipv6/ip6t_IMQ.h	2004-10-19 18:34:52.000000000 +0000
+--- linux.orig/include/linux/netfilter_ipv4/Kbuild
++++ linux/include/linux/netfilter_ipv4/Kbuild
+@@ -62,0 +62,1 @@
++header-y += ipt_IMQ.h
+--- linux-2.6.17.orig/include/linux/netfilter_ipv6/ip6t_IMQ.h	1970-01-01 00:00:00.000000000 +0000
++++ linux-2.6.17/include/linux/netfilter_ipv6/ip6t_IMQ.h	2006-09-06 20:58:51.000000000 +0000
 @@ -0,0 +1,8 @@
 +#ifndef _IP6T_IMQ_H
 +#define _IP6T_IMQ_H
@@ -32,16 +24,7 @@
 +};
 +
 +#endif /* _IP6T_IMQ_H */
---- a/include/linux/skbuff.h	2004-10-18 21:55:36.000000000 +0000
-+++ b/include/linux/skbuff.h	2004-10-19 18:40:20.000000000 +0000
-@@ -261,6 +261,10 @@
- #if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
- 	struct sk_buff		*nfct_reasm;
- #endif
-+#if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
-+	unsigned char           imq_flags;
-+	struct nf_info          *nf_info;
-+#endif
- #ifdef CONFIG_NETFILTER_DEBUG
-         unsigned int		nf_debug;
- #endif
+--- linux.orig/include/linux/netfilter_ipv6/Kbuild
++++ linux/include/linux/netfilter_ipv6/Kbuild
+@@ -22,0 +22,1 @@
++header-y += ip6t_IMQ.h
