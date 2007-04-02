@@ -1,6 +1,8 @@
-diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_splash.h linux-libc-headers-2.6.11.0/include/linux/console_splash.h
---- linux-libc-headers-2.6.11.0.orig/include/linux/console_splash.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-libc-headers-2.6.11.0/include/linux/console_splash.h	2005-03-13 23:23:02.000000000 +0100
+diff --git a/include/linux/console_splash.h b/include/linux/console_splash.h
+new file mode 100644
+index 0000000..c448dd2
+--- /dev/null
++++ b/include/linux/console_splash.h
 @@ -0,0 +1,13 @@
 +#ifndef _LINUX_CONSOLE_SPLASH_H_
 +#define _LINUX_CONSOLE_SPLASH_H_ 1
@@ -15,29 +17,11 @@ diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_splash.h linux-
 +};
 +
 +#endif
-diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/console_struct.h linux-libc-headers-2.6.11.0/include/linux/console_struct.h
---- linux-libc-headers-2.6.11.0.orig/include/linux/console_struct.h	2005-03-13 21:54:02.000000000 +0100
-+++ linux-libc-headers-2.6.11.0/include/linux/console_struct.h	2005-03-13 23:23:02.000000000 +0100
-@@ -12,6 +12,7 @@
- struct vt_struct;
- 
- #define NPAR 16
-+#include <linux/console_splash.h>
- 
- struct vc_data {
- 	unsigned short	vc_num;			/* Console number */
-@@ -95,6 +96,7 @@
- 	struct vc_data **vc_display_fg;		/* [!] Ptr to var holding fg console for this display */
- 	unsigned long	vc_uni_pagedir;
- 	unsigned long	*vc_uni_pagedir_loc;  /* [!] Location of uni_pagedir variable for this console */
-+	struct vc_splash vc_splash;
- 	/* additional information is in vt_kern.h */
- };
- 
-diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/fb.h linux-libc-headers-2.6.11.0/include/linux/fb.h
---- linux-libc-headers-2.6.11.0.orig/include/linux/fb.h	2005-01-08 15:03:32.000000000 +0100
-+++ linux-libc-headers-2.6.11.0/include/linux/fb.h	2005-03-13 23:33:46.000000000 +0100
-@@ -8,6 +8,13 @@
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 64177ec..dc99c4f 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -9,6 +9,13 @@
  #define FB_MAJOR		29
  #define FB_MAX			32	/* sufficient for now */
  
@@ -51,19 +35,23 @@ diff -uNr linux-libc-headers-2.6.11.0.orig/include/linux/fb.h linux-libc-headers
  /* ioctls
     0x46 is 'F'								*/
  #define FBIOGET_VSCREENINFO	0x4600
-@@ -32,6 +39,15 @@
+@@ -36,7 +43,15 @@
+ #define FBIOGET_HWCINFO         0x4616
  #define FBIOPUT_MODEINFO        0x4617
  #define FBIOGET_DISPINFO        0x4618
- 
 +#define FBIOSPLASH_SETCFG	_IOWR('F', 0x19, struct fb_splash_iowrapper)
 +#define FBIOSPLASH_GETCFG	_IOR('F', 0x1A, struct fb_splash_iowrapper)
 +#define FBIOSPLASH_SETSTATE	_IOWR('F', 0x1B, struct fb_splash_iowrapper)
 +#define FBIOSPLASH_GETSTATE	_IOR('F', 0x1C, struct fb_splash_iowrapper)
 +#define FBIOSPLASH_SETPIC 	_IOWR('F', 0x1D, struct fb_splash_iowrapper)
-+
+ 
 +#define FB_SPLASH_THEME_LEN		128	/* Maximum lenght of a theme name */
 +#define FB_SPLASH_IO_ORIG_KERNEL	0	/* Kernel ioctl origin */
 +#define FB_SPLASH_IO_ORIG_USER		1 	/* User ioctl origin */
  
  #define FB_TYPE_PACKED_PIXELS		0	/* Packed Pixels	*/
  #define FB_TYPE_PLANES			1	/* Non interleaved planes */
+--- a/include/linux/Kbuild
++++ b/include/linux/Kbuild
+@@ -112,0 +112,1 @@
++header-y += console_splash.h
