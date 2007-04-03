@@ -53,5 +53,5 @@ index 64177ec..dc99c4f 100644
  #define FB_TYPE_PLANES			1	/* Non interleaved planes */
 --- a/include/linux/Kbuild
 +++ b/include/linux/Kbuild
-@@ -112,0 +112,1 @@
+@@ -342,0 +342,1 @@
 +header-y += console_splash.h
