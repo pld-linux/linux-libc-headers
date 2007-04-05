@@ -4,7 +4,7 @@ Name:		linux-libc-headers
 %define	basever	2.6.20
 %define	postver	.4
 Version:	%{basever}%{postver}
-Release:	1
+Release:	2
 Epoch:		7
 License:	GPL v2
 Group:		Development
@@ -67,9 +67,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} headers_install \
 	INSTALL_HDR_PATH=$RPM_BUILD_ROOT%{_prefix} \
-%if "%{_target_base_arch}" != "%{_arch}"
 	ARCH=%{_target_base_arch}
-%endif
 
 # provided by glibc-headers
 rm -rf $RPM_BUILD_ROOT%{_includedir}/scsi
