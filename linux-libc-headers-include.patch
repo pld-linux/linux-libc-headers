@@ -1,0 +1,10 @@
+--- linux-2.6.21/include/linux/ethtool.h.orig	2007-04-26 05:08:32.000000000 +0200
++++ linux-2.6.21/include/linux/ethtool.h	2007-07-09 00:18:41.978873450 +0200
+@@ -12,6 +12,7 @@
+ #ifndef _LINUX_ETHTOOL_H
+ #define _LINUX_ETHTOOL_H
+ 
++#include <asm/types.h>
+ 
+ /* This should work for both 32 and 64 bit userland. */
+ struct ethtool_cmd {
