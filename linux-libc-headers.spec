@@ -2,7 +2,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 %define	basever	2.6.21
-%define	postver	.1
+%define	postver	.6
 Version:	%{basever}%{postver}
 Release:	1
 Epoch:		7
@@ -12,7 +12,7 @@ Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
 # Source0-md5:	1b515f588078dfa7f4bab2634bd17e80
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
-# Source1-md5:	c4c368f173af267a564948065ffc1689
+# Source1-md5:	f6941d0ddc39726042626e027fd3ed08
 %endif
 # DROP? (these were always kept in private drivers dir, not exported)
 #Source1:	%{name}-dv1394.h
@@ -23,8 +23,9 @@ Patch2:		%{name}-fbsplash.patch
 Patch3:		%{name}-imq.patch
 Patch4:		%{name}-endian.patch
 Patch5:		%{name}-pagesize.patch
+Patch6:		%{name}-include.patch
 # DROP for now? iptables accesses kernel headers/sources directly
-#Patch6:		%{name}-netfilter.patch
+#Patch7:		%{name}-netfilter.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.213
 Requires(pre):	fileutils
@@ -61,6 +62,7 @@ potrzebne do przebudowania pakietu glibc.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
