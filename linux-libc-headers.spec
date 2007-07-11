@@ -1,18 +1,18 @@
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
-%define	basever	2.6.21
-%define	postver	.6
+%define	basever	2.6.22
+%define	postver	.1
 Version:	%{basever}%{postver}
 Release:	1
 Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
-# Source0-md5:	1b515f588078dfa7f4bab2634bd17e80
+# Source0-md5:	2e230d005c002fb3d38a3ca07c0200d0
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
-# Source1-md5:	f6941d0ddc39726042626e027fd3ed08
+# Source1-md5:	a29ac92cd688d591afd3fec48905e329
 %endif
 # DROP? (these were always kept in private drivers dir, not exported)
 #Source1:	%{name}-dv1394.h
