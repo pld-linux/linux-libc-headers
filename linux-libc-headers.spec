@@ -81,7 +81,7 @@ rm -rf $RPM_BUILD_ROOT%{_includedir}/scsi
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%pre
+%pretrans
 [ ! -L /usr/include/linux ] || rm -f /usr/include/linux
 [ ! -L /usr/include/asm ] || rm -f /usr/include/asm
 [ ! -L /usr/include/sound ] || rm -f /usr/include/sound
