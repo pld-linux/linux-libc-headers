@@ -4,7 +4,7 @@ Name:		linux-libc-headers
 %define	basever	2.6.22
 %define	postver	.1
 Version:	%{basever}%{postver}
-Release:	1
+Release:	2
 Epoch:		7
 License:	GPL v2
 Group:		Development
@@ -26,6 +26,7 @@ Patch5:		%{name}-pagesize.patch
 Patch6:		%{name}-include.patch
 # DROP for now? iptables accesses kernel headers/sources directly
 #Patch7:		%{name}-netfilter.patch
+Patch8:		%{name}-pom-set.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.213
 Requires(pre):	fileutils
@@ -63,6 +64,7 @@ potrzebne do przebudowania pakietu glibc.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch8 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
