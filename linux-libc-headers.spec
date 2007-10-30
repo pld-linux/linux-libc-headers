@@ -1,10 +1,10 @@
+%define	basever	2.6.22
+%define	postver	.10
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
-%define	basever	2.6.22
-%define	postver	.1
 Version:	%{basever}%{postver}
-Release:	2
+Release:	1
 Epoch:		7
 License:	GPL v2
 Group:		Development
@@ -12,7 +12,7 @@ Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
 # Source0-md5:	2e230d005c002fb3d38a3ca07c0200d0
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
-# Source1-md5:	a29ac92cd688d591afd3fec48905e329
+# Source1-md5:	8dc6d14fb270d13e8ef670d23387b418
 %endif
 # DROP? (these were always kept in private drivers dir, not exported)
 #Source1:	%{name}-dv1394.h
@@ -56,7 +56,8 @@ potrzebne do zbudowania większości standardowych programów, są także
 potrzebne do przebudowania pakietu glibc.
 
 %prep
-%setup -q -n linux-%{basever}
+%setup -qc
+cd linux-%{basever}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -68,8 +69,7 @@ potrzebne do przebudowania pakietu glibc.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-%{__make} headers_install \
+%{__make} -C linux-%{basever} headers_install \
 	INSTALL_HDR_PATH=$RPM_BUILD_ROOT%{_prefix} \
 %ifarch ppc ppc64
 	ARCH=powerpc
