@@ -4,7 +4,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	%{basever}%{postver}
-Release:	1
+Release:	2
 Epoch:		7
 License:	GPL v2
 Group:		Development
@@ -17,6 +17,8 @@ Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
 # DROP? (these were always kept in private drivers dir, not exported)
 #Source1:	%{name}-dv1394.h
 #Source2:	%{name}-ieee1394-ioctl.h
+# DROP for now? iptables accesses kernel headers/sources directly
+#PatchX: %{name}-netfilter.patch
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-fbsplash.patch
@@ -24,9 +26,8 @@ Patch3:		%{name}-imq.patch
 Patch4:		%{name}-endian.patch
 Patch5:		%{name}-pagesize.patch
 Patch6:		%{name}-include.patch
-# DROP for now? iptables accesses kernel headers/sources directly
-#Patch7:		%{name}-netfilter.patch
-Patch8:		%{name}-pom-set.patch
+Patch7:		%{name}-pom-set.patch
+Patch8:		linux-kernel-headers.SuSE.TIOCGDEV.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.213
 Requires(pre):	fileutils
@@ -65,7 +66,8 @@ cd linux-%{basever}
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch8 -p1
+%patch7 -p1
+%patch8 -p2
 
 %install
 rm -rf $RPM_BUILD_ROOT
