@@ -1,0 +1,83 @@
+TIOCGDEV is used to get the kernel device name behind /dev/console
+Temoprary solution until another solution exists.
+
+---
+ usr/include/asm-arm/ioctls.h     |    1 +
+ usr/include/asm-i386/ioctls.h    |    1 +
+ usr/include/asm-ia64/ioctls.h    |    1 +
+ usr/include/asm-parisc/ioctls.h  |    1 +
+ usr/include/asm-powerpc/ioctls.h |    1 +
+ usr/include/asm-s390/ioctls.h    |    1 +
+ usr/include/asm-x86_64/ioctls.h  |    1 +
+ 7 files changed, 7 insertions(+)
+
+--- a/usr/include/asm-arm/ioctls.h
++++ b/usr/include/asm-arm/ioctls.h
+@@ -52,6 +52,7 @@
+ #define TCSETSF2	_IOW('T',0x2D, struct termios2)
+ #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
+ #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
++#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ 
+ #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
+ #define FIOCLEX		0x5451
+--- a/usr/include/asm-i386/ioctls.h
++++ b/usr/include/asm-i386/ioctls.h
+@@ -53,6 +53,7 @@
+ #define TCSETSF2	_IOW('T',0x2D, struct termios2)
+ #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
+ #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
++#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ 
+ #define FIONCLEX	0x5450
+ #define FIOCLEX		0x5451
+--- a/usr/include/asm-ia64/ioctls.h
++++ b/usr/include/asm-ia64/ioctls.h
+@@ -55,6 +55,7 @@
+ #define TIOCGSID	0x5429  /* Return the session ID of FD */
+ #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
+ #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
++#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ 
+ #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
+ #define FIOCLEX		0x5451
+--- a/usr/include/asm-parisc/ioctls.h
++++ b/usr/include/asm-parisc/ioctls.h
+@@ -48,6 +48,7 @@
+ #define TIOCGSID	_IOR('T', 20, int) /* Return the session ID of FD */
+ #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
+ #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
++#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ 
+ #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
+ #define FIOCLEX		0x5451
+--- a/usr/include/asm-powerpc/ioctls.h
++++ b/usr/include/asm-powerpc/ioctls.h
+@@ -91,6 +91,7 @@
+ #define TIOCGSID	0x5429  /* Return the session ID of FD */
+ #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
+ #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
++#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ 
+ #define TIOCSERCONFIG	0x5453
+ #define TIOCSERGWILD	0x5454
+--- a/usr/include/asm-s390/ioctls.h
++++ b/usr/include/asm-s390/ioctls.h
+@@ -56,6 +56,7 @@
+ #define TIOCGSID	0x5429  /* Return the session ID of FD */
+ #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
+ #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
++#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ 
+ #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
+ #define FIOCLEX		0x5451
+--- a/usr/include/asm-x86_64/ioctls.h
++++ b/usr/include/asm-x86_64/ioctls.h
+@@ -52,6 +52,7 @@
+ #define TCSETSF2	_IOW('T',0x2D, struct termios2)
+ #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
+ #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
++#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ 
+ #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
+ #define FIOCLEX		0x5451
