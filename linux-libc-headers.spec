@@ -4,7 +4,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	%{basever}%{postver}
-Release:	1
+Release:	2
 Epoch:		7
 License:	GPL v2
 Group:		Development
@@ -28,6 +28,7 @@ Patch5:		%{name}-pagesize.patch
 Patch6:		%{name}-include.patch
 Patch7:		%{name}-pom-set.patch
 Patch8:		linux-kernel-headers.SuSE.TIOCGDEV.patch
+Patch9:		%{name}-atm-vbr.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.213
 Requires(pre):	fileutils
@@ -68,6 +69,7 @@ cd linux-%{basever}
 %patch6 -p1
 %patch7 -p1
 %patch8 -p2
+%patch9 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
