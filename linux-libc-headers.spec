@@ -30,7 +30,7 @@ Patch7:		%{name}-pom-set.patch
 Patch8:		linux-kernel-headers.SuSE.TIOCGDEV.patch
 Patch9:		%{name}-atm-vbr.patch
 AutoReqProv:	no
-BuildRequires:	rpmbuild(macros) >= 1.213
+BuildRequires:	rpmbuild(macros) >= 1.360
 Requires(pre):	fileutils
 Provides:	alsa-driver-devel
 Provides:	glibc-kernel-headers = %{epoch}:%{version}-%{release}
@@ -40,8 +40,6 @@ Obsoletes:	glibc-kernheaders
 Conflicts:	lm_sensors-devel < 2.8.2-2
 ExclusiveOS:	Linux
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		no_install_post_strip		1
 
 %description
 This package includes the C header files that specify the interface
