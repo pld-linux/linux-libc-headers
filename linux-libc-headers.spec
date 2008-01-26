@@ -1,5 +1,5 @@
-%define	basever	2.6.23
-%define	postver	.14
+%define	basever	2.6.24
+%define	postver	%{nil}
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -9,7 +9,7 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
-# Source0-md5:	2cc2fd4d521dc5d7cfce0d8a9d1b3472
+# Source0-md5:	3f23ad4b69d0a552042d1ed0f4399857
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
 # Source1-md5:	11d3513c45bdcbdf9c75364e747568bd
@@ -56,8 +56,11 @@ potrzebne do zbudowania większości standardowych programów, są także
 potrzebne do przebudowania pakietu glibc.
 
 %prep
-%setup -qc
+%setup -q -c
 cd linux-%{basever}
+%if "%{postver}" != "%{nil}"
+bzip2 -dc %{SOURCE1} | patch -p1
+%endif
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -99,10 +102,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/linux
 %{_includedir}/asm
 %{_includedir}/asm-generic
-%ifarch %{x8664}
-%{_includedir}/asm-i386
-%{_includedir}/asm-x86_64
-%endif
 %ifarch sparc64
 %{_includedir}/asm-sparc
 %{_includedir}/asm-sparc64
