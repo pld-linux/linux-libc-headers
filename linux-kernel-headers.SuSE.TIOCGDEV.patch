@@ -3,13 +3,12 @@ Temoprary solution until another solution exists.
 
 ---
  usr/include/asm-arm/ioctls.h     |    1 +
- usr/include/asm-i386/ioctls.h    |    1 +
  usr/include/asm-ia64/ioctls.h    |    1 +
  usr/include/asm-parisc/ioctls.h  |    1 +
  usr/include/asm-powerpc/ioctls.h |    1 +
  usr/include/asm-s390/ioctls.h    |    1 +
- usr/include/asm-x86_64/ioctls.h  |    1 +
- 7 files changed, 7 insertions(+)
+ usr/include/asm-x86/ioctls.h  |    1 +
+ 6 files changed, 6 insertions(+)
 
 --- a/usr/include/asm-arm/ioctls.h
 +++ b/usr/include/asm-arm/ioctls.h
@@ -20,16 +19,6 @@ Temoprary solution until another solution exists.
 +#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
  
  #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
- #define FIOCLEX		0x5451
---- a/usr/include/asm-i386/ioctls.h
-+++ b/usr/include/asm-i386/ioctls.h
-@@ -53,6 +53,7 @@
- #define TCSETSF2	_IOW('T',0x2D, struct termios2)
- #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
- #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
-+#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
- 
- #define FIONCLEX	0x5450
  #define FIOCLEX		0x5451
 --- a/usr/include/asm-ia64/ioctls.h
 +++ b/usr/include/asm-ia64/ioctls.h
@@ -71,8 +60,8 @@ Temoprary solution until another solution exists.
  
  #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
  #define FIOCLEX		0x5451
---- a/usr/include/asm-x86_64/ioctls.h
-+++ b/usr/include/asm-x86_64/ioctls.h
+--- a/usr/include/asm-x86/ioctls.h
++++ b/usr/include/asm-x86/ioctls.h
 @@ -52,6 +52,7 @@
  #define TCSETSF2	_IOW('T',0x2D, struct termios2)
  #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
