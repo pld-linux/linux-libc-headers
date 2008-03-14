@@ -1,5 +1,5 @@
 %define	basever	2.6.24
-%define	postver	%{nil}
+%define	postver	.3
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -12,7 +12,7 @@ Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
 # Source0-md5:	3f23ad4b69d0a552042d1ed0f4399857
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
-# Source1-md5:	11d3513c45bdcbdf9c75364e747568bd
+# Source1-md5:	4c42be33a7d98f280588c9d28478cdfd
 %endif
 # DROP? (these were always kept in private drivers dir, not exported)
 #Source1:	%{name}-dv1394.h
@@ -29,6 +29,7 @@ Patch6:		%{name}-include.patch
 Patch7:		%{name}-pom-set.patch
 Patch8:		linux-kernel-headers.SuSE.TIOCGDEV.patch
 Patch9:		%{name}-atm-vbr.patch
+Patch10:	%{name}-ppc.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.360
 Requires(pre):	fileutils
@@ -71,6 +72,7 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch7 -p1
 %patch8 -p2
 %patch9 -p1
+%patch10 -p0
 
 %install
 rm -rf $RPM_BUILD_ROOT
