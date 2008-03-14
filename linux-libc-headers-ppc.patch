@@ -1,0 +1,17 @@
+--- ./include/asm-powerpc/user.h~	2008-01-24 23:58:37.000000000 +0100
++++ ./include/asm-powerpc/user.h	2008-03-15 00:19:45.111627695 +0100
+@@ -1,8 +1,6 @@
+ #ifndef _ASM_POWERPC_USER_H
+ #define _ASM_POWERPC_USER_H
+ 
+-#ifdef __KERNEL__
+-
+ #include <asm/ptrace.h>
+ #include <asm/page.h>
+ 
+@@ -51,5 +49,4 @@
+ #define HOST_DATA_START_ADDR	(u.start_data)
+ #define HOST_STACK_END_ADDR	(u.start_stack + u.u_ssize * NBPG)
+ 
+-#endif	/* __KERNEL__ */
+ #endif	/* _ASM_POWERPC_USER_H */
