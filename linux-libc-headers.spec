@@ -42,6 +42,9 @@ Conflicts:	lm_sensors-devel < 2.8.2-2
 ExclusiveOS:	Linux
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+# no objects to extract debug info from
+%define		_enable_debug_packages	0
+
 %description
 This package includes the C header files that specify the interface
 between the Linux kernel and userspace libraries and programs. The
