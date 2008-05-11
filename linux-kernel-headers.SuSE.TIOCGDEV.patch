@@ -7,7 +7,9 @@ Temoprary solution until another solution exists.
  usr/include/asm-parisc/ioctls.h  |    1 +
  usr/include/asm-powerpc/ioctls.h |    1 +
  usr/include/asm-s390/ioctls.h    |    1 +
- usr/include/asm-x86/ioctls.h  |    1 +
+ usr/include/asm-sparc/ioctls.h   |    1 +
+ usr/include/asm-sparc64/ioctls.h |    1 +
+ usr/include/asm-x86/ioctls.h     |    1 +
  6 files changed, 6 insertions(+)
 
 --- a/usr/include/asm-arm/ioctls.h
@@ -60,6 +62,26 @@ Temoprary solution until another solution exists.
  
  #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
  #define FIOCLEX		0x5451
+--- a/usr/include/asm-sparc/ioctls.h	2007-07-08 19:32:17.000000000 -0400
++++ b/usr/include/asm-sparc/ioctls.h	2007-08-27 14:01:21.000000000 -0400
+@@ -15,6 +15,7 @@
+ #define TCSETS2		_IOW('T', 13, struct termios2)
+ #define TCSETSW2	_IOW('T', 14, struct termios2)
+ #define TCSETSF2	_IOW('T', 15, struct termios2)
++#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ 
+ /* Note that all the ioctls that are not available in Linux have a 
+  * double underscore on the front to: a) avoid some programs to
+--- a/usr/include/asm-sparc64/ioctls.h	2007-07-08 19:32:17.000000000 -0400
++++ b/usr/include/asm-sparc64/ioctls.h	2007-08-27 14:01:21.000000000 -0400
+@@ -16,6 +16,7 @@
+ #define TCSETS2		_IOW('T', 13, struct termios2)
+ #define TCSETSW2	_IOW('T', 14, struct termios2)
+ #define TCSETSF2	_IOW('T', 15, struct termios2)
++#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ 
+ /* Note that all the ioctls that are not available in Linux have a 
+  * double underscore on the front to: a) avoid some programs to
 --- a/usr/include/asm-x86/ioctls.h
 +++ b/usr/include/asm-x86/ioctls.h
 @@ -52,6 +52,7 @@
