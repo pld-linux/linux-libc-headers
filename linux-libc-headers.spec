@@ -24,12 +24,9 @@ Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-fbsplash.patch
 Patch3:		%{name}-imq.patch
 Patch4:		%{name}-endian.patch
-Patch5:		%{name}-pagesize.patch
-Patch6:		%{name}-include.patch
-Patch7:		%{name}-pom-set.patch
-Patch8:		linux-kernel-headers.SuSE.TIOCGDEV.patch
-Patch9:		%{name}-atm-vbr.patch
-Patch10:	%{name}-ppc.patch
+Patch5:		%{name}-pom-set.patch
+Patch6:		linux-kernel-headers.SuSE.TIOCGDEV.patch
+Patch7:		%{name}-atm-vbr.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.360
 Requires(pre):	fileutils
@@ -70,12 +67,9 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-#%patch5 -p1
-#%patch6 -p1
+%patch5 -p1
+%patch6 -p2
 %patch7 -p1
-%patch8 -p2
-%patch9 -p1
-#%patch10 -p0
 
 %install
 rm -rf $RPM_BUILD_ROOT
