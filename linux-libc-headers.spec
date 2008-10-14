@@ -1,4 +1,4 @@
-%define	basever	2.6.26
+%define	basever	2.6.27
 %define	postver	%{nil}
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
@@ -9,14 +9,11 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
-# Source0-md5:	5169d01c405bc3f866c59338e217968c
+# Source0-md5:	b3e78977aa79d3754cb7f8143d7ddabd
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
 ## Source1-md5:	f12f43dd78b765f3d1402aa9d2170cf5
 %endif
-# DROP? (these were always kept in private drivers dir, not exported)
-#Source1:	%{name}-dv1394.h
-#Source2:	%{name}-ieee1394-ioctl.h
 # DROP for now? iptables accesses kernel headers/sources directly
 #PatchX: %{name}-netfilter.patch
 Patch0:		%{name}-esfq.patch
@@ -73,6 +70,7 @@ bzip2 -dc %{SOURCE1} | patch -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} -C linux-%{basever} headers_install \
 	INSTALL_HDR_PATH=$RPM_BUILD_ROOT%{_prefix} \
 %ifarch ppc ppc64
@@ -84,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 # provided by glibc-headers
 rm -rf $RPM_BUILD_ROOT%{_includedir}/scsi
 
+# currently provided by libdrm-devel
+rm -rf $RPM_BUILD_ROOT%{_includedir}/drm
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -91,20 +92,12 @@ rm -rf $RPM_BUILD_ROOT
 [ ! -L /usr/include/linux ] || rm -f /usr/include/linux
 [ ! -L /usr/include/asm ] || rm -f /usr/include/asm
 [ ! -L /usr/include/sound ] || rm -f /usr/include/sound
-%ifarch sparc sparcv9 sparc64
-[ ! -L /usr/include/asm-sparc ] || rm -f /usr/include/asm-sparc
-[ ! -L /usr/include/asm-sparc64 ] || rm -f /usr/include/asm-sparc64
-%endif
 
 %files
 %defattr(644,root,root,755)
-%{_includedir}/linux
 %{_includedir}/asm
 %{_includedir}/asm-generic
-%ifarch sparc64
-%{_includedir}/asm-sparc
-%{_includedir}/asm-sparc64
-%endif
+%{_includedir}/linux
 %{_includedir}/mtd
 %{_includedir}/rdma
 %{_includedir}/sound
