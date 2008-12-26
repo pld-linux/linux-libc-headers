@@ -21,8 +21,8 @@ Temporary solution until another solution exists.
  
  #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
  #define FIOCLEX		0x5451
---- a/linux/include/asm-parisc/ioctls.h
-+++ b/linux/include/asm-parisc/ioctls.h
+--- a/linux/arch/parisc/include/asm/ioctls.h
++++ b/linux/arch/parisc/include/asm/ioctls.h
 @@ -48,6 +48,7 @@
  #define TIOCGSID	_IOR('T', 20, int) /* Return the session ID of FD */
  #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
@@ -61,13 +61,13 @@ Temporary solution until another solution exists.
  
  /* Note that all the ioctls that are not available in Linux have a 
   * double underscore on the front to: a) avoid some programs to
---- a/linux/include/asm-x86/ioctls.h
-+++ b/linux/include/asm-x86/ioctls.h
-@@ -54,6 +54,7 @@
+--- a/linux/arch/x86/include/asm/ioctls.h
++++ b/linux/arch/x86/include/asm/ioctls.h
+@@ -56,6 +56,7 @@
  #define TIOCGPTN	_IOR('T', 0x30, unsigned int)
  				/* Get Pty Number (of pty-mux device) */
  #define TIOCSPTLCK	_IOW('T', 0x31, int)  /* Lock/unlock Pty */
-+#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
- 
- #define FIONCLEX	0x5450
- #define FIOCLEX		0x5451
++#define TIOCGDEV	_IOR('T', 0x32, unsigned int) /* Get real dev no below /dev/console */
+ #define TCGETX		0x5432 /* SYS5 TCGETX compatibility */
+ #define TCSETX		0x5433
+ #define TCSETXF		0x5434
