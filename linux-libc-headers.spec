@@ -4,7 +4,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	%{basever}%{postver}
-Release:	1
+Release:	2
 Epoch:		7
 License:	GPL v2
 Group:		Development
@@ -24,7 +24,7 @@ Patch4:		%{name}-endian.patch
 Patch5:		%{name}-pom-set.patch
 Patch6:		linux-kernel-headers.SuSE.TIOCGDEV.patch
 Patch7:		%{name}-atm-vbr.patch
-AutoReqProv:	no
+Patch8:		scripts-unifdef.c-rename-getline-symbol-to-something-else.patch
 BuildRequires:	rpmbuild(macros) >= 1.360
 Requires(pre):	fileutils
 Provides:	alsa-driver-devel
@@ -33,6 +33,7 @@ Obsoletes:	alsa-driver-devel
 Obsoletes:	glibc-kernel-headers
 Obsoletes:	glibc-kernheaders
 Conflicts:	lm_sensors-devel < 2.8.2-2
+AutoReqProv:	no
 ExclusiveOS:	Linux
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,6 +68,7 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch5 -p1
 %patch6 -p2
 %patch7 -p1
+%patch8 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
