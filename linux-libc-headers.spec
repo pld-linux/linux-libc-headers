@@ -1,5 +1,5 @@
-%define	basever	2.6.27
-%define	postver	.9
+%define		basever	2.6.27
+%define		postver	.25
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -12,7 +12,7 @@ Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
 # Source0-md5:	b3e78977aa79d3754cb7f8143d7ddabd
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
-# Source1-md5:	1a0b0c727fee22a4d2545276176ac089
+# Source1-md5:	53981d997d85d4a65e086fd1cada61a0
 %endif
 # DROP for now? iptables accesses kernel headers/sources directly
 #PatchX: %{name}-netfilter.patch
