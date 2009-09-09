@@ -24,7 +24,6 @@ Patch4:		%{name}-endian.patch
 Patch5:		%{name}-pom-set.patch
 Patch6:		linux-kernel-headers.SuSE.TIOCGDEV.patch
 Patch7:		%{name}-atm-vbr.patch
-Patch8:		%{name}-atomic.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.360
 Requires(pre):	fileutils
@@ -68,7 +67,6 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch5 -p1
 %patch6 -p2
 %patch7 -p1
-%patch8 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -79,6 +77,15 @@ rm -rf $RPM_BUILD_ROOT
 	ARCH=powerpc
 %else
 	ARCH=%{_target_base_arch}
+%endif
+
+# for mysql+percona
+%ifarch %{x86}
+install arch/x86/include/asm/atomic_32.h $RPM_BUILD_ROOT%{_includedir}/asm/atomic.h
+%else
+%ifarch %{x8664}
+install arch/x86/include/asm/atomic_64.h $RPM_BUILD_ROOT%{_includedir}/asm/atomic.h
+%endif
 %endif
 
 # provided by glibc-headers
