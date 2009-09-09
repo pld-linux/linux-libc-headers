@@ -79,15 +79,6 @@ rm -rf $RPM_BUILD_ROOT
 	ARCH=%{_target_base_arch}
 %endif
 
-# for mysql+percona
-%ifarch %{ix86}
-install arch/x86/include/asm/atomic_32.h $RPM_BUILD_ROOT%{_includedir}/asm/atomic.h
-%else
-%ifarch %{x8664}
-install arch/x86/include/asm/atomic_64.h $RPM_BUILD_ROOT%{_includedir}/asm/atomic.h
-%endif
-%endif
-
 # provided by glibc-headers
 rm -rf $RPM_BUILD_ROOT%{_includedir}/scsi
 
