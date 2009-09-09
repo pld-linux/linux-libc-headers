@@ -80,7 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 # for mysql+percona
-%ifarch %{x86}
+%ifarch %{ix86}
 install arch/x86/include/asm/atomic_32.h $RPM_BUILD_ROOT%{_includedir}/asm/atomic.h
 %else
 %ifarch %{x8664}
