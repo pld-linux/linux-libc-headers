@@ -1,5 +1,5 @@
 %define	basever	2.6.30
-%define	postver	%{nil}
+%define	postver	.6
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -12,7 +12,7 @@ Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
 # Source0-md5:	7a80058a6382e5108cdb5554d1609615
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
-## Source1-md5:	8d3d51f51eaadde0a04a79244e92e435
+## Source1-md5:	f89295707f68c2b349534b490c9d5f2d
 %endif
 # DROP for now? iptables accesses kernel headers/sources directly
 #PatchX: %{name}-netfilter.patch
@@ -24,6 +24,7 @@ Patch4:		%{name}-endian.patch
 Patch5:		%{name}-pom-set.patch
 Patch6:		linux-kernel-headers.SuSE.TIOCGDEV.patch
 Patch7:		%{name}-atm-vbr.patch
+Patch8:		%{name}-atomic.patch
 AutoReqProv:	no
 BuildRequires:	rpmbuild(macros) >= 1.360
 Requires(pre):	fileutils
@@ -67,6 +68,7 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch5 -p1
 %patch6 -p2
 %patch7 -p1
+%patch8 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
