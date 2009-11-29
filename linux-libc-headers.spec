@@ -25,6 +25,7 @@ Patch5:		%{name}-pom-set.patch
 Patch6:		linux-kernel-headers.SuSE.TIOCGDEV.patch
 Patch7:		%{name}-atm-vbr.patch
 AutoReqProv:	no
+BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.360
 Requires(pre):	fileutils
 Provides:	alsa-driver-devel
