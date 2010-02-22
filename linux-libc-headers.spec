@@ -1,10 +1,10 @@
 %define		basever	2.6.27
-%define		postver	.25
+%define		postver	.45
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	%{basever}%{postver}
-Release:	2
+Release:	1
 Epoch:		7
 License:	GPL v2
 Group:		Development
@@ -12,7 +12,7 @@ Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
 # Source0-md5:	b3e78977aa79d3754cb7f8143d7ddabd
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
-# Source1-md5:	53981d997d85d4a65e086fd1cada61a0
+# Source1-md5:	9ad766753f54ba0a4df7c42873e7aa16
 %endif
 # DROP for now? iptables accesses kernel headers/sources directly
 #PatchX: %{name}-netfilter.patch
@@ -24,7 +24,6 @@ Patch4:		%{name}-endian.patch
 Patch5:		%{name}-pom-set.patch
 Patch6:		linux-kernel-headers.SuSE.TIOCGDEV.patch
 Patch7:		%{name}-atm-vbr.patch
-Patch8:		scripts-unifdef.c-rename-getline-symbol-to-something-else.patch
 BuildRequires:	rpmbuild(macros) >= 1.360
 Requires(pre):	fileutils
 Provides:	alsa-driver-devel
@@ -68,7 +67,6 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch5 -p1
 %patch6 -p2
 %patch7 -p1
-%patch8 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
