@@ -28,7 +28,7 @@ Patch8:		vserver.patch
 Patch9:		%{name}-align.patch
 AutoReqProv:	no
 BuildRequires:	perl-base
-BuildRequires:	rpmbuild(macros) >= 1.360
+BuildRequires:	rpmbuild(macros) >= 1.567
 Requires(pre):	fileutils
 Provides:	alsa-driver-devel
 Provides:	glibc-kernel-headers = %{epoch}:%{version}-%{release}
@@ -81,7 +81,11 @@ rm -rf $RPM_BUILD_ROOT
 %ifarch ppc ppc64
 	ARCH=powerpc
 %else
+%ifarch %{arm}
+	ARCH=arm
+%else
 	ARCH=%{_target_base_arch}
+%endif
 %endif
 
 # provided by glibc-headers
