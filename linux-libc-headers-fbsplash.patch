@@ -17,12 +17,10 @@ index 0000000..c448dd2
 +};
 +
 +#endif
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 64177ec..dc99c4f 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -9,6 +9,13 @@
- #define FB_MAJOR		29
+--- linux-2.6.35/include/linux/fb.h.orig	2010-08-02 00:11:14.000000000 +0200
++++ linux-2.6.35/include/linux/fb.h	2010-08-04 08:51:32.242821619 +0200
+@@ -8,6 +8,13 @@
+ 
  #define FB_MAX			32	/* sufficient for now */
  
 +struct fb_splash_iowrapper
@@ -35,7 +33,7 @@ index 64177ec..dc99c4f 100644
  /* ioctls
     0x46 is 'F'								*/
  #define FBIOGET_VSCREENINFO	0x4600
-@@ -36,7 +43,15 @@
+@@ -35,8 +42,17 @@
  #define FBIOGET_HWCINFO         0x4616
  #define FBIOPUT_MODEINFO        0x4617
  #define FBIOGET_DISPINFO        0x4618
@@ -44,13 +42,15 @@ index 64177ec..dc99c4f 100644
 +#define FBIOSPLASH_SETSTATE	_IOWR('F', 0x1B, struct fb_splash_iowrapper)
 +#define FBIOSPLASH_GETSTATE	_IOR('F', 0x1C, struct fb_splash_iowrapper)
 +#define FBIOSPLASH_SETPIC 	_IOWR('F', 0x1D, struct fb_splash_iowrapper)
+ #define FBIO_WAITFORVSYNC	_IOW('F', 0x20, __u32)
  
 +#define FB_SPLASH_THEME_LEN		128	/* Maximum lenght of a theme name */
 +#define FB_SPLASH_IO_ORIG_KERNEL	0	/* Kernel ioctl origin */
 +#define FB_SPLASH_IO_ORIG_USER		1 	/* User ioctl origin */
- 
++  
  #define FB_TYPE_PACKED_PIXELS		0	/* Packed Pixels	*/
  #define FB_TYPE_PLANES			1	/* Non interleaved planes */
+ #define FB_TYPE_INTERLEAVED_PLANES	2	/* Interleaved planes	*/
 --- a/include/linux/Kbuild
 +++ b/include/linux/Kbuild
 @@ -342,0 +342,1 @@

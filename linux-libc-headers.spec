@@ -1,15 +1,15 @@
-%define	basever	2.6.34
+%define	basever	2.6.35
 %define	postver	%{nil}
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	%{basever}%{postver}
-Release:	2
+Release:	1
 Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
-# Source0-md5:	10eebcb0178fb4540e2165bfd7efc7ad
+# Source0-md5:	091abeb4684ce03d1d936851618687b6
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
 # Source1-md5:	745fd1355c630e163e40c40d4c9b79f9
@@ -25,10 +25,9 @@ Patch5:		%{name}-pom-set.patch
 Patch6:		linux-kernel-headers.SuSE.TIOCGDEV.patch
 Patch7:		%{name}-atm-vbr.patch
 Patch8:		vserver.patch
-Patch9:		%{name}-align.patch
 AutoReqProv:	no
 BuildRequires:	perl-base
-BuildRequires:	rpmbuild(macros) >= 1.567
+BuildRequires:	rpmbuild(macros) >= 1.568
 Requires(pre):	fileutils
 Provides:	alsa-driver-devel
 Provides:	glibc-kernel-headers = %{epoch}:%{version}-%{release}
@@ -71,7 +70,6 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch6 -p2
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -81,11 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %ifarch ppc ppc64
 	ARCH=powerpc
 %else
-%ifarch %{arm}
-	ARCH=arm
-%else
 	ARCH=%{_target_base_arch}
-%endif
 %endif
 
 # provided by glibc-headers
