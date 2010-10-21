@@ -8,49 +8,49 @@ Temporary solution until another solution exists.
  #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
  #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
 +#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ #define TIOCSIG		_IOW('T',0x36, int)  /* Generate signal on Pty slave */
  
- #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
- #define FIOCLEX		0x5451
+ #define TIOCGRS485      0x542E
 --- a/linux/arch/ia64/include/asm/ioctls.h
 +++ b/linux/arch/ia64/include/asm/ioctls.h
-@@ -55,6 +55,7 @@
- #define TIOCGSID	0x5429  /* Return the session ID of FD */
+@@ -59,6 +59,7 @@
+ #define TCSETSF2	_IOW('T',0x2D, struct termios2)
  #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
  #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
 +#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ #define TIOCSIG		_IOW('T',0x36, int)  /* Generate signal on Pty slave */
  
  #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
- #define FIOCLEX		0x5451
 --- a/linux/arch/parisc/include/asm/ioctls.h
 +++ b/linux/arch/parisc/include/asm/ioctls.h
-@@ -48,6 +48,7 @@
- #define TIOCGSID	_IOR('T', 20, int) /* Return the session ID of FD */
+@@ -52,6 +52,7 @@
+ #define TCSETSF2	_IOW('T',0x2D, struct termios2)
  #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
  #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
 +#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ #define TIOCSIG		_IOW('T',0x36, int)  /* Generate signal on Pty slave */
  
  #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
- #define FIOCLEX		0x5451
 --- a/linux/arch/powerpc/include/asm/ioctls.h
 +++ b/linux/arch/powerpc/include/asm/ioctls.h
-@@ -91,6 +91,7 @@
- #define TIOCGSID	0x5429  /* Return the session ID of FD */
+@@ -94,6 +94,7 @@
+ #define TIOCSRS485	0x542f
  #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
  #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
 +#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ #define TIOCSIG		_IOW('T',0x36, int)  /* Generate signal on Pty slave */
  
  #define TIOCSERCONFIG	0x5453
- #define TIOCSERGWILD	0x5454
 --- a/linux/arch/s390/include/asm/ioctls.h
 +++ b/linux/arch/s390/include/asm/ioctls.h
-@@ -56,6 +56,7 @@
- #define TIOCGSID	0x5429  /* Return the session ID of FD */
+@@ -60,6 +60,7 @@
+ #define TCSETSF2	_IOW('T',0x2D, struct termios2)
  #define TIOCGPTN	_IOR('T',0x30, unsigned int) /* Get Pty Number (of pty-mux device) */
  #define TIOCSPTLCK	_IOW('T',0x31, int)  /* Lock/unlock Pty */
 +#define TIOCGDEV	_IOR('T',0x32, unsigned int) /* Get real dev no below /dev/console */
+ #define TIOCSIG		_IOW('T',0x36, int)  /* Generate signal on Pty slave */
  
  #define FIONCLEX	0x5450  /* these numbers need to be adjusted. */
- #define FIOCLEX		0x5451
 --- a/linux/arch/sparc/include/asm/ioctls.h	2007-07-08 19:32:17.000000000 -0400
 +++ b/linux/arch/sparc/include/asm/ioctls.h	2007-08-27 14:01:21.000000000 -0400
 @@ -15,6 +15,7 @@
