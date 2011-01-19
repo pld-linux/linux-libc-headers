@@ -1,13 +1,16 @@
---- linux/include/linux/capability.h~	2010-03-16 07:59:51.000000000 +0100
-+++ linux/include/linux/capability.h	2010-04-11 20:38:13.284838415 +0200
-@@ -332,7 +332,9 @@
+--- linux-2.6.37/include/linux/capability.h~	2011-01-19 19:06:36.467207804 +0100
++++ linux-2.6.37/include/linux/capability.h	2011-01-19 19:07:14.046959978 +0100
+@@ -356,7 +356,12 @@
  
- #define CAP_MAC_ADMIN        33
+ #define CAP_LAST_CAP         CAP_MAC_ADMIN
  
--#define CAP_LAST_CAP         CAP_MAC_ADMIN
-+#define CAP_CONTEXT          34
+-#define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
++/* Allow context manipulations */
++/* Allow changing context info on files */
 +
-+#define CAP_LAST_CAP         CAP_CONTEXT
++#define CAP_CONTEXT         63
++
++#define cap_valid(x) ((x) >= 0 && ((x) <= CAP_LAST_CAP || (x) == CAP_CONTEXT))
  
- #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
- 
+ /*
+  * Bit location of each capability (used by user-space library and kernel)
