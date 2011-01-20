@@ -4,7 +4,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	%{basever}%{postver}
-Release:	2
+Release:	3
 Epoch:		7
 License:	GPL v2
 Group:		Development

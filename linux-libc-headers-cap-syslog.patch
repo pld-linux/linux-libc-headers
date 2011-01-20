@@ -6,6 +6,7 @@
  
 +#define CAP_SYSLOG           34
 +
- #define CAP_LAST_CAP         CAP_MAC_ADMIN
+-#define CAP_LAST_CAP         CAP_MAC_ADMIN
++#define CAP_LAST_CAP         CAP_SYSLOG
  
  #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)

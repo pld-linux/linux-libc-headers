@@ -2,7 +2,7 @@
 +++ linux-2.6.37/include/linux/capability.h	2011-01-19 19:07:14.046959978 +0100
 @@ -356,7 +356,12 @@
  
- #define CAP_LAST_CAP         CAP_MAC_ADMIN
+ #define CAP_LAST_CAP         CAP_SYSLOG
  
 -#define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
 +/* Allow context manipulations */
