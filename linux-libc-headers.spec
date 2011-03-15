@@ -1,31 +1,27 @@
-%define	basever	2.6.37
+%define	basever	2.6.38
 %define	postver	%{nil}
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	%{basever}%{postver}
-Release:	3
+Release:	1
 Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
-# Source0-md5:	c8ee37b4fdccdb651e0603d35350b434
+# Source0-md5:	7d471477bfa67546f902da62227fa976
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
 # Source1-md5:	738f762746488345b1a8707d00895eef
 %endif
-# DROP for now? iptables accesses kernel headers/sources directly
-#PatchX: %{name}-netfilter.patch
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-fbsplash.patch
 Patch3:		%{name}-imq.patch
 Patch4:		%{name}-endian.patch
 Patch5:		%{name}-pom-set.patch
-Patch6:		linux-kernel-headers.SuSE.TIOCGDEV.patch
-Patch7:		%{name}-atm-vbr.patch
-Patch8:		%{name}-cap-syslog.patch
-Patch9:		vserver.patch
+Patch6:		%{name}-atm-vbr.patch
+Patch7:		vserver.patch
 AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
@@ -68,10 +64,8 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p2
+%patch6 -p1
 %patch7 -p1
-%patch8 -p1
-%patch9 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
