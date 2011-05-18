@@ -1,5 +1,5 @@
 %define	basever	2.6.38
-%define	postver	.2
+%define	postver	.6
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -12,7 +12,7 @@ Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
 # Source0-md5:	7d471477bfa67546f902da62227fa976
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
-# Source1-md5:	599badab31c4920d4122133208c810d7
+# Source1-md5:	527fab8162c682ad849eb21fc30d28ef
 %endif
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
@@ -22,6 +22,7 @@ Patch4:		%{name}-endian.patch
 Patch5:		%{name}-pom-set.patch
 Patch6:		%{name}-atm-vbr.patch
 Patch7:		vserver.patch
+Patch8:		ipset-netlink.patch
 AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
@@ -66,6 +67,7 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
