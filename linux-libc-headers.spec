@@ -1,5 +1,5 @@
-%define	basever	2.6.38
-%define	postver	.6
+%define	basever	2.6.39
+%define	postver	%{nil}
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -9,7 +9,7 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	http://www.kernel.org/pub/linux/kernel/v2.6/linux-%{basever}.tar.bz2
-# Source0-md5:	7d471477bfa67546f902da62227fa976
+# Source0-md5:	1aab7a741abe08d42e8eccf20de61e05
 %if "%{postver}" != "%{nil}"
 Source1:	http://www.kernel.org/pub/linux/kernel/v2.6/patch-%{version}.bz2
 # Source1-md5:	527fab8162c682ad849eb21fc30d28ef
@@ -22,7 +22,6 @@ Patch4:		%{name}-endian.patch
 Patch5:		%{name}-pom-set.patch
 Patch6:		%{name}-atm-vbr.patch
 Patch7:		vserver.patch
-Patch8:		ipset-netlink.patch
 AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
@@ -67,7 +66,6 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -81,13 +79,13 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 # provided by glibc-headers
-rm -rf $RPM_BUILD_ROOT%{_includedir}/scsi
+%{__rm} -r $RPM_BUILD_ROOT%{_includedir}/scsi
 
 # currently provided by libdrm-devel
-rm -rf $RPM_BUILD_ROOT%{_includedir}/drm
+%{__rm} -r $RPM_BUILD_ROOT%{_includedir}/drm
 
 # trash
-find $RPM_BUILD_ROOT%{_includedir} -type f -name '..install.cmd' -o -name '.install' | xargs rm
+find $RPM_BUILD_ROOT%{_includedir} -type f -name '..install.cmd' -o -name '.install' | xargs %{__rm}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
