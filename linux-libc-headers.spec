@@ -1,9 +1,9 @@
 %define	basever	3.0
-%define	postver	.0
+%define	postver	0
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
-Version:	%{basever}%{postver}
+Version:	%{basever}.%{postver}
 Release:	1
 Epoch:		7
 License:	GPL v2
@@ -55,7 +55,7 @@ potrzebne do przebudowania pakietu glibc.
 %prep
 %setup -q -c
 cd linux-%{basever}
-%if "%{postver}" != "%{nil}"
+%if "%{postver}" > "0"
 bzip2 -dc %{SOURCE1} | patch -p1
 %endif
 %patch0 -p1
