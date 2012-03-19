@@ -1,13 +1,8 @@
-diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/pkt_sched.h linux-libc-headers-2.6.5.1/include/linux/pkt_sched.h
---- linux-libc-headers-2.6.5.1.orig/include/linux/pkt_sched.h	2004-05-02 23:08:48.000000000 +0200
-+++ linux-libc-headers-2.6.5.1/include/linux/pkt_sched.h	2004-05-07 23:42:56.411761880 +0200
-@@ -145,8 +145,35 @@
-  *
-  *	The only reason for this is efficiency, it is possible
-  *	to change these parameters in compile time.
-+ *
-+ *	If you need to play with these values use esfq instead.
-  */
+--- linux-3.3/include/linux/pkt_sched.h.orig	2012-03-19 00:15:34.000000000 +0100
++++ linux-3.3/include/linux/pkt_sched.h	2012-03-19 17:54:02.813513839 +0100
+@@ -193,6 +193,31 @@
+ 	__s32		allot;
+ };
  
 +/* ESFQ section */
 +
@@ -36,4 +31,4 @@ diff -uNr linux-libc-headers-2.6.5.1.orig/include/linux/pkt_sched.h linux-libc-h
 +
  /* RED section */
  
- enum
+ enum {
