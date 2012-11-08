@@ -35,6 +35,12 @@ Conflicts:	lm_sensors-devel < 2.8.2-2
 ExclusiveOS:	Linux
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%ifarch ppc ppc64
+%define	target_arch powerpc
+%else
+%define	target_arch %{_target_base_arch}
+%endif
+
 # no objects to extract debug info from
 %define		_enable_debug_packages	0
 
@@ -69,14 +75,9 @@ bzip2 -dc %{SOURCE1} | patch -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} -C linux-%{basever} headers_install \
 	INSTALL_HDR_PATH=$RPM_BUILD_ROOT%{_prefix} \
-%ifarch ppc ppc64
-	ARCH=powerpc
-%else
-	ARCH=%{_target_base_arch}
-%endif
+	ARCH=%{target_arch}
 
 # provided by glibc-headers
 %{__rm} -r $RPM_BUILD_ROOT%{_includedir}/scsi
