@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	tests		# build without tests
+
 %define	basever	3.6
 %define	postver	0
 Summary:	Linux kernel headers for use with C libraries
@@ -79,6 +83,12 @@ rm -rf $RPM_BUILD_ROOT
 	INSTALL_HDR_PATH=$RPM_BUILD_ROOT%{_prefix} \
 	ARCH=%{target_arch}
 
+%if %{with tests}
+%{__make} -C linux-%{basever} headers_check \
+	INSTALL_HDR_PATH=$RPM_BUILD_ROOT%{_prefix} \
+	ARCH=%{target_arch}
+%endif
+
 # provided by glibc-headers
 %{__rm} -r $RPM_BUILD_ROOT%{_includedir}/scsi
 
@@ -86,7 +96,10 @@ rm -rf $RPM_BUILD_ROOT
 %{__rm} -r $RPM_BUILD_ROOT%{_includedir}/drm
 
 # trash
-find $RPM_BUILD_ROOT%{_includedir} -type f -name '..install.cmd' -o -name '.install' | xargs %{__rm}
+find $RPM_BUILD_ROOT%{_includedir} -type f \
+	-name '..check.cmd' -o -name '.check' -o \
+	-name '..install.cmd' -o -name '.install' \
+| xargs %{__rm}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
