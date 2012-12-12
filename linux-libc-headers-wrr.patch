@@ -1,6 +1,5 @@
-diff -urN linux-2.6.20.orig/include/linux/pkt_sched.h linux-2.6.20/include/linux/pkt_sched.h
---- linux-2.6.20.orig/include/linux/pkt_sched.h	2007-02-04 19:44:54.000000000 +0100
-+++ linux-2.6.20/include/linux/pkt_sched.h	2007-02-09 09:38:50.000000000 +0100
+--- linux-3.7.orig/include/uapi/linux/pkt_sched.h	2007-02-04 19:44:54.000000000 +0100
++++ linux-3.7/include/uapi/linux/pkt_sched.h	2007-02-09 09:38:50.000000000 +0100
 @@ -23,6 +23,11 @@
  
  #define TC_PRIO_MAX			15

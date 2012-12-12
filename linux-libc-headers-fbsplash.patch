@@ -2,7 +2,7 @@ diff --git a/include/linux/console_splash.h b/include/linux/console_splash.h
 new file mode 100644
 index 0000000..c448dd2
 --- /dev/null
-+++ b/include/linux/console_splash.h
++++ b/include/uapi/linux/console_splash.h
 @@ -0,0 +1,13 @@
 +#ifndef _LINUX_CONSOLE_SPLASH_H_
 +#define _LINUX_CONSOLE_SPLASH_H_ 1
@@ -17,8 +17,8 @@ index 0000000..c448dd2
 +};
 +
 +#endif
---- linux-2.6.35/include/linux/fb.h.orig	2010-08-02 00:11:14.000000000 +0200
-+++ linux-2.6.35/include/linux/fb.h	2010-08-04 08:51:32.242821619 +0200
+--- linux-3.7/include/uapi/linux/fb.h.orig	2010-08-02 00:11:14.000000000 +0200
++++ linux-3.7/include/uapi/linux/fb.h	2010-08-04 08:51:32.242821619 +0200
 @@ -8,6 +8,13 @@
  
  #define FB_MAX			32	/* sufficient for now */
@@ -51,7 +51,7 @@ index 0000000..c448dd2
  #define FB_TYPE_PACKED_PIXELS		0	/* Packed Pixels	*/
  #define FB_TYPE_PLANES			1	/* Non interleaved planes */
  #define FB_TYPE_INTERLEAVED_PLANES	2	/* Interleaved planes	*/
---- a/include/linux/Kbuild
-+++ b/include/linux/Kbuild
-@@ -342,0 +342,1 @@
+--- a/include/uapi/linux/Kbuild
++++ b/include/uapi/linux/Kbuild
+@@ -418,0 +418,1 @@
 +header-y += console_splash.h

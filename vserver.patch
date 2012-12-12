@@ -1,5 +1,5 @@
---- linux-2.6.37/include/linux/capability.h~	2011-01-19 19:06:36.467207804 +0100
-+++ linux-2.6.37/include/linux/capability.h	2011-01-19 19:07:14.046959978 +0100
+--- linux-3.7/include/uapi/linux/capability.h~	2011-01-19 19:06:36.467207804 +0100
++++ linux-3.7/include/uapi/linux/capability.h	2011-01-19 19:07:14.046959978 +0100
 @@ -356,7 +356,12 @@
  
  #define CAP_LAST_CAP         CAP_SYSLOG

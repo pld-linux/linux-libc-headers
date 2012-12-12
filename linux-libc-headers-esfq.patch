@@ -1,5 +1,5 @@
---- linux-3.3/include/linux/pkt_sched.h.orig	2012-03-19 00:15:34.000000000 +0100
-+++ linux-3.3/include/linux/pkt_sched.h	2012-03-19 17:54:02.813513839 +0100
+--- linux-3.7/include/uapi/linux/pkt_sched.h.orig	2012-03-19 00:15:34.000000000 +0100
++++ linux-3.7/include/uapi/linux/pkt_sched.h	2012-03-19 17:54:02.813513839 +0100
 @@ -193,6 +193,31 @@
  	__s32		allot;
  };

@@ -1,5 +1,5 @@
---- linux-2.6.20/include/linux/aio_abi.h.orig	2007-02-04 19:44:54.000000000 +0100
-+++ linux-2.6.20/include/linux/aio_abi.h	2007-04-02 21:27:18.150605175 +0200
+--- linux-3.7/include/uapi/linux/aio_abi.h.orig	2007-02-04 19:44:54.000000000 +0100
++++ linux-3.7/include/uapi/linux/aio_abi.h	2007-04-02 21:27:18.150605175 +0200
 @@ -28,7 +28,11 @@
  #define __LINUX__AIO_ABI_H
  
@@ -36,8 +36,8 @@
  
  /*
   * we always use a 64bit off_t when communicating
---- linux-2.6.20/include/linux/raid/md_p.h.orig	2007-02-04 19:44:54.000000000 +0100
-+++ linux-2.6.20/include/linux/raid/md_p.h	2007-04-02 21:32:46.657325707 +0200
+--- linux-3.7/include/uapi/linux/raid/md_p.h.orig	2007-02-04 19:44:54.000000000 +0100
++++ linux-3.7/include/uapi/linux/raid/md_p.h	2007-04-02 21:32:46.657325707 +0200
 @@ -15,6 +15,10 @@
  #ifndef _MD_P_H
  #define _MD_P_H
