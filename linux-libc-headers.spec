@@ -2,8 +2,8 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
-%define	basever	3.7
-%define	postver	8
+%define	basever	3.8
+%define	postver	0
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -13,7 +13,7 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	http://www.kernel.org/pub/linux/kernel/v3.x/linux-%{basever}.tar.xz
-# Source0-md5:	21223369d682bcf44bcdfe1521095983
+# Source0-md5:	1c738edfc54e7c65faeb90c436104e2f
 %if "%{postver}" > "0"
 Source1:	http://www.kernel.org/pub/linux/kernel/v3.x/patch-%{version}.bz2
 # Source1-md5:	eebc58aad29509ca5a4eba58a9888b4a
