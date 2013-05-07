@@ -2,8 +2,8 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
-%define	basever	3.8
-%define	postver	2
+%define	basever	3.9
+%define	postver	0
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -13,19 +13,18 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	http://www.kernel.org/pub/linux/kernel/v3.x/linux-%{basever}.tar.xz
-# Source0-md5:	1c738edfc54e7c65faeb90c436104e2f
+# Source0-md5:	4348c9b6b2eb3144d601e87c19d5d909
 %if "%{postver}" > "0"
-Source1:	http://www.kernel.org/pub/linux/kernel/v3.x/patch-%{version}.bz2
+Source1:	http://www.kernel.org/pub/linux/kernel/v3.x/patch-%{version}.xz
 # Source1-md5:	cfd2c3d8e79ad5ec9f1d835b182d5aca
 %endif
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
 Patch2:		%{name}-fbsplash.patch
 Patch3:		%{name}-imq.patch
-Patch4:		%{name}-endian.patch
-Patch5:		%{name}-pom-set.patch
-Patch6:		%{name}-atm-vbr.patch
-Patch7:		vserver.patch
+Patch4:		%{name}-pom-set.patch
+Patch5:		%{name}-atm-vbr.patch
+Patch6:		vserver.patch
 AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
@@ -75,7 +74,6 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
