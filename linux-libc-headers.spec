@@ -3,7 +3,7 @@
 %bcond_without	tests		# build without tests
 
 %define	basever	3.9
-%define	postver	0
+%define	postver	5
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -16,7 +16,7 @@ Source0:	http://www.kernel.org/pub/linux/kernel/v3.x/linux-%{basever}.tar.xz
 # Source0-md5:	4348c9b6b2eb3144d601e87c19d5d909
 %if "%{postver}" > "0"
 Source1:	http://www.kernel.org/pub/linux/kernel/v3.x/patch-%{version}.xz
-# Source1-md5:	cfd2c3d8e79ad5ec9f1d835b182d5aca
+# Source1-md5:	aa22187ae5cd482a69097e9e59244491
 %endif
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
