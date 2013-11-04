@@ -1,6 +1,6 @@
---- linux-3.7.orig/include/uapi/linux/pkt_sched.h	2007-02-04 19:44:54.000000000 +0100
-+++ linux-3.7/include/uapi/linux/pkt_sched.h	2007-02-09 09:38:50.000000000 +0100
-@@ -23,6 +23,11 @@
+--- linux-3.12/include/uapi/linux/pkt_sched.h.orig	2013-11-04 21:29:43.794379979 +0100
++++ linux-3.12/include/uapi/linux/pkt_sched.h	2013-11-04 21:32:50.007705499 +0100
+@@ -25,6 +25,11 @@
  
  #define TC_PRIO_MAX			15
  
@@ -12,10 +12,10 @@
  /* Generic queue statistics, available for all the elements.
     Particular schedulers may have also their private records.
   */
-@@ -466,4 +468,97 @@
- 
- #define NETEM_DIST_SCALE	8192
- 
+@@ -810,4 +815,97 @@
+ 	__u32	throttled_flows;
+ 	__u32	pad;
+ };
 +
 +/* WRR section */
 +
