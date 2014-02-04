@@ -29,8 +29,6 @@ AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
 Requires(pre):	fileutils
-Provides:	alsa-driver-devel
-Provides:	glibc-kernel-headers = %{epoch}:%{version}-%{release}
 Obsoletes:	alsa-driver-devel
 Obsoletes:	glibc-kernel-headers
 Obsoletes:	glibc-kernheaders
