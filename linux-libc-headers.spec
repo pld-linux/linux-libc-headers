@@ -8,7 +8,7 @@ Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
 Version:	%{basever}.%{postver}
-Release:	1
+Release:	2
 Epoch:		7
 License:	GPL v2
 Group:		Development
@@ -28,7 +28,7 @@ Patch6:		vserver.patch
 AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
-Requires(pre):	fileutils
+Requires(pretrans):	coreutils
 Obsoletes:	alsa-driver-devel
 Obsoletes:	glibc-kernel-headers
 Obsoletes:	glibc-kernheaders
