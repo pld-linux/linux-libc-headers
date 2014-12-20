@@ -2,8 +2,8 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
-%define	basever	3.17
-%define	postver	0
+%define	basever	3.18
+%define	postver	1
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -13,10 +13,10 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	https://www.kernel.org/pub/linux/kernel/v3.x/linux-%{basever}.tar.xz
-# Source0-md5:	fb30d0f29214d75cddd2faa94f73d5cf
+# Source0-md5:	9e854df51ca3fef8bfe566dbd7b89241
 %if "%{postver}" > "0"
 Source1:	https://www.kernel.org/pub/linux/kernel/v3.x/patch-%{version}.xz
-# Source1-md5:	9da4b0f5e343455b8141bcfa47e88cf5
+# Source1-md5:	82864000fde42252dd5e80cceb971479
 %endif
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
@@ -110,6 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/asm
 %{_includedir}/asm-generic
 %{_includedir}/linux
+%{_includedir}/misc
 %{_includedir}/mtd
 %{_includedir}/rdma
 %{_includedir}/sound
