@@ -39,7 +39,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %ifarch ppc ppc64
 %define	target_arch powerpc
 %else
+%ifarch x32
+%define	target_arch x86_64
+%else
 %define	target_arch %{_target_base_arch}
+%endif
 %endif
 
 # no objects to extract debug info from
