@@ -2,8 +2,8 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
-%define	basever	4.5
-%define	postver	4
+%define	basever	4.6
+%define	postver	0
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -13,7 +13,7 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{basever}.tar.xz
-# Source0-md5:	a60d48eee08ec0536d5efb17ca819aef
+# Source0-md5:	d2927020e24a76da4ab482a8bc3e9ef3
 %if "%{postver}" > "0"
 Source1:	https://www.kernel.org/pub/linux/kernel/v4.x/patch-%{version}.xz
 # Source1-md5:	137460a1e32335e2eedc61fcfc2643fa
@@ -25,7 +25,6 @@ Patch3:		%{name}-imq.patch
 Patch4:		%{name}-pom-set.patch
 Patch5:		%{name}-atm-vbr.patch
 Patch6:		vserver.patch
-Patch7:		v2-uapi-glibc-compat-fix-compile-errors-when-glibc-net-if.h-included-before-linux-if.h.patch
 AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
@@ -77,7 +76,6 @@ bzip2 -dc %{SOURCE1} | patch -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
