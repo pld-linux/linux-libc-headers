@@ -9,10 +9,6 @@
 +};
 +
 +#endif /* _IPT_IMQ_H */
---- linux.orig/include/uapi/linux/netfilter_ipv4/Kbuild
-+++ linux/include/uapi/linux/netfilter_ipv4/Kbuild
-@@ -62,0 +62,1 @@
-+header-y += ipt_IMQ.h
 --- linux-3.7.orig/include/uapi/linux/netfilter_ipv6/ip6t_IMQ.h	1970-01-01 00:00:00.000000000 +0000
 +++ linux-3.7/include/uapi/linux/netfilter_ipv6/ip6t_IMQ.h	2006-09-06 20:58:51.000000000 +0000
 @@ -0,0 +1,8 @@
@@ -24,7 +20,3 @@
 +};
 +
 +#endif /* _IP6T_IMQ_H */
---- linux.orig/include/uapi/linux/netfilter_ipv6/Kbuild
-+++ linux/include/uapi/linux/netfilter_ipv6/Kbuild
-@@ -22,0 +22,1 @@
-+header-y += ip6t_IMQ.h
