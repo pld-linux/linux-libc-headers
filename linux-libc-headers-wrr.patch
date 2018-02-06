@@ -1,6 +1,6 @@
---- linux-3.12/include/uapi/linux/pkt_sched.h.orig	2013-11-04 21:29:43.794379979 +0100
-+++ linux-3.12/include/uapi/linux/pkt_sched.h	2013-11-04 21:32:50.007705499 +0100
-@@ -25,6 +25,11 @@
+--- linux-4.15/include/uapi/linux/pkt_sched.h.orig	2018-02-02 18:40:34.642685783 +0100
++++ linux-4.15/include/uapi/linux/pkt_sched.h	2018-02-02 18:46:35.879348325 +0100
+@@ -26,6 +26,11 @@
  
  #define TC_PRIO_MAX			15
  
@@ -12,11 +12,10 @@
  /* Generic queue statistics, available for all the elements.
     Particular schedulers may have also their private records.
   */
-@@ -810,4 +815,97 @@
- 	__u32	throttled_flows;
- 	__u32	pad;
- };
-+
+@@ -959,4 +964,96 @@
+ 
+ #define TCA_CBS_MAX (__TCA_CBS_MAX - 1)
+ 
 +/* WRR section */
 +
 +/*
