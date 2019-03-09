@@ -2,7 +2,7 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
-%define	basever	4.20
+%define	basever	5.0
 %define	postver	0
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
@@ -12,10 +12,10 @@ Release:	1
 Epoch:		7
 License:	GPL v2
 Group:		Development
-Source0:	https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{basever}.tar.xz
-# Source0-md5:	d39dd4ba2d5861c54b90d49be19eaf31
+Source0:	https://www.kernel.org/pub/linux/kernel/v5.x/linux-%{basever}.tar.xz
+# Source0-md5:	7381ce8aac80a01448e065ce795c19c0
 %if "%{postver}" > "0"
-Source1:	https://www.kernel.org/pub/linux/kernel/v4.x/patch-%{version}.xz
+Source1:	https://www.kernel.org/pub/linux/kernel/v5.x/patch-%{version}.xz
 # Source1-md5:	eff3af043f7cfc0cd0bb57d70b8da618
 %endif
 Patch0:		%{name}-esfq.patch
