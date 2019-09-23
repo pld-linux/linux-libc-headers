@@ -2,8 +2,8 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
-%define	basever	5.2
-%define	postver	2
+%define	basever	5.3
+%define	postver	1
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -13,10 +13,10 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	https://www.kernel.org/pub/linux/kernel/v5.x/linux-%{basever}.tar.xz
-# Source0-md5:	ddf994de00d7b18395886dd9b30b9262
+# Source0-md5:	c99feaade8047339528fb066ec5f8a49
 %if "%{postver}" > "0"
 Source1:	https://www.kernel.org/pub/linux/kernel/v5.x/patch-%{version}.xz
-# Source1-md5:	04570df0f994992d4148cb9bde65006a
+# Source1-md5:	476673d3ab1470fd9bac0da60774f3fd
 %endif
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
@@ -94,12 +94,6 @@ rm -rf $RPM_BUILD_ROOT
 
 # currently provided by libdrm-devel
 %{__rm} -r $RPM_BUILD_ROOT%{_includedir}/drm
-
-# trash
-find $RPM_BUILD_ROOT%{_includedir} -type f \
-	-name '..check.cmd' -o -name '.check' -o \
-	-name '..install.cmd' -o -name '.install' \
-| xargs %{__rm}
 
 %clean
 rm -rf $RPM_BUILD_ROOT

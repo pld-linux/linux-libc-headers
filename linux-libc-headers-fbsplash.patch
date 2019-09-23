@@ -1,8 +1,5 @@
-diff --git a/include/linux/console_splash.h b/include/linux/console_splash.h
-new file mode 100644
-index 0000000..c448dd2
 --- /dev/null
-+++ b/include/uapi/linux/console_splash.h
++++ linux-5.3/include/uapi/linux/console_splash.h
 @@ -0,0 +1,13 @@
 +#ifndef _LINUX_CONSOLE_SPLASH_H_
 +#define _LINUX_CONSOLE_SPLASH_H_ 1
@@ -51,7 +48,3 @@ index 0000000..c448dd2
  #define FB_TYPE_PACKED_PIXELS		0	/* Packed Pixels	*/
  #define FB_TYPE_PLANES			1	/* Non interleaved planes */
  #define FB_TYPE_INTERLEAVED_PLANES	2	/* Interleaved planes	*/
---- a/include/uapi/linux/Kbuild
-+++ b/include/uapi/linux/Kbuild
-@@ -418,0 +418,1 @@
-+header-y += console_splash.h
