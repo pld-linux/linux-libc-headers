@@ -28,6 +28,7 @@ Patch6:		vserver.patch
 AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
+BuildRequires:	rsync
 Requires(pretrans):	coreutils
 Obsoletes:	alsa-driver-devel
 Obsoletes:	glibc-kernel-headers
