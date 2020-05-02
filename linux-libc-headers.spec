@@ -43,7 +43,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %ifarch x32
 %define	target_arch x86_64
 %else
+%ifarch aarch64
+%define	target_arch arm64
+%else
 %define	target_arch %{_target_base_arch}
+%endif
 %endif
 %endif
 
