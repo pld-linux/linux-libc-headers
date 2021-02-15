@@ -29,6 +29,8 @@ AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
 BuildRequires:	rsync
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 Requires(pretrans):	coreutils
 Obsoletes:	alsa-driver-devel
 Obsoletes:	glibc-kernel-headers
