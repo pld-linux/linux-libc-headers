@@ -14,7 +14,7 @@
   */
 @@ -959,4 +964,96 @@
  
- #define TCA_CBS_MAX (__TCA_CBS_MAX - 1)
+ #define TCA_ETS_MAX (__TCA_ETS_MAX - 1)
  
 +/* WRR section */
 +
