@@ -1,8 +1,4 @@
-#
-# Conditional build:
-%bcond_without	tests		# build without tests
-
-%define	basever	5.14
+%define	basever	5.15
 %define	postver	1
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
@@ -13,10 +9,10 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	https://www.kernel.org/pub/linux/kernel/v5.x/linux-%{basever}.tar.xz
-# Source0-md5:	a082ef5748b813abca0649dab8be5f52
+# Source0-md5:	071d49ff4e020d58c04f9f3f76d3b594
 %if "%{postver}" > "0"
 Source1:	https://www.kernel.org/pub/linux/kernel/v5.x/patch-%{version}.xz
-# Source1-md5:	0e03bc49d0db9ae31a5086ec49be3768
+# Source1-md5:	be8741a89421be268c51393e62905636
 %endif
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
@@ -25,6 +21,7 @@ Patch3:		%{name}-imq.patch
 Patch4:		%{name}-pom-set.patch
 Patch5:		%{name}-atm-vbr.patch
 Patch6:		vserver.patch
+URL:		https://www.kernel.org/
 AutoReqProv:	no
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.568
@@ -89,12 +86,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C linux-%{basever} headers_install \
 	INSTALL_HDR_PATH=$RPM_BUILD_ROOT%{_prefix} \
 	ARCH=%{target_arch}
-
-%if %{with tests}
-%{__make} -C linux-%{basever} headers_check \
-	INSTALL_HDR_PATH=$RPM_BUILD_ROOT%{_prefix} \
-	ARCH=%{target_arch}
-%endif
 
 # provided by glibc-headers
 %{__rm} -r $RPM_BUILD_ROOT%{_includedir}/scsi
