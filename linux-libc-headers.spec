@@ -1,4 +1,4 @@
-%define	basever	5.17
+%define	basever	5.18
 %define	postver	1
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
@@ -9,10 +9,10 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	https://www.kernel.org/pub/linux/kernel/v5.x/linux-%{basever}.tar.xz
-# Source0-md5:	07321a70a48d062cebd0358132f11771
+# Source0-md5:	58e80452e2d8e1993cd7ec95e697ab5a
 %if "%{postver}" > "0"
 Source1:	https://www.kernel.org/pub/linux/kernel/v5.x/patch-%{version}.xz
-# Source1-md5:	5a015eeaa9a3bf5bea84290f54ccf48d
+# Source1-md5:	4d3c0c51927b2bb0de4caa5d64a6dd4c
 %endif
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
@@ -29,9 +29,9 @@ BuildRequires:	rsync
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires(pretrans):	coreutils
-Obsoletes:	alsa-driver-devel
-Obsoletes:	glibc-kernel-headers
-Obsoletes:	glibc-kernheaders
+Obsoletes:	alsa-driver-devel < 1.1
+Obsoletes:	glibc-kernel-headers < 7:2.6.2
+Obsoletes:	glibc-kernheaders < 2.6
 Conflicts:	lm_sensors-devel < 2.8.2-2
 ExclusiveOS:	Linux
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
