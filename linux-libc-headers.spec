@@ -1,5 +1,5 @@
-%define	basever	6.0
-%define	postver	0
+%define	basever	6.1
+%define	postver	6
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -8,11 +8,11 @@ Release:	1
 Epoch:		7
 License:	GPL v2
 Group:		Development
-Source0:	https://www.kernel.org/pub/linux/kernel/v5.x/linux-%{basever}.tar.xz
-# Source0-md5:	d681bd1d62d48049a4874646f6774d92
+Source0:	https://www.kernel.org/pub/linux/kernel/v6.x/linux-%{basever}.tar.xz
+# Source0-md5:	475320de08f16c9fa486fc4edfe98b30
 %if "%{postver}" > "0"
-Source1:	https://www.kernel.org/pub/linux/kernel/v5.x/patch-%{version}.xz
-# Source1-md5:	d9d66b1c8529b83a3346a15e37b9b8cd
+Source1:	https://www.kernel.org/pub/linux/kernel/v6.x/patch-%{version}.xz
+# Source1-md5:	3c4ce326d5e8afd9e7e13d55f7cec8bc
 %endif
 Patch0:		%{name}-esfq.patch
 Patch1:		%{name}-wrr.patch
@@ -83,6 +83,7 @@ bzip2 -dc %{SOURCE1} | patch -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} -C linux-%{basever} headers_install \
 	INSTALL_HDR_PATH=$RPM_BUILD_ROOT%{_prefix} \
 	ARCH=%{target_arch}
