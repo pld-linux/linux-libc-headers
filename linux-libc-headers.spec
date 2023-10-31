@@ -1,5 +1,5 @@
-%define	basever	6.5
-%define	postver	1
+%define	basever	6.6
+%define	postver	0
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
 Name:		linux-libc-headers
@@ -9,7 +9,7 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	https://www.kernel.org/pub/linux/kernel/v6.x/linux-%{basever}.tar.xz
-# Source0-md5:	42c2796f9babe4a1be3f2001c817ff4a
+# Source0-md5:	452098d80ba925af3a4ab35998f3aef5
 %if "%{postver}" > "0"
 Source1:	https://www.kernel.org/pub/linux/kernel/v6.x/patch-%{version}.xz
 # Source1-md5:	1c780bfe190302f1ea2f6f1153a3a84d
