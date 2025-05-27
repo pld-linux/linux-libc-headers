@@ -1,4 +1,4 @@
-%define	basever	6.14
+%define	basever	6.15
 %define	postver	0
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
@@ -9,7 +9,7 @@ Epoch:		7
 License:	GPL v2
 Group:		Development
 Source0:	https://www.kernel.org/pub/linux/kernel/v6.x/linux-%{basever}.tar.xz
-# Source0-md5:	05238030095d2be98aac79bfbc58f5d3
+# Source0-md5:	c0f205cc27982a875c519f644a6288c4
 %if "%{postver}" > "0"
 Source1:	https://www.kernel.org/pub/linux/kernel/v6.x/patch-%{version}.xz
 # Source1-md5:	fe8d59cd4ec0adf30396a7d040007f6a
@@ -106,6 +106,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_includedir}/asm
 %{_includedir}/asm-generic
+%{_includedir}/cxl
+%{_includedir}/fwctl
 %{_includedir}/linux
 %{_includedir}/misc
 %{_includedir}/mtd
