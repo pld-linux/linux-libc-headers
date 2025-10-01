@@ -13,8 +13,8 @@
     Particular schedulers may have also their private records.
   */
 @@ -959,4 +964,96 @@
- 
- #define TCA_ETS_MAX (__TCA_ETS_MAX - 1)
+ 	__u32 memory_limit;	/* Memory limit of both queues */
+ };
  
 +/* WRR section */
 +
