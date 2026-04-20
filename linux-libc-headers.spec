@@ -1,4 +1,4 @@
-%define	basever	6.19
+%define	basever	7.0
 %define	postver	0
 Summary:	Linux kernel headers for use with C libraries
 Summary(pl.UTF-8):	Nagłówki jądra Linuksa do użytku z bibliotekami C
@@ -8,10 +8,10 @@ Release:	1
 Epoch:		7
 License:	GPL v2
 Group:		Development
-Source0:	https://www.kernel.org/pub/linux/kernel/v6.x/linux-%{basever}.tar.xz
-# Source0-md5:	59c1e1f9c69a6fa9051450ba2ca38200
+Source0:	https://www.kernel.org/pub/linux/kernel/v7.x/linux-%{basever}.tar.xz
+# Source0-md5:	1d35f79af3a784f986e4c3a154c0ecf5
 %if "%{postver}" > "0"
-Source1:	https://www.kernel.org/pub/linux/kernel/v6.x/patch-%{version}.xz
+Source1:	https://www.kernel.org/pub/linux/kernel/v7.x/patch-%{version}.xz
 # Source1-md5:	dac2a9e84973152d0e92cf9a887aefdb
 %endif
 Patch0:		%{name}-esfq.patch
